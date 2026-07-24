@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "./Reveal";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const TECH_ITEMS = [
   {
@@ -51,25 +55,53 @@ const TECH_ITEMS = [
 export default function TechSolutions() {
   const [active, setActive] = useState(TECH_ITEMS[0].key);
   const activeItem = TECH_ITEMS.find((item) => item.key === active) ?? TECH_ITEMS[0];
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 75%",
+          end: "top 25%",
+          scrub: 0.6,
+        },
+      });
+
+      tl.to(section, { backgroundColor: "#F5F7FB" }, 0)
+        .to(".ts-heading", { color: "#000F6A" }, 0)
+        .to(".ts-desc", { color: "rgba(21,26,37,0.7)" }, 0)
+        .to(".ts-tablist", { borderColor: "rgba(0,15,106,0.1)" }, 0)
+        .to(".ts-tab-btn", { color: "#151A25", borderColor: "rgba(0,15,106,0.1)" }, 0)
+        .to(".ts-tab-num", { color: "rgba(21,26,37,0.4)" }, 0)
+        .to(".ts-tab-chevron", { color: "rgba(21,26,37,0.3)" }, 0);
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section
       id="solucoes-adaptadas"
-      className="py-20 md:py-[var(--spacing-section)] bg-surface"
+      ref={sectionRef}
+      className="py-20 md:py-[var(--spacing-section)] bg-navy"
     >
       <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
         <Reveal>
           <div className="mb-16 max-w-2xl">
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-px bg-yellow" />
-              <span className="font-mono text-navy text-sm tracking-widest uppercase">
+              <span className="font-mono text-yellow text-sm tracking-widest uppercase">
                 Tecnologia e processos próprios
               </span>
             </div>
-            <h2 className="font-heading text-3xl md:text-[48px] text-navy mb-4 leading-tight">
+            <h2 className="ts-heading font-heading text-3xl md:text-[48px] text-white mb-4 leading-tight">
               Tecnologias Aplicadas a Serviços
             </h2>
-            <p className="text-lg text-graphite/70 leading-relaxed">
+            <p className="ts-desc text-lg text-white/70 leading-relaxed">
               Ferramentas e processos que já operam nos postos de serviço da PS Proteção.
               Selecione um item para ver como funciona na prática.
             </p>
@@ -80,7 +112,7 @@ export default function TechSolutions() {
           <div
             role="tablist"
             aria-label="Tecnologias Aplicadas a Serviços"
-            className="md:col-span-5 flex flex-col border-t border-navy/10"
+            className="ts-tablist md:col-span-5 flex flex-col border-t border-white/10"
           >
             {TECH_ITEMS.map((item, i) => {
               const isActive = item.key === active;
@@ -91,28 +123,24 @@ export default function TechSolutions() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(item.key)}
-                  className={`group flex items-center gap-4 text-left py-6 border-b border-navy/10 transition-colors ${
-                    isActive ? "text-navy" : "text-graphite/60 hover:text-navy"
+                  className={`ts-tab-btn group flex items-center gap-4 text-left py-6 border-b border-white/10 text-white transition-opacity ${
+                    isActive ? "opacity-100" : "opacity-50 hover:opacity-80"
                   }`}
                 >
                   <span
                     className={`font-mono text-sm shrink-0 ${
-                      isActive ? "text-yellow" : "text-graphite/40"
+                      isActive ? "text-yellow" : "ts-tab-num text-white/40"
                     }`}
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span
-                    className={`font-heading text-lg md:text-xl flex-1 leading-snug ${
-                      isActive ? "text-navy" : ""
-                    }`}
-                  >
+                  <span className="font-heading text-lg md:text-xl flex-1 leading-snug">
                     {item.label}
                   </span>
                   <ChevronRight
                     size={20}
                     className={`shrink-0 transition-transform ${
-                      isActive ? "text-yellow translate-x-1" : "text-graphite/30"
+                      isActive ? "text-yellow translate-x-1" : "ts-tab-chevron text-white/30"
                     }`}
                   />
                 </button>

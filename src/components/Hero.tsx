@@ -1,12 +1,13 @@
 import Image from "next/image";
-import { ArrowRight, CheckCircle2, Radio } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Reveal from "./Reveal";
+import WhatsAppCta from "./WhatsAppCta";
 
 export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-[95vh] flex items-center overflow-hidden bg-navy pt-28 pb-16 md:pt-20"
+      className="relative min-h-[85vh] flex items-center overflow-hidden bg-navy pt-28 pb-16 md:pt-20"
     >
       <div className="absolute inset-0 z-0">
         <Image
@@ -32,8 +33,8 @@ export default function Hero() {
         <path className="stroke-yellow" d="M 80 200 L 200 200 L 200 320" fill="none" strokeDasharray="2 2" />
       </svg>
 
-      <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] w-full grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-        <div className="md:col-span-7">
+      <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] w-full">
+        <div className="max-w-2xl">
           <Reveal>
             <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 text-white px-5 py-2 rounded-full mb-8 backdrop-blur-md">
               <span className="w-2.5 h-2.5 rounded-full bg-yellow animate-pulse" />
@@ -59,73 +60,25 @@ export default function Hero() {
 
           <Reveal delayMs={300}>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a
+              <WhatsAppCta
                 href="#contato"
-                className="bg-yellow text-navy px-8 py-4 rounded-full font-heading text-base font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(252,191,7,0.3)]"
-              >
-                Solicitar diagnóstico operacional
-                <ArrowRight size={20} />
-              </a>
+                className="px-7 py-3.5 text-[15px] hover:scale-[1.03] shadow-[0_8px_24px_rgba(252,191,7,0.25)]"
+                label={
+                  <>
+                    Solicitar diagnóstico operacional
+                    <ArrowRight size={18} />
+                  </>
+                }
+              />
               <a
                 href="#servicos"
-                className="border border-white/30 text-white px-8 py-4 rounded-full font-heading text-base font-bold hover:bg-white/10 transition-colors text-center"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 backdrop-blur-sm px-7 py-3.5 text-[15px] font-heading font-semibold tracking-wide text-white text-center transition-all duration-300 hover:bg-white/15 hover:border-white/40 hover:-translate-y-0.5"
               >
                 Conhecer nossas soluções
               </a>
             </div>
           </Reveal>
         </div>
-
-        {/* Painel flutuante */}
-        <Reveal delayMs={400} className="hidden md:block md:col-span-5">
-          <div className="glass-card p-8 rounded-3xl shadow-2xl border-t border-l border-white/20">
-            <div className="flex justify-between items-center mb-8">
-              <span className="font-mono text-white/60 text-[11px] tracking-widest">
-                OPERATIONAL_STATUS
-              </span>
-              <Radio className="text-yellow" size={22} />
-            </div>
-
-            <div className="space-y-5">
-              <div className="p-5 bg-black/20 rounded-2xl border border-white/5 backdrop-blur-sm">
-                <div className="text-xs font-mono text-white/50 mb-2">SUPERVISÃO 24H</div>
-                <div className="flex justify-between items-end">
-                  <span className="font-heading text-2xl text-white">Ativa</span>
-                  <div className="flex gap-1.5 h-10 items-end">
-                    <div className="w-1.5 bg-yellow/40 h-5 rounded-t-sm" />
-                    <div className="w-1.5 bg-yellow/60 h-7 rounded-t-sm" />
-                    <div className="w-1.5 bg-yellow/80 h-6 rounded-t-sm" />
-                    <div className="w-1.5 bg-yellow h-10 rounded-t-sm" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-5 bg-black/20 rounded-2xl border border-white/5 backdrop-blur-sm">
-                <div className="text-xs font-mono text-white/50 mb-2">COBERTURA DE POSTOS</div>
-                <div className="flex justify-between items-center">
-                  <span className="font-heading text-2xl text-white">100%</span>
-                  <CheckCircle2 className="text-green-400" size={26} />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-yellow/20 flex items-center justify-center border border-yellow/30">
-                <Image
-                  src="/brand/logo-ps-protecao.png"
-                  alt="Selo PS Proteção"
-                  width={24}
-                  height={24}
-                  className="w-6 h-6 object-contain"
-                />
-              </div>
-              <div>
-                <div className="font-heading text-base text-white mb-1">PS Command Center</div>
-                <div className="text-[13px] text-white/60">Monitoramento em tempo real</div>
-              </div>
-            </div>
-          </div>
-        </Reveal>
       </div>
     </section>
   );

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
+import WhatsAppCta from "./WhatsAppCta";
 
 const NAV_LINKS = [
   { label: "Início", href: "#inicio" },
@@ -55,12 +56,11 @@ export default function Header() {
           )}
         </div>
 
-        <a
+        <WhatsAppCta
           href="#contato"
-          className="hidden md:inline-flex bg-yellow text-navy px-6 py-2.5 rounded-full font-heading text-sm font-bold hover:shadow-lg hover:-translate-y-0.5 transition-all"
-        >
-          Solicitar proposta
-        </a>
+          label="Solicitar proposta"
+          className="hidden md:inline-flex px-5 py-2.5 text-[13px] hover:-translate-y-0.5"
+        />
 
         <button
           type="button"
@@ -84,13 +84,12 @@ export default function Header() {
               {link.label}
             </a>
           ))}
-          <a
+          <WhatsAppCta
             href="#contato"
+            label="Solicitar proposta"
             onClick={() => setOpen(false)}
-            className="bg-yellow text-navy px-6 py-3 rounded-full font-heading text-sm font-bold text-center"
-          >
-            Solicitar proposta
-          </a>
+            className="px-6 py-3 text-sm"
+          />
         </div>
       )}
     </header>
