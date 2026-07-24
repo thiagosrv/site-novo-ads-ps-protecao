@@ -1,4 +1,3 @@
-import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import StatsBar from "@/components/StatsBar";
 import Differentiators from "@/components/Differentiators";
@@ -7,23 +6,18 @@ import Testimonials from "@/components/Testimonials";
 import Implementation from "@/components/Implementation";
 import TechSolutions from "@/components/TechSolutions";
 import ContactSection from "@/components/ContactSection";
-import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <>
-      <Header />
-      <main className="flex-1">
-        <Hero />
-        <StatsBar />
-        <Differentiators />
-        <Services />
-        <Testimonials />
-        <Implementation />
-        <TechSolutions />
-        <ContactSection />
-      </main>
-      <Footer />
+      <Hero />
+      <StatsBar />
+      <Differentiators />
+      <Services />
+      <Testimonials />
+      <Implementation />
+      <TechSolutions />
+      <ContactSection />
     </>
   );
 }

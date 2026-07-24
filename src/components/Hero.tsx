@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Reveal from "./Reveal";
 import WhatsAppCta from "./WhatsAppCta";
@@ -70,12 +71,12 @@ export default function Hero() {
                   </>
                 }
               />
-              <a
-                href="#servicos"
+              <Link
+                href="/servicos"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 backdrop-blur-sm px-7 py-3.5 text-[15px] font-heading font-semibold tracking-wide text-white text-center transition-all duration-300 hover:bg-white/15 hover:border-white/40 hover:-translate-y-0.5"
               >
                 Conhecer nossas soluções
-              </a>
+              </Link>
             </div>
           </Reveal>
         </div>

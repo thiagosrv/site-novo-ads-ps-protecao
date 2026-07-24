@@ -2,25 +2,28 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import WhatsAppCta from "./WhatsAppCta";
 
 const NAV_LINKS = [
-  { label: "Início", href: "#inicio" },
-  { label: "Sobre Nós", href: "#diferenciais" },
-  { label: "Serviços", href: "#servicos" },
-  { label: "Dúvidas", href: "#duvidas" },
-  { label: "Tecnologia", href: "#solucoes-adaptadas" },
-  { label: "Contato", href: "#contato" },
+  { label: "Início", href: "/" },
+  { label: "Sobre Nós", href: "/sobre" },
+  { label: "Serviços", href: "/servicos" },
+  { label: "Dúvidas", href: "/duvidas" },
+  { label: "Tecnologia", href: "/tecnologia" },
+  { label: "Contato", href: "/contato" },
 ];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-lg shadow-sm border-b border-navy/10">
       <nav className="flex justify-between items-center px-6 md:px-8 py-4 max-w-[var(--container-max)] mx-auto">
-        <a href="#inicio" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3">
           <Image
             src="/brand/logo-ps-protecao.png"
             alt="PS Proteção"
@@ -32,28 +35,25 @@ export default function Header() {
           <span className="font-heading text-xl font-bold text-navy tracking-tight">
             PS PROTEÇÃO
           </span>
-        </a>
+        </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map((link, i) =>
-            i === 0 ? (
-              <a
+          {NAV_LINKS.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
                 key={link.href}
                 href={link.href}
-                className="text-yellow-dark border-b-2 border-yellow pb-1 font-mono text-xs tracking-wide"
+                className={
+                  isActive
+                    ? "text-yellow-dark border-b-2 border-yellow pb-1 font-mono text-xs tracking-wide"
+                    : "text-graphite/60 hover:text-navy transition-colors font-mono text-xs tracking-wide"
+                }
               >
                 {link.label}
-              </a>
-            ) : (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-graphite/60 hover:text-navy transition-colors font-mono text-xs tracking-wide"
-              >
-                {link.label}
-              </a>
-            )
-          )}
+              </Link>
+            );
+          })}
         </div>
 
         <WhatsAppCta
@@ -75,14 +75,14 @@ export default function Header() {
       {open && (
         <div className="md:hidden bg-surface border-t border-navy/10 px-6 py-6 flex flex-col gap-5">
           {NAV_LINKS.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
               className="text-graphite font-mono text-sm tracking-wide"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
           <WhatsAppCta
             href="https://wa.me/5519982892037"

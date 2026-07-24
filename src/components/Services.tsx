@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, BadgeCheck } from "lucide-react";
 import Reveal from "./Reveal";
 
@@ -43,15 +44,15 @@ export default function Services() {
                 Serviços que protegem e valorizam seu ativo.
               </h2>
             </div>
-            <a
-              href="#contato"
+            <Link
+              href="/servicos"
               className="group flex items-center gap-3 text-navy font-bold font-heading text-base hover:text-navy-deep transition-colors shrink-0"
             >
               <span className="border-b-2 border-yellow pb-1">Ver todos os serviços</span>
               <span className="w-10 h-10 rounded-full bg-surface flex items-center justify-center group-hover:bg-yellow transition-all">
                 <ArrowRight size={18} />
               </span>
-            </a>
+            </Link>
           </div>
         </Reveal>
 
@@ -88,13 +89,13 @@ export default function Services() {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href="#contato"
+                <Link
+                  href="/servicos"
                   className="inline-flex items-center justify-between w-full text-navy font-bold group-hover:text-navy-deep transition-colors border-t border-navy/10 pt-6"
                 >
                   Conhecer solução
                   <ArrowRight className="group-hover:translate-x-1 transition-transform" size={22} />
-                </a>
+                </Link>
               </div>
             </Reveal>
           ))}

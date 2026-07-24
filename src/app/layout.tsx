@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Sora, Inter, IBM_Plex_Mono } from "next/font/google";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const sora = Sora({
@@ -37,7 +39,9 @@ export default function RootLayout({
       className={`${sora.variable} ${inter.variable} ${ibmPlexMono.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col bg-surface text-graphite font-body">
-        {children}
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
