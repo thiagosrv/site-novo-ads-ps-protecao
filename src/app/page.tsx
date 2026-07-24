@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import StatsBar from "@/components/StatsBar";
 import Differentiators from "@/components/Differentiators";
 import Services from "@/components/Services";
-import IntelligenceHub from "@/components/IntelligenceHub";
+import TechSolutions from "@/components/TechSolutions";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -16,7 +16,7 @@ export default function Home() {
         <StatsBar />
         <Differentiators />
         <Services />
-        <IntelligenceHub />
+        <TechSolutions />
         <ContactSection />
       </main>
       <Footer />

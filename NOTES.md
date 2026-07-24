@@ -59,10 +59,13 @@ Implementado como tokens Tailwind v4 (`@theme` em `src/app/globals.css`) — sem
 
 ## Estrutura implementada (Next.js, App Router)
 
-Home (`src/app/page.tsx`) compõe: `Header` → `Hero` → `StatsBar` → `Differentiators` → `Services` → `IntelligenceHub` → `ContactSection` → `Footer` (todos em `src/components/`).
+Home (`src/app/page.tsx`) compõe: `Header` → `Hero` → `StatsBar` → `Differentiators` → `Services` → `TechSolutions` → `ContactSection` → `Footer` (todos em `src/components/`).
 
 - Hero usa foto real (`public/brand/guarda-fachada.png`) e logo oficial (`public/brand/logo-ps-protecao.png`).
-- Services/IntelligenceHub ainda usam os `.webp` placeholders reaproveitados do `site-ps-novo` (ver seção "Assets reaproveitados" acima) — substituir quando houver fotos definitivas para esses cards.
+- Services ainda usa os `.webp` placeholders reaproveitados do `site-ps-novo` (ver seção "Assets reaproveitados" acima) — substituir quando houver fotos definitivas para esses cards.
+- `IntelligenceHub` (seção de blog/artigos) foi removida a pedido do usuário — sem substituto por enquanto.
+- `TechSolutions` (`src/components/TechSolutions.tsx`) substitui o `IntelligenceHub`: seção "Tecnologias Aplicadas a Serviços" portada do `site-ps-novo` (lista `.tech-solutions` do `index.html`), com abas clicáveis (client component, `useState`) trocando texto + imagem entre os 5 itens (App de Controle de Acesso, Supervisão de Bancada, Relatório de Supervisão Mensal, Implantação com POPs e SLAs, Dispositivo "Sempre Alerta"). Usa as imagens já copiadas em `public/assets/` (`app-controle-de-acesso.webp`, `supervisao-bancada.webp`, `relatorio.webp`, `pop-sla.webp`, `sempre-alerta.webp`).
+- Nav do `Header` atualizado: item "Blog" (`#blog`) trocado por "Tecnologia" (`#solucoes-adaptadas`), apontando para a nova seção.
 - `lucide-react` (v1.26.0) não exporta ícones de marca (`Linkedin`/`Instagram`) — usar SVG inline nesses casos (ver `Footer.tsx`).
 
 ## Próximo passo
