@@ -35,12 +35,37 @@ Copiados de `Testeapp/site-ps-novo` para `public/assets/` (versões `.webp` otim
 
 Estas são placeholders — serão substituídas/reorganizadas quando os PNGs/MDs de design definitivos chegarem.
 
-## Brand tokens de referência (de `Testeapp/ps-protecao/DESIGN.md`)
+## Design system definitivo: "Sentinel Elite" (implementado)
 
-- `--brand-yellow: #FEBE00`
-- `--brand-navy: #001068`
-- Estilo do outro produto da marca (dashboard) é neobrutalism — **não assumir isso para o site institucional** sem confirmação; usar só como referência de paleta até o design chegar.
+Superseded o rascunho de paleta neobrutalism acima. O design definitivo veio de
+`Downloads/stitch_plataforma_ps_prote_o_premium/sentinel_elite/DESIGN.md` +
+`ps_prote_o_home_page_ultra_premium_gemini_pro/code.html` (mockup estrutural) +
+fotos/logo reais (`background_right1.png`, `logo_servicos.png`).
+
+**Estética:** "Editorial Corporate" + "Swiss Grid" — grid técnico, tipografia forte, cards com bastante respiro.
+
+**Paleta:**
+- Navy `#000F6A` / Deep Navy `#071338`
+- Institutional Yellow `#FCBF07`
+- Tech Blue `#4193FF`
+- Off-white (surface) `#F5F7FB`
+- Graphite (texto) `#151A25`
+
+**Tipografia:** Sora (headings), Inter (corpo), IBM Plex Mono (labels/dados técnicos) — via `next/font/google`.
+
+**Espaçamento:** container 1280px, margens 80px desktop, gutters 24px, padding de seção 120px. Raio 8px (pequeno) a 16–24px (cards).
+
+Implementado como tokens Tailwind v4 (`@theme` em `src/app/globals.css`) — sem `tailwind.config.js`, tudo via custom properties (`bg-navy`, `text-yellow`, `font-heading`, etc.).
+
+## Estrutura implementada (Next.js, App Router)
+
+Home (`src/app/page.tsx`) compõe: `Header` → `Hero` → `StatsBar` → `Differentiators` → `Services` → `IntelligenceHub` → `ContactSection` → `Footer` (todos em `src/components/`).
+
+- Hero usa foto real (`public/brand/guarda-fachada.png`) e logo oficial (`public/brand/logo-ps-protecao.png`).
+- Services/IntelligenceHub ainda usam os `.webp` placeholders reaproveitados do `site-ps-novo` (ver seção "Assets reaproveitados" acima) — substituir quando houver fotos definitivas para esses cards.
+- `lucide-react` (v1.26.0) não exporta ícones de marca (`Linkedin`/`Instagram`) — usar SVG inline nesses casos (ver `Footer.tsx`).
 
 ## Próximo passo
 
-Aguardando o usuário enviar os arquivos PNG/MD de design para definir layout dos cards, seções e copy final.
+- Verificação visual (screenshot) pendente — ambiente de browser não conseguiu compor o frame; conteúdo/estrutura já validados via texto e rede (todos os assets carregando 200 OK).
+- Alinhar com o usuário: form de contato ainda não tem backend, seção de depoimentos (presente no concorrente, ausente no mockup Sentinel Elite) e páginas adicionais (Serviços, Sobre, Blog, Contato).
