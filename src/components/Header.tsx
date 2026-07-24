@@ -57,7 +57,7 @@ export default function Header() {
         </div>
 
         <WhatsAppCta
-          href="#contato"
+          href="https://wa.me/5519982892037"
           label="Solicitar proposta"
           className="hidden md:inline-flex px-5 py-2.5 text-[13px] hover:-translate-y-0.5"
         />
@@ -85,7 +85,7 @@ export default function Header() {
             </a>
           ))}
           <WhatsAppCta
-            href="#contato"
+            href="https://wa.me/5519982892037"
             label="Solicitar proposta"
             onClick={() => setOpen(false)}
             className="px-6 py-3 text-sm"

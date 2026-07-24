@@ -61,7 +61,7 @@ export default function Hero() {
           <Reveal delayMs={300}>
             <div className="flex flex-col sm:flex-row gap-4">
               <WhatsAppCta
-                href="#contato"
+                href="https://wa.me/5519982892037"
                 className="px-7 py-3.5 text-[15px] hover:scale-[1.03] shadow-[0_8px_24px_rgba(252,191,7,0.25)]"
                 label={
                   <>

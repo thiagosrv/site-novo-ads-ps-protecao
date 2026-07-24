@@ -1,5 +1,38 @@
-import { ArrowRight, Mail, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import Reveal from "./Reveal";
+
+const CHANNELS = [
+  {
+    label: "Telefone Fixo",
+    phone: "(19) 3478-7799",
+    email: "adm@psprotecao.com.br",
+    whatsapp: null,
+  },
+  {
+    label: "Telefone Emergencial",
+    phone: "(19) 99781-8615",
+    email: "operacional@psprotecao.com.br",
+    whatsapp: "5519997818615",
+  },
+  {
+    label: "RH e Ouvidoria",
+    phone: "(19) 97821-1077",
+    email: "rh@psprotecao.com.br",
+    whatsapp: "5519978211077",
+  },
+  {
+    label: "Compras e Empresas",
+    phone: "(19) 97821-0246",
+    email: "empresas@psprotecao.com.br",
+    whatsapp: "5519978210246",
+  },
+  {
+    label: "Comercial",
+    phone: "(19) 98289-2037",
+    email: "comercial@psprotecao.com.br",
+    whatsapp: "5519982892037",
+  },
+];
 
 export default function ContactSection() {
   return (
@@ -17,115 +50,65 @@ export default function ContactSection() {
               <h2 className="font-heading text-3xl md:text-[40px] text-navy mb-6 leading-tight">
                 Pronto para elevar o padrão da sua operação?
               </h2>
-              <p className="text-lg text-graphite/70 mb-12">
+              <p className="text-lg text-graphite/70 mb-10">
                 Nossos especialistas estão prontos para realizar um diagnóstico operacional
                 gratuito da sua estrutura atual.
               </p>
 
-              <div className="space-y-8">
-                <div className="flex items-start gap-5">
-                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm border border-navy/5 shrink-0">
-                    <Phone className="text-navy" size={20} />
-                  </div>
-                  <div>
-                    <div className="font-mono text-xs tracking-widest text-graphite/60 uppercase mb-1">
-                      Telefone Direto
+              <div className="space-y-6">
+                {CHANNELS.map((channel) => (
+                  <div key={channel.label} className="flex items-start gap-5">
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm border border-navy/5 shrink-0">
+                      <Phone className="text-navy" size={20} />
                     </div>
-                    <div className="font-heading text-lg text-navy">+55 (11) 4000-0000</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-5">
-                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm border border-navy/5 shrink-0">
-                    <Mail className="text-navy" size={20} />
-                  </div>
-                  <div>
-                    <div className="font-mono text-xs tracking-widest text-graphite/60 uppercase mb-1">
-                      E-mail Corporativo
+                    <div>
+                      <div className="font-mono text-xs tracking-widest text-graphite/60 uppercase mb-1">
+                        {channel.label}
+                      </div>
+                      {channel.whatsapp ? (
+                        <a
+                          href={`https://wa.me/${channel.whatsapp}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-heading text-lg text-navy leading-snug hover:text-[#25D366] transition-colors inline-block"
+                        >
+                          {channel.phone}
+                        </a>
+                      ) : (
+                        <a
+                          href={`tel:+55${channel.phone.replace(/\D/g, "")}`}
+                          className="font-heading text-lg text-navy leading-snug hover:text-navy-deep transition-colors inline-block"
+                        >
+                          {channel.phone}
+                        </a>
+                      )}
+                      <div className="flex items-center gap-1.5 text-graphite/70 text-sm mt-0.5">
+                        <Mail size={14} />
+                        <a
+                          href={`mailto:${channel.email}`}
+                          className="hover:text-navy transition-colors"
+                        >
+                          {channel.email}
+                        </a>
+                      </div>
                     </div>
-                    <div className="font-heading text-lg text-navy">comercial@psprotecao.com.br</div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            <div className="md:col-span-7 bg-white p-8 md:p-12 rounded-[2rem] md:rounded-[2.5rem] shadow-xl border border-navy/10">
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <Field label="Nome Completo" placeholder="Como devemos chamá-lo?" />
-                  <Field label="Empresa" placeholder="Nome da organização" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <Field label="Cargo" placeholder="Ex: Diretor, Gerente de Facilities" />
-                  <Field label="E-mail Corporativo" placeholder="nome@suaempresa.com.br" type="email" />
-                </div>
-                <div>
-                  <label className="block text-[11px] tracking-widest font-mono text-graphite/60 uppercase mb-2">
-                    Serviço de Interesse
-                  </label>
-                  <select className="w-full bg-surface border border-navy/20 rounded-2xl focus:border-navy focus:ring-1 focus:ring-navy transition-all p-4 text-graphite/80">
-                    <option>Selecione uma opção</option>
-                    <option>Portaria e Controle de Acesso</option>
-                    <option>Limpeza Profissional</option>
-                    <option>Recepção e Atendimento</option>
-                    <option>Facilities Completo</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-[11px] tracking-widest font-mono text-graphite/60 uppercase mb-2">
-                    Detalhes da Necessidade
-                  </label>
-                  <textarea
-                    className="w-full bg-surface border border-navy/20 rounded-2xl focus:border-navy focus:ring-1 focus:ring-navy transition-all p-4 h-32 resize-none"
-                    placeholder="Conte-nos um pouco sobre o cenário atual da sua operação..."
-                  />
-                </div>
-                <div className="flex items-start gap-3 pt-2">
-                  <input
-                    type="checkbox"
-                    className="mt-1 rounded text-navy focus:ring-navy border-navy/30 w-4 h-4 cursor-pointer"
-                  />
-                  <p className="text-[13px] text-graphite/60 leading-tight">
-                    Concordo em fornecer meus dados conforme a{" "}
-                    <a href="#" className="underline font-medium hover:text-navy transition-colors">
-                      Política de Privacidade
-                    </a>{" "}
-                    para contato comercial.
-                  </p>
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-yellow text-navy font-heading text-lg font-bold py-5 rounded-2xl hover:bg-yellow-dark transition-colors shadow-lg mt-4 flex justify-center items-center gap-2"
-                >
-                  Solicitar Diagnóstico <ArrowRight size={20} />
-                </button>
-              </form>
+            <div className="md:col-span-7 rounded-[2rem] md:rounded-[2.5rem] shadow-xl border border-navy/10 overflow-hidden h-[420px] md:h-full min-h-[420px]">
+              <iframe
+                title="Localização PS Proteção no Google Maps"
+                src="https://www.google.com/maps?q=-22.7301816,-47.30249&z=16&output=embed"
+                className="w-full h-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </div>
         </div>
       </Reveal>
     </section>
-  );
-}
-
-function Field({
-  label,
-  placeholder,
-  type = "text",
-}: {
-  label: string;
-  placeholder: string;
-  type?: string;
-}) {
-  return (
-    <div>
-      <label className="block text-[11px] tracking-widest font-mono text-graphite/60 uppercase mb-2">
-        {label}
-      </label>
-      <input
-        type={type}
-        placeholder={placeholder}
-        className="w-full bg-surface border border-navy/20 rounded-2xl focus:border-navy focus:ring-1 focus:ring-navy transition-all p-4"
-      />
-    </div>
   );
 }

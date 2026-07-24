@@ -105,7 +105,7 @@ export default function Implementation() {
         <Reveal delayMs={400}>
           <div className="mt-4 flex justify-center">
             <WhatsAppCta
-              href="#contato"
+              href="https://wa.me/5519982892037"
               className="px-7 py-3.5 text-[15px]"
               label={
                 <>
