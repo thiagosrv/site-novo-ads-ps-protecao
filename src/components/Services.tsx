@@ -32,7 +32,7 @@ export default function Services() {
     <section id="servicos" className="bg-white py-20 md:py-[var(--spacing-section)] border-t border-navy/5 relative overflow-hidden">
       <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] relative z-10">
         <Reveal>
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-8 text-center md:text-left">
             <div className="max-w-2xl">
               <div className="flex items-center gap-3 mb-6">
                 <span className="w-8 h-px bg-yellow" />

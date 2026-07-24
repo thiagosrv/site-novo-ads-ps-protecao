@@ -23,8 +23,8 @@ export default function Footer() {
   return (
     <footer className="bg-navy w-full pt-20 md:pt-[var(--spacing-section)] pb-8 border-t border-white/5 relative overflow-hidden mt-16">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-6 px-6 md:px-[var(--spacing-grid-margin)] max-w-[var(--container-max)] mx-auto relative z-10">
-        <div className="md:col-span-1">
-          <div className="flex items-center gap-3 mb-6">
+        <div className="md:col-span-1 text-center md:text-left">
+          <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
             <Image
               src="/brand/logo-ps-protecao.png"
               alt="PS Proteção"
@@ -40,7 +40,7 @@ export default function Footer() {
             Soluções completas em Facilities e terceirização de portaria para empresas da Região
             Metropolitana de Campinas. +28 anos de mercado.
           </p>
-          <div className="flex gap-4">
+          <div className="flex gap-4 justify-center md:justify-start">
             <a
               href="https://www.linkedin.com/company/ps-protecao"
               target="_blank"
@@ -75,7 +75,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div>
+        <div className="text-center md:text-left">
           <h4 className="font-heading text-lg text-white mb-6">Serviços</h4>
           <ul className="space-y-4">
             {SERVICE_LINKS.map((link) => (
@@ -88,7 +88,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div>
+        <div className="text-center md:text-left">
           <h4 className="font-heading text-lg text-white mb-6">Institucional</h4>
           <ul className="space-y-4">
             {INSTITUTIONAL_LINKS.map((link) => (
@@ -101,10 +101,10 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div>
+        <div className="text-center md:text-left">
           <h4 className="font-heading text-lg text-white mb-6">Atendimento</h4>
           <div className="space-y-6">
-            <div className="flex items-start gap-3 text-white/60 leading-relaxed">
+            <div className="flex items-start gap-3 text-white/60 leading-relaxed text-left justify-center md:justify-start">
               <MapPin size={18} className="text-yellow shrink-0 mt-0.5" />
               <a
                 href="https://maps.google.com/maps?q=-22.7301816,-47.30249"
@@ -121,7 +121,7 @@ export default function Footer() {
               href="https://wa.me/5519982892037"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 text-white font-bold text-xl hover:text-yellow transition-colors group"
+              className="flex items-center justify-center md:justify-start gap-3 text-white font-bold text-xl hover:text-yellow transition-colors group"
             >
               <MessageCircle className="text-yellow group-hover:scale-110 transition-transform" size={26} />
               (19) 98289-2037

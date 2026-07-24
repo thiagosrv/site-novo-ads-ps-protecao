@@ -12,11 +12,18 @@ export default function Hero() {
     >
       <div className="absolute inset-0 z-0">
         <Image
+          src="/assets/background-mobile.webp"
+          alt="Profissional de segurança da PS Proteção em frente a uma portaria monitorada"
+          fill
+          priority
+          className="object-cover object-[75%_center] md:hidden"
+        />
+        <Image
           src="/brand/guarda-fachada.png"
           alt="Profissional de segurança da PS Proteção em frente a uma portaria monitorada"
           fill
           priority
-          className="object-cover object-[75%_center]"
+          className="hidden object-cover object-[75%_center] md:block"
         />
         <div className="absolute inset-0 hero-gradient" />
       </div>
@@ -35,7 +42,7 @@ export default function Hero() {
       </svg>
 
       <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] w-full">
-        <div className="max-w-2xl">
+        <div className="max-w-2xl mx-auto text-center md:mx-0 md:text-left">
           <Reveal>
             <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 text-white px-5 py-2 rounded-full mb-8 backdrop-blur-md">
               <span className="w-2.5 h-2.5 rounded-full bg-yellow animate-pulse" />
@@ -60,7 +67,7 @@ export default function Hero() {
           </Reveal>
 
           <Reveal delayMs={300}>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 items-center md:items-start">
               <WhatsAppCta
                 href="https://wa.me/5519982892037"
                 className="px-7 py-3.5 text-[15px] hover:scale-[1.03] shadow-[0_8px_24px_rgba(252,191,7,0.25)]"

@@ -91,8 +91,8 @@ export default function TechSolutions() {
     >
       <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
         <Reveal>
-          <div className="mb-16 max-w-2xl">
-            <div className="flex items-center gap-3 mb-6">
+          <div className="mb-16 max-w-2xl mx-auto text-center md:mx-0 md:text-left">
+            <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
               <span className="w-8 h-px bg-yellow" />
               <span className="font-mono text-yellow text-sm tracking-widest uppercase">
                 Tecnologia e processos próprios

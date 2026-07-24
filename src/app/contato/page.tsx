@@ -36,8 +36,8 @@ export default function ContatoPage() {
           {INFO_CARDS.map((card, i) => {
             const Icon = card.icon;
             const content = (
-              <div className="bg-white rounded-2xl p-7 border border-navy/5 shadow-sm h-full flex flex-col gap-4">
-                <div className="w-11 h-11 rounded-full bg-surface flex items-center justify-center">
+              <div className="bg-white rounded-2xl p-7 border border-navy/5 shadow-sm h-full flex flex-col gap-4 text-center md:text-left">
+                <div className="w-11 h-11 rounded-full bg-surface flex items-center justify-center mx-auto md:mx-0">
                   <Icon className="text-navy" size={20} />
                 </div>
                 <div>

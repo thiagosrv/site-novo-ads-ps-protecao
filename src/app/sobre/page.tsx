@@ -132,8 +132,8 @@ export default function SobrePage() {
       <section className="py-20 md:py-[var(--spacing-section)] bg-white">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
           <Reveal>
-            <div className="flex flex-col gap-6">
-              <div className="flex items-center gap-3">
+            <div className="flex flex-col gap-6 text-center md:text-left">
+              <div className="flex items-center justify-center gap-3 md:justify-start">
                 <span className="w-8 h-px bg-yellow" />
                 <span className="font-mono text-navy text-sm tracking-widest uppercase">
                   Fundação · 1998
@@ -202,8 +202,8 @@ export default function SobrePage() {
       <section className="py-20 md:py-[var(--spacing-section)] bg-surface">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
           <Reveal className="md:order-2">
-            <div className="flex flex-col gap-6">
-              <div className="flex items-center gap-3">
+            <div className="flex flex-col gap-6 text-center md:text-left">
+              <div className="flex items-center justify-center gap-3 md:justify-start">
                 <span className="w-8 h-px bg-yellow" />
                 <span className="font-mono text-navy text-sm tracking-widest uppercase">
                   Gestão atual
@@ -232,7 +232,7 @@ export default function SobrePage() {
                   sem perder governança e previsibilidade.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-2 mt-1">
+              <div className="flex flex-wrap gap-2 mt-1 justify-center md:justify-start">
                 {METHOD_CHIPS.map((chip) => (
                   <span
                     key={chip}
@@ -242,7 +242,7 @@ export default function SobrePage() {
                   </span>
                 ))}
               </div>
-              <div className="bg-navy border-l-4 border-yellow rounded-2xl p-7 mt-2">
+              <div className="bg-navy border-l-4 border-yellow rounded-2xl p-7 mt-2 text-left">
                 <p className="text-white/90 font-heading font-semibold leading-relaxed">
                   PS Proteção é, no fundo, a soma de dois vetores: a história de quem acredita no
                   trabalho, e o método de quem mede o que entrega. É assim que transformamos
@@ -297,7 +297,7 @@ export default function SobrePage() {
                   <div className="h-60 bg-gradient-to-br from-navy-deep to-navy flex items-center justify-center">
                     <User className="text-white/20" size={64} />
                   </div>
-                  <div className="p-8">
+                  <div className="p-8 text-center md:text-left">
                     <h3 className="font-heading text-2xl text-navy">{leader.name}</h3>
                     <div className="font-mono text-xs uppercase tracking-widest text-yellow-dark font-bold mb-4 mt-1">
                       {leader.role}

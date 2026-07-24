@@ -140,8 +140,8 @@ export default function ServicosPage() {
       <section className="py-20 md:py-[var(--spacing-section)] bg-surface">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
           <Reveal>
-            <div className="max-w-2xl mb-16">
-              <div className="flex items-center gap-3 mb-6">
+            <div className="max-w-2xl mb-16 mx-auto text-center md:mx-0 md:text-left">
+              <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
                 <span className="w-8 h-px bg-yellow" />
                 <span className="font-mono text-navy text-sm tracking-widest uppercase">
                   Portfólio completo
@@ -169,10 +169,10 @@ export default function ServicosPage() {
                   <div className="relative min-h-[280px] md:min-h-[360px]">
                     <Image src={service.image} alt={service.alt} fill className="object-cover" />
                   </div>
-                  <div className="p-8 md:p-12 flex flex-col justify-center gap-5">
+                  <div className="p-8 md:p-12 flex flex-col justify-center items-center text-center gap-5 md:items-start md:text-left">
                     <h3 className="font-heading text-2xl md:text-3xl text-navy">{service.title}</h3>
                     <p className="text-graphite/70 leading-relaxed">{service.description}</p>
-                    <ul className="flex flex-col gap-3">
+                    <ul className="flex flex-col gap-3 items-center md:items-start">
                       {service.features.map((feature) => (
                         <li key={feature} className="flex items-center gap-3 text-graphite/80 text-[15px]">
                           <CheckCircle2 className="text-yellow-dark shrink-0" size={18} />
@@ -184,7 +184,7 @@ export default function ServicosPage() {
                       href="https://wa.me/5519982892037"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 self-start mt-2 rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-6 py-3 transition-colors"
+                      className="inline-flex items-center gap-2 self-center md:self-start mt-2 rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-6 py-3 transition-colors"
                     >
                       <MessageCircle size={18} />
                       Solicitar proposta

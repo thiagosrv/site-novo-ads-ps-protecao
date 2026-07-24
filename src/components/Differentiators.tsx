@@ -48,8 +48,8 @@ export default function Differentiators() {
     <section id="diferenciais" className="py-20 md:py-[var(--spacing-section)] px-6 md:px-[var(--spacing-grid-margin)] max-w-[var(--container-max)] mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
         <div className="md:col-span-5">
-          <Reveal>
-            <div className="flex items-center gap-3 mb-6">
+          <Reveal className="text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
               <span className="w-8 h-px bg-yellow" />
               <span className="font-mono text-navy text-sm tracking-widest uppercase">
                 O Padrão PS Proteção
@@ -65,7 +65,7 @@ export default function Differentiators() {
             </p>
           </Reveal>
 
-          <div className="relative">
+          <div className="relative text-left">
             <div className="absolute left-[15px] top-4 w-0.5 h-[calc(100%-32px)] bg-navy/10" />
             <div className="space-y-10">
               {TIMELINE.map((step, i) => (

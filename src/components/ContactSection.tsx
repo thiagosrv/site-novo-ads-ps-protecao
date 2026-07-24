@@ -46,7 +46,7 @@ export default function ContactSection() {
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-yellow/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start relative z-10 p-8 md:p-16">
-            <div className="md:col-span-5 pt-0 md:pt-8">
+            <div className="md:col-span-5 pt-0 md:pt-8 text-center md:text-left">
               <h2 className="font-heading text-3xl md:text-[40px] text-navy mb-6 leading-tight">
                 Pronto para elevar o padrão da sua operação?
               </h2>
@@ -55,9 +55,9 @@ export default function ContactSection() {
                 gratuito da sua estrutura atual.
               </p>
 
-              <div className="space-y-6">
+              <div className="space-y-6 text-left">
                 {CHANNELS.map((channel) => (
-                  <div key={channel.label} className="flex items-start gap-5">
+                  <div key={channel.label} className="flex items-start gap-5 justify-center md:justify-start">
                     <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm border border-navy/5 shrink-0">
                       <Phone className="text-navy" size={20} />
                     </div>

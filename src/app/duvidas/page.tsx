@@ -123,7 +123,7 @@ export default function DuvidasPage() {
             return (
               <div key={category.key}>
                 <Reveal delayMs={ci * 60}>
-                  <div className="flex items-center gap-4 mb-8">
+                  <div className="flex items-center justify-center md:justify-start gap-4 mb-8">
                     <div className="w-11 h-11 rounded-full bg-navy flex items-center justify-center shrink-0">
                       <Icon className="text-yellow" size={20} />
                     </div>
