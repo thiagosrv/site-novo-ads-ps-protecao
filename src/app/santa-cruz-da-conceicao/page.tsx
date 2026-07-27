@@ -1,0 +1,17 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import CityPage from "@/components/CityPage";
+import { getCityBySlug } from "@/lib/cities";
+
+const SLUG = "santa-cruz-da-conceicao";
+
+export const metadata: Metadata = {
+  title: "Terceirização de Portaria e Limpeza em Santa Cruz da Conceição | PS Proteção",
+  description: "Terceirização de serviços em Santa Cruz da Conceição, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Santa Cruz da Conceição.",
+};
+
+export default function Page() {
+  const city = getCityBySlug(SLUG);
+  if (!city) notFound();
+  return <CityPage city={city} />;
+}
