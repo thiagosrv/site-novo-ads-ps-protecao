@@ -8,6 +8,9 @@ const SLUG = "engenheiro-coelho";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Engenheiro Coelho | PS Proteção",
   description: "Terceirização de serviços em Engenheiro Coelho, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Engenheiro Coelho.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

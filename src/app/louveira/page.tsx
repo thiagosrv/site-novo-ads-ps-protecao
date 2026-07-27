@@ -8,6 +8,9 @@ const SLUG = "louveira";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Louveira | PS Proteção",
   description: "Terceirização de serviços em Louveira, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Louveira.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

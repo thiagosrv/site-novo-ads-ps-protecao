@@ -8,6 +8,9 @@ const SLUG = "santo-antonio-de-posse";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Santo Antônio de Posse | PS Proteção",
   description: "Terceirização de serviços em Santo Antônio de Posse, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Santo Antônio de Posse.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

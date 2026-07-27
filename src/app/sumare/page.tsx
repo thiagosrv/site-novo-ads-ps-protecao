@@ -8,6 +8,9 @@ const SLUG = "sumare";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Sumaré | PS Proteção",
   description: "Terceirização de serviços em Sumaré, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Sumaré.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

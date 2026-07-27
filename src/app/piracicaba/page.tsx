@@ -8,6 +8,9 @@ const SLUG = "piracicaba";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Piracicaba | PS Proteção",
   description: "Terceirização de serviços em Piracicaba, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Piracicaba.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

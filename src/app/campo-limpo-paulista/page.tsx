@@ -8,6 +8,9 @@ const SLUG = "campo-limpo-paulista";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Campo Limpo Paulista | PS Proteção",
   description: "Terceirização de serviços em Campo Limpo Paulista, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Campo Limpo Paulista.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

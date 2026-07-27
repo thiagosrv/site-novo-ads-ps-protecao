@@ -8,6 +8,9 @@ const SLUG = "americana";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Americana | PS Proteção",
   description: "Terceirização de serviços em Americana, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Americana.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

@@ -8,6 +8,9 @@ const SLUG = "braganca-paulista";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Bragança Paulista | PS Proteção",
   description: "Terceirização de serviços em Bragança Paulista, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Bragança Paulista.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

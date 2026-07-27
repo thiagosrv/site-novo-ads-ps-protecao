@@ -8,6 +8,9 @@ const SLUG = "santa-rita-do-passa-quatro";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Santa Rita do Passa Quatro | PS Proteção",
   description: "Terceirização de serviços em Santa Rita do Passa Quatro, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Santa Rita do Passa Quatro.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

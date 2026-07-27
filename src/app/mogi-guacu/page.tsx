@@ -8,6 +8,9 @@ const SLUG = "mogi-guacu";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Mogi Guaçu | PS Proteção",
   description: "Terceirização de serviços em Mogi Guaçu, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Mogi Guaçu.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

@@ -8,6 +8,9 @@ const SLUG = "itupeva";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Itupeva | PS Proteção",
   description: "Terceirização de serviços em Itupeva, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Itupeva.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

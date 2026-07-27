@@ -8,6 +8,9 @@ const SLUG = "santa-barbara-d-oeste";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Santa Bárbara d'Oeste | PS Proteção",
   description: "Terceirização de serviços em Santa Bárbara d'Oeste, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Santa Bárbara d'Oeste.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

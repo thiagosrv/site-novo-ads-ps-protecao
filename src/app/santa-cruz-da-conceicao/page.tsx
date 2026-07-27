@@ -8,6 +8,9 @@ const SLUG = "santa-cruz-da-conceicao";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Santa Cruz da Conceição | PS Proteção",
   description: "Terceirização de serviços em Santa Cruz da Conceição, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Santa Cruz da Conceição.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

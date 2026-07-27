@@ -8,6 +8,9 @@ const SLUG = "cosmopolis";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Cosmópolis | PS Proteção",
   description: "Terceirização de serviços em Cosmópolis, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Cosmópolis.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

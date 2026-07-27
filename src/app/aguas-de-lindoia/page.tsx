@@ -8,6 +8,9 @@ const SLUG = "aguas-de-lindoia";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Águas de Lindóia | PS Proteção",
   description: "Terceirização de serviços em Águas de Lindóia, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Águas de Lindóia.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

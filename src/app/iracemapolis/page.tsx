@@ -8,6 +8,9 @@ const SLUG = "iracemapolis";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Iracemápolis | PS Proteção",
   description: "Terceirização de serviços em Iracemápolis, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Iracemápolis.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

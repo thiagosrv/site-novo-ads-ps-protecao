@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import { MessageCircle, Layers, Building2, Settings2 } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import FaqAccordion from "@/components/FaqAccordion";
 import Reveal from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Perguntas Frequentes | PS Proteção",
+  description:
+    "Dúvidas comuns sobre implantação, prazos, custos e processos de terceirização de portaria, limpeza e facilities com a PS Proteção.",
+  alternates: {
+    canonical: "/duvidas",
+  },
+};
 
 const CATEGORIES = [
   {

@@ -8,6 +8,9 @@ const SLUG = "saltinho";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Saltinho | PS Proteção",
   description: "Terceirização de serviços em Saltinho, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Saltinho.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

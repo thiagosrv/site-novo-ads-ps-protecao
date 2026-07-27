@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Sora, Inter, IBM_Plex_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import LocalBusinessSchema from "@/components/LocalBusinessSchema";
+import { SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 const sora = Sora({
@@ -23,9 +25,20 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "PS Proteção | Terceirização de Alta Performance em Portaria e Facilities",
   description:
     "Terceirização com controle, supervisão e padrão operacional. Portaria, limpeza, zeladoria, recepção e facilities com supervisão ativa 24h e tecnologia embarcada.",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -39,6 +52,7 @@ export default function RootLayout({
       className={`${sora.variable} ${inter.variable} ${ibmPlexMono.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col bg-surface text-graphite font-body">
+        <LocalBusinessSchema />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

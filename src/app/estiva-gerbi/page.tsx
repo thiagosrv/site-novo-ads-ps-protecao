@@ -8,6 +8,9 @@ const SLUG = "estiva-gerbi";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Estiva Gerbi | PS Proteção",
   description: "Terceirização de serviços em Estiva Gerbi, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Estiva Gerbi.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

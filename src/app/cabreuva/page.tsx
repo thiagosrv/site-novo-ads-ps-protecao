@@ -8,6 +8,9 @@ const SLUG = "cabreuva";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Cabreúva | PS Proteção",
   description: "Terceirização de serviços em Cabreúva, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Cabreúva.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

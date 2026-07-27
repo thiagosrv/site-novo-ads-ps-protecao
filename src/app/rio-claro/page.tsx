@@ -8,6 +8,9 @@ const SLUG = "rio-claro";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Rio Claro | PS Proteção",
   description: "Terceirização de serviços em Rio Claro, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Rio Claro.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

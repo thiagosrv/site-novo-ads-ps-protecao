@@ -8,6 +8,9 @@ const SLUG = "elias-fausto";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Elias Fausto | PS Proteção",
   description: "Terceirização de serviços em Elias Fausto, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Elias Fausto.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

@@ -8,6 +8,9 @@ const SLUG = "holambra";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Holambra | PS Proteção",
   description: "Terceirização de serviços em Holambra, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Holambra.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

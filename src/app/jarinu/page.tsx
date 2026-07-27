@@ -8,6 +8,9 @@ const SLUG = "jarinu";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Jarinu | PS Proteção",
   description: "Terceirização de serviços em Jarinu, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Jarinu.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

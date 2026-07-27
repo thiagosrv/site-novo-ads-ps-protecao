@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2, MessageCircle, Mail } from "lucide-react";
@@ -5,6 +6,15 @@ import PageHero from "@/components/PageHero";
 import StatsRow from "@/components/StatsRow";
 import FaqAccordion from "@/components/FaqAccordion";
 import Reveal from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Serviços e Soluções em Facilities | PS Proteção",
+  description:
+    "Portaria e controle de acesso, limpeza profissional, zeladoria, recepção e suporte administrativo terceirizados, com supervisão ativa e POP definido para cada posto.",
+  alternates: {
+    canonical: "/servicos",
+  },
+};
 
 const SERVICES = [
   {

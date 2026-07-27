@@ -8,6 +8,9 @@ const SLUG = "nova-odessa";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Nova Odessa | PS Proteção",
   description: "Terceirização de serviços em Nova Odessa, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Nova Odessa.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

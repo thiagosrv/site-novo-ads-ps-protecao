@@ -8,6 +8,9 @@ const SLUG = "atibaia";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Atibaia | PS Proteção",
   description: "Terceirização de serviços em Atibaia, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Atibaia.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

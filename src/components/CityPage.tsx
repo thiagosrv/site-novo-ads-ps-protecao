@@ -12,10 +12,16 @@ import {
   CalendarX,
   ArrowRight,
 } from "lucide-react";
-import PageHero from "./PageHero";
+import CityHero from "./CityHero";
 import Reveal from "./Reveal";
 import FaqAccordion, { type FaqItem } from "./FaqAccordion";
 import WhatsAppCta from "./WhatsAppCta";
+import StatsBar from "./StatsBar";
+import Differentiators from "./Differentiators";
+import Testimonials from "./Testimonials";
+import Implementation from "./Implementation";
+import TechSolutions from "./TechSolutions";
+import ContactSection from "./ContactSection";
 import { CITIES, type City } from "@/lib/cities";
 
 const SERVICES = [
@@ -119,11 +125,9 @@ export default function CityPage({ city }: { city: City }) {
 
   return (
     <>
-      <PageHero
-        tag={`Atuação na ${city.region}`}
-        title={`Terceirização de Serviços em ${city.name}, com padrão, supervisão e relatório.`}
-        description={`Portaria, limpeza, zeladoria e recepção terceirizadas para empresas, condomínios e indústrias em ${city.name}, com supervisão ativa, POP definido e equipe de reserva sempre disponível.`}
-      />
+      <CityHero city={city} />
+      <StatsBar />
+      <Differentiators />
 
       <section className="py-20 md:py-[var(--spacing-section)] bg-white">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
@@ -164,6 +168,10 @@ export default function CityPage({ city }: { city: City }) {
           </div>
         </div>
       </section>
+
+      <Testimonials />
+      <Implementation />
+      <TechSolutions />
 
       <section className="py-20 md:py-[var(--spacing-section)] bg-navy relative overflow-hidden">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] relative z-10">
@@ -270,6 +278,8 @@ export default function CityPage({ city }: { city: City }) {
           </Reveal>
         </div>
       </section>
+
+      <ContactSection />
 
       <section className="bg-navy py-20 md:py-28 relative overflow-hidden">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] relative z-10 text-center flex flex-col items-center gap-6">

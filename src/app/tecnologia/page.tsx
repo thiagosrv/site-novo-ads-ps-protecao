@@ -1,8 +1,18 @@
+import type { Metadata } from "next";
 import { MessageCircle } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import StatsRow from "@/components/StatsRow";
 import TechSolutions from "@/components/TechSolutions";
 import Reveal from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Tecnologia a Serviço da Supervisão | PS Proteção",
+  description:
+    "Aplicativo próprio de controle de acesso, supervisão de bancada, relatórios mensais e o dispositivo \"Sempre Alerta\" — tecnologia embarcada em cada posto de serviço.",
+  alternates: {
+    canonical: "/tecnologia",
+  },
+};
 
 export default function TecnologiaPage() {
   return (

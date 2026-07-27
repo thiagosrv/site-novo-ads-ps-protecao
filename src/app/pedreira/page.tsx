@@ -8,6 +8,9 @@ const SLUG = "pedreira";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Pedreira | PS Proteção",
   description: "Terceirização de serviços em Pedreira, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Pedreira.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

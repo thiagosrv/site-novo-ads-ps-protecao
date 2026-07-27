@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import {
   Target,
@@ -15,6 +16,15 @@ import PageHero from "@/components/PageHero";
 import StatsRow from "@/components/StatsRow";
 import FaqAccordion from "@/components/FaqAccordion";
 import Reveal from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Quem Somos | PS Proteção",
+  description:
+    "28 anos construindo confiança um posto de cada vez — da fundação familiar ao método de gestão por dados. Conheça a história, missão e valores da PS Proteção.",
+  alternates: {
+    canonical: "/sobre",
+  },
+};
 
 const MVV = [
   {

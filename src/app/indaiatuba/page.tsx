@@ -8,6 +8,9 @@ const SLUG = "indaiatuba";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Indaiatuba | PS Proteção",
   description: "Terceirização de serviços em Indaiatuba, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Indaiatuba.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

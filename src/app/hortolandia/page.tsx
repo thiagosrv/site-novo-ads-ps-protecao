@@ -8,6 +8,9 @@ const SLUG = "hortolandia";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Hortolândia | PS Proteção",
   description: "Terceirização de serviços em Hortolândia, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Hortolândia.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

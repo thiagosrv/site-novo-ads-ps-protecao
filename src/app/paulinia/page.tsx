@@ -8,6 +8,9 @@ const SLUG = "paulinia";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Paulínia | PS Proteção",
   description: "Terceirização de serviços em Paulínia, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Paulínia.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

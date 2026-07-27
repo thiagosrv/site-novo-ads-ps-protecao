@@ -8,6 +8,9 @@ const SLUG = "campinas";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Campinas | PS Proteção",
   description: "Terceirização de serviços em Campinas, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Campinas.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

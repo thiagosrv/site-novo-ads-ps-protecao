@@ -8,6 +8,9 @@ const SLUG = "pirassununga";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Pirassununga | PS Proteção",
   description: "Terceirização de serviços em Pirassununga, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Pirassununga.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

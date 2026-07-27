@@ -8,6 +8,9 @@ const SLUG = "amparo";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Amparo | PS Proteção",
   description: "Terceirização de serviços em Amparo, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Amparo.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

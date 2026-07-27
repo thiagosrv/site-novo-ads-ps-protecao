@@ -8,6 +8,9 @@ const SLUG = "joanopolis";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Joanópolis | PS Proteção",
   description: "Terceirização de serviços em Joanópolis, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Joanópolis.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

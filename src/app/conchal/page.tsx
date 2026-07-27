@@ -8,6 +8,9 @@ const SLUG = "conchal";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Conchal | PS Proteção",
   description: "Terceirização de serviços em Conchal, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Conchal.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

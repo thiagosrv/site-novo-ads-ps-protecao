@@ -8,6 +8,9 @@ const SLUG = "artur-nogueira";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Artur Nogueira | PS Proteção",
   description: "Terceirização de serviços em Artur Nogueira, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Artur Nogueira.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

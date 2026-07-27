@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { CITIES } from "@/lib/cities";
+import { SITE_URL } from "@/lib/seo";
 
-const BASE_URL = "https://protecaoeseguranca.com.br";
+const HQ_CITY_SLUG = "americana";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
@@ -12,17 +13,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/duvidas", priority: 0.6, changeFrequency: "monthly" as const },
     { path: "/contato", priority: 0.6, changeFrequency: "monthly" as const },
   ].map((route) => ({
-    url: `${BASE_URL}${route.path}`,
+    url: `${SITE_URL}${route.path}`,
     lastModified: new Date(),
     changeFrequency: route.changeFrequency,
     priority: route.priority,
   }));
 
   const cityRoutes = CITIES.map((city) => ({
-    url: `${BASE_URL}/${city.slug}`,
+    url: `${SITE_URL}/${city.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
-    priority: 0.7,
+    priority: city.slug === HQ_CITY_SLUG ? 0.9 : 0.7,
   }));
 
   return [...staticRoutes, ...cityRoutes];

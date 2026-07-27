@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import { Clock, Phone, Star } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import ContactSection from "@/components/ContactSection";
 import Reveal from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Contato | PS Proteção",
+  description:
+    "Solicite uma proposta, tire dúvidas ou agende uma visita técnica. Telefone, WhatsApp, e-mail e endereço da PS Proteção em Americana, SP.",
+  alternates: {
+    canonical: "/contato",
+  },
+};
 
 const INFO_CARDS = [
   {

@@ -8,6 +8,9 @@ const SLUG = "limeira";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Limeira | PS Proteção",
   description: "Terceirização de serviços em Limeira, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Limeira.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

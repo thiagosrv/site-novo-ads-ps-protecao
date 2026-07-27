@@ -8,6 +8,9 @@ const SLUG = "pinhalzinho";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Pinhalzinho | PS Proteção",
   description: "Terceirização de serviços em Pinhalzinho, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Pinhalzinho.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {

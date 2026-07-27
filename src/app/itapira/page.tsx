@@ -8,6 +8,9 @@ const SLUG = "itapira";
 export const metadata: Metadata = {
   title: "Terceirização de Portaria e Limpeza em Itapira | PS Proteção",
   description: "Terceirização de serviços em Itapira, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Itapira.",
+  alternates: {
+    canonical: `/${SLUG}`,
+  },
 };
 
 export default function Page() {
