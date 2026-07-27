@@ -1,5 +1,4 @@
 import Reveal from "./Reveal";
-import StatCounter from "./StatCounter";
 
 const STATS = [
   { value: "+27", label: "ANOS DE MERCADO" },
@@ -16,14 +15,14 @@ export default function StatsBar() {
           {STATS.map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="font-heading text-3xl md:text-[48px] text-navy mb-2">
-                <StatCounter value={stat.value} />
+                {stat.value}
               </div>
               <div className="font-mono text-[11px] text-graphite/60 tracking-widest">{stat.label}</div>
             </div>
           ))}
           <div className="text-center col-span-2 md:col-span-1">
             <div className="font-heading text-3xl md:text-[48px] text-yellow-dark mb-2">
-              <StatCounter value="24h" />
+              24h
             </div>
             <div className="font-mono text-[11px] text-navy tracking-widest font-bold">
               SUPERVISÃO COM RELATÓRIOS
