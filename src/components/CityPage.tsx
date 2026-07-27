@@ -22,6 +22,7 @@ import Testimonials from "./Testimonials";
 import Implementation from "./Implementation";
 import TechSolutions from "./TechSolutions";
 import ContactSection from "./ContactSection";
+import OurPresence from "./OurPresence";
 import { CITIES, type City } from "@/lib/cities";
 
 const SERVICES = [
@@ -280,6 +281,7 @@ export default function CityPage({ city }: { city: City }) {
       </section>
 
       <ContactSection />
+      <OurPresence />
 
       <section className="bg-navy py-20 md:py-28 relative overflow-hidden">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] relative z-10 text-center flex flex-col items-center gap-6">

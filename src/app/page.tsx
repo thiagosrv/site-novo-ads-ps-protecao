@@ -8,6 +8,7 @@ import Implementation from "@/components/Implementation";
 import TechSolutions from "@/components/TechSolutions";
 import HomeFaq from "@/components/HomeFaq";
 import ContactSection from "@/components/ContactSection";
+import OurPresence from "@/components/OurPresence";
 import CoverageArea from "@/components/CoverageArea";
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export default function Home() {
       <TechSolutions />
       <HomeFaq />
       <ContactSection />
+      <OurPresence />
       <CoverageArea />
     </>
   );
