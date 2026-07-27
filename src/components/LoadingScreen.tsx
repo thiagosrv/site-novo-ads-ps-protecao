@@ -1,8 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+
+const SESSION_KEY = "ps-loading-shown";
 
 const LOADING_SLIDES = [
   {
@@ -34,14 +37,25 @@ const LOADING_SLIDES = [
 const FUNCTIONS = ["Portaria e Controle de Acesso", "Limpeza e Conservação", "Recepção e Atendimento"];
 
 export default function LoadingScreen() {
-  const [shouldRender, setShouldRender] = useState(() => {
-    if (typeof window === "undefined") return true;
-    return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  });
+  const pathname = usePathname();
+  const [shouldRender, setShouldRender] = useState(false);
   const [captionIndex, setCaptionIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const photoStageRef = useRef<HTMLDivElement>(null);
+  const brandStageRef = useRef<HTMLDivElement>(null);
   const percentRef = useRef<HTMLSpanElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+    if (sessionStorage.getItem(SESSION_KEY)) return;
+    sessionStorage.setItem(SESSION_KEY, "1");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Gate is sessionStorage/pathname, only knowable client-side after mount — can't be computed during render.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setShouldRender(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!shouldRender) return;
@@ -67,12 +81,26 @@ export default function LoadingScreen() {
             }
           },
         })
-        .to(containerRef.current, {
-          opacity: 0,
-          duration: 0.6,
-          ease: "power2.inOut",
-          delay: 0.2,
-        });
+        .to(
+          photoStageRef.current,
+          { opacity: 0, y: -24, scale: 0.96, duration: 0.5, ease: "power2.in" },
+          "+=0.15"
+        )
+        .fromTo(
+          brandStageRef.current,
+          { opacity: 0, y: 24, scale: 0.96 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "power2.out" }
+        )
+        .to(
+          brandStageRef.current,
+          { opacity: 0, y: -24, scale: 0.96, duration: 0.5, ease: "power2.in" },
+          "+=1.1"
+        )
+        .to(
+          containerRef.current,
+          { opacity: 0, duration: 0.6, ease: "power2.inOut" },
+          "+=0.05"
+        );
 
       const slideTl = gsap.timeline({ repeat: -1 });
       LOADING_SLIDES.forEach((_, i) => {
@@ -101,10 +129,10 @@ export default function LoadingScreen() {
     <div
       ref={containerRef}
       aria-hidden="true"
-      className="fixed inset-0 z-[999] flex items-center justify-center bg-navy p-4 md:p-10"
+      className="fixed inset-0 z-[999] flex items-center justify-center bg-navy p-3 sm:p-4 md:p-10"
     >
       <div className="relative w-full h-full rounded-[32px] bg-yellow flex items-center justify-center overflow-hidden">
-        <div className="flex flex-col items-center w-full max-w-xs px-6">
+        <div ref={photoStageRef} className="flex flex-col items-center w-full max-w-xs px-6">
           <div className="flex items-center justify-between w-full mb-3">
             <span className="font-mono text-xs uppercase tracking-widest text-navy">
               Carregando...
@@ -117,7 +145,7 @@ export default function LoadingScreen() {
             </span>
           </div>
 
-          <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-white shadow-[0_20px_60px_rgba(0,15,106,0.25)]">
+          <div className="relative w-full h-[50vh] max-h-[440px] sm:h-auto sm:aspect-[4/5] sm:max-h-none rounded-2xl overflow-hidden bg-white shadow-[0_20px_60px_rgba(0,15,106,0.25)]">
             {LOADING_SLIDES.map((slide, i) => (
               <div
                 key={slide.src}
@@ -140,6 +168,19 @@ export default function LoadingScreen() {
 
           <p className="mt-5 font-heading text-sm md:text-base text-navy text-center transition-opacity duration-300">
             {FUNCTIONS[captionIndex]}
+          </p>
+        </div>
+
+        <div
+          ref={brandStageRef}
+          className="absolute inset-0 flex flex-col items-center justify-center px-6"
+          style={{ opacity: 0 }}
+        >
+          <h2 className="font-heading font-extrabold uppercase text-navy text-center leading-[0.95] tracking-tight whitespace-nowrap text-[clamp(2.5rem,11vw,7.5rem)]">
+            PS Proteção
+          </h2>
+          <p className="mt-4 md:mt-6 font-heading font-medium text-navy text-center text-[clamp(1rem,2.6vw,1.75rem)]">
+            Prontos para <span className="font-extrabold">servir</span>.
           </p>
         </div>
       </div>
