@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 import { CITIES } from "@/lib/cities";
+import { SERVICES } from "@/lib/services";
+import { buildComboSlug, buildHubSlug } from "@/lib/programmatic";
 import { SITE_URL } from "@/lib/seo";
 
 const HQ_CITY_SLUG = "americana";
@@ -27,5 +29,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: city.slug === HQ_CITY_SLUG ? 0.9 : 0.7,
   }));
 
-  return [...staticRoutes, ...cityRoutes];
+  const hubRoutes = CITIES.map((city) => ({
+    url: `${SITE_URL}/${buildHubSlug(city)}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  const comboRoutes = CITIES.flatMap((city) =>
+    SERVICES.map((service) => ({
+      url: `${SITE_URL}/${buildComboSlug(service, city)}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    }))
+  );
+
+  return [...staticRoutes, ...cityRoutes, ...hubRoutes, ...comboRoutes];
 }
