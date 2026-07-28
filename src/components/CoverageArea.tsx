@@ -1,68 +1,7 @@
+import Link from "next/link";
 import { MapPin } from "lucide-react";
 import Reveal from "./Reveal";
-
-const CITIES = [
-  "Campinas",
-  "Americana",
-  "Santa Bárbara d'Oeste",
-  "Nova Odessa",
-  "Sumaré",
-  "Hortolândia",
-  "Paulínia",
-  "Valinhos",
-  "Vinhedo",
-  "Indaiatuba",
-  "Monte Mor",
-  "Elias Fausto",
-  "Capivari",
-  "Rafard",
-  "Mombuca",
-  "Saltinho",
-  "Piracicaba",
-  "Limeira",
-  "Iracemápolis",
-  "Cordeirópolis",
-  "Rio Claro",
-  "Santa Gertrudes",
-  "Cosmópolis",
-  "Artur Nogueira",
-  "Engenheiro Coelho",
-  "Holambra",
-  "Jaguariúna",
-  "Pedreira",
-  "Santo Antônio de Posse",
-  "Amparo",
-  "Serra Negra",
-  "Monte Alegre do Sul",
-  "Águas de Lindóia",
-  "Lindóia",
-  "Itapira",
-  "Mogi Mirim",
-  "Mogi Guaçu",
-  "Estiva Gerbi",
-  "Conchal",
-  "Araras",
-  "Leme",
-  "Santa Cruz da Conceição",
-  "Pirassununga",
-  "Porto Ferreira",
-  "Descalvado",
-  "Santa Rita do Passa Quatro",
-  "Louveira",
-  "Itupeva",
-  "Jundiaí",
-  "Cabreúva",
-  "Jarinu",
-  "Campo Limpo Paulista",
-  "Várzea Paulista",
-  "Atibaia",
-  "Bragança Paulista",
-  "Morungaba",
-  "Tuiuti",
-  "Pinhalzinho",
-  "Socorro",
-  "Joanópolis",
-];
+import { CITIES } from "@/lib/cities";
 
 const NETWORK_DOTS = [
   { x: 235, y: 115 },
@@ -182,11 +121,13 @@ export default function CoverageArea() {
             </div>
             <ul className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
               {CITIES.map((city) => (
-                <li
-                  key={city}
-                  className="px-4 py-2 bg-white/5 border border-white/10 rounded-full font-mono text-xs text-white/75 tracking-wide hover:bg-white/10 hover:text-white transition-colors"
-                >
-                  {city}
+                <li key={city.slug}>
+                  <Link
+                    href={`/${city.slug}`}
+                    className="block px-4 py-2 bg-white/5 border border-white/10 rounded-full font-mono text-xs text-white/75 tracking-wide hover:bg-white/10 hover:text-white transition-colors"
+                  >
+                    {city.name}
+                  </Link>
                 </li>
               ))}
             </ul>
