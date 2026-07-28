@@ -4,6 +4,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import LoadingScreen from "@/components/LoadingScreen";
+import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
+import CookieConsent from "@/components/CookieConsent";
 import { SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
@@ -58,6 +60,8 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <WhatsAppFloatingButton />
+        <CookieConsent />
       </body>
     </html>
   );

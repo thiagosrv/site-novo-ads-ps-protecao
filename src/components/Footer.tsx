@@ -135,9 +135,17 @@ export default function Footer() {
           © {new Date().getFullYear()} PS PROTEÇÃO. CNPJ 47.425.584/0001-00. Todos os direitos
           reservados.
         </p>
-        <p className="text-white/40 font-mono text-[11px] tracking-widest uppercase">
-          Americana · Campinas · Região Metropolitana de Campinas
-        </p>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/privacidade"
+            className="text-white/40 font-mono text-[11px] tracking-widest uppercase hover:text-yellow transition-colors"
+          >
+            Política de Privacidade
+          </Link>
+          <p className="text-white/40 font-mono text-[11px] tracking-widest uppercase">
+            Americana · Campinas · RMC
+          </p>
+        </div>
       </div>
     </footer>
   );

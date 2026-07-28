@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/tecnologia", priority: 0.6, changeFrequency: "monthly" as const },
     { path: "/duvidas", priority: 0.6, changeFrequency: "monthly" as const },
     { path: "/contato", priority: 0.6, changeFrequency: "monthly" as const },
+    { path: "/privacidade", priority: 0.3, changeFrequency: "yearly" as const },
   ].map((route) => ({
     url: `${SITE_URL}${route.path}`,
     lastModified: new Date(),
