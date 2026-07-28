@@ -21,6 +21,7 @@ const LOCAL_BUSINESS_SCHEMA = {
     streetAddress: "Rua São Gabriel, 1623 - Vila Belvedere",
     addressLocality: "Americana",
     addressRegion: "SP",
+    postalCode: "13473-000",
     addressCountry: "BR",
   },
   geo: {
@@ -28,7 +29,7 @@ const LOCAL_BUSINESS_SCHEMA = {
     latitude: -22.7301816,
     longitude: -47.30249,
   },
-  hasMap: "https://maps.app.goo.gl/CnMKVARk457uNvwq6",
+  hasMap: "https://maps.app.goo.gl/rFdMcsozBJnGW3Sq7",
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
@@ -56,7 +57,7 @@ const LOCAL_BUSINESS_SCHEMA = {
       "@type": "ContactPoint",
       telephone: "+551934787799",
       contactType: "customer service",
-      email: "empresas@psprotecao.com.br",
+      email: "adm@psprotecao.com.br",
       areaServed: "BR",
       availableLanguage: "Portuguese",
     },
@@ -76,8 +77,8 @@ const LOCAL_BUSINESS_SCHEMA = {
     },
   ],
   sameAs: [
-    "https://maps.app.goo.gl/CnMKVARk457uNvwq6",
-    "https://share.google/wNR5N8gN2ps4YsmK7",
+    "https://maps.app.goo.gl/rFdMcsozBJnGW3Sq7",
+    "https://share.google/eWwjNSUDdjT59UiGY",
     "https://www.linkedin.com/company/ps-protecao",
     "https://www.instagram.com/protecao_seguranca/",
   ],
