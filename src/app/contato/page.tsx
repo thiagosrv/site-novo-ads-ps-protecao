@@ -28,7 +28,7 @@ const INFO_CARDS = [
     icon: Star,
     title: "Avaliações no Google",
     text: "Confira a experiência de quem já contratou a PS Proteção.",
-    href: "https://share.google/T93Dj9U0KXU4r2ZRx",
+    href: "https://g.page/r/CXDiGqbtS-XSEAE/review",
   },
 ];
 

@@ -81,6 +81,7 @@ const LOCAL_BUSINESS_SCHEMA = {
     "https://share.google/eWwjNSUDdjT59UiGY",
     "https://www.linkedin.com/company/ps-protecao",
     "https://www.instagram.com/protecao_seguranca/",
+    "https://web.facebook.com/protecaoeseguranca",
   ],
   areaServed: CITIES.map((city) => ({
     "@type": "City",

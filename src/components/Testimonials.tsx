@@ -119,7 +119,7 @@ export default function Testimonials() {
               </p>
             </div>
             <a
-              href="https://share.google/T93Dj9U0KXU4r2ZRx"
+              href="https://g.page/r/CXDiGqbtS-XSEAE/review"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-heading font-semibold tracking-wide text-white transition-all duration-300 hover:bg-navy/90 hover:-translate-y-0.5 shrink-0"

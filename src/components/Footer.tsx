@@ -42,6 +42,17 @@ export default function Footer() {
           </p>
           <div className="flex gap-4 justify-center md:justify-start">
             <a
+              href="https://web.facebook.com/protecaoeseguranca"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-yellow hover:text-navy text-white transition-all border border-white/10"
+            >
+              <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22 12.06c0-5.52-4.48-10-10-10s-10 4.48-10 10c0 4.99 3.66 9.13 8.44 9.88v-6.99h-2.54v-2.89h2.54v-2.2c0-2.51 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.45 2.89h-2.33v6.99c4.78-.75 8.43-4.89 8.43-9.88z" />
+              </svg>
+            </a>
+            <a
               href="https://www.linkedin.com/company/ps-protecao"
               target="_blank"
               rel="noopener noreferrer"
