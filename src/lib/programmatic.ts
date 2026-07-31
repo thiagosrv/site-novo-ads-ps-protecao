@@ -7,6 +7,7 @@ import {
   type ServiceCategory,
   type RealServiceId,
 } from "./services";
+import { SEGMENTS, SEGMENT_CATEGORY_SLUG, type Segment } from "./segments";
 
 export type ComboPage = {
   type: "combo";
@@ -21,7 +22,23 @@ export type HubPage = {
   city: City;
 };
 
-export type ProgrammaticPage = ComboPage | HubPage;
+export type SegmentPage = {
+  type: "segment";
+  slug: string;
+  category: ServiceCategory;
+  segment: Segment;
+  city: City;
+};
+
+export type CategoryFlatPage = {
+  type: "category-flat";
+  slug: string;
+  variant: "a" | "b";
+  category: ServiceCategory;
+  city: City;
+};
+
+export type ProgrammaticPage = ComboPage | HubPage | SegmentPage | CategoryFlatPage;
 
 export function buildComboSlug(service: ProgrammaticService, city: City): string {
   return `${service.slug}-em-${city.slug}-sp`;
@@ -31,24 +48,49 @@ export function buildHubSlug(city: City): string {
   return `servicos-em-${city.slug}`;
 }
 
-const PAGE_MAP: Map<string, ProgrammaticPage> = new Map();
-
-for (const city of CITIES) {
-  const hubSlug = buildHubSlug(city);
-  PAGE_MAP.set(hubSlug, { type: "hub", slug: hubSlug, city });
-
-  for (const service of SERVICES) {
-    const comboSlug = buildComboSlug(service, city);
-    PAGE_MAP.set(comboSlug, { type: "combo", slug: comboSlug, service, city });
-  }
+export function buildSegmentComboSlug(
+  category: ServiceCategory,
+  segment: Segment,
+  city: City
+): string {
+  const categorySlug = SEGMENT_CATEGORY_SLUG[category];
+  if (!categorySlug) throw new Error(`No segment slug configured for category ${category}`);
+  return `${categorySlug}-para-${segment.slug}-em-${city.slug}`;
 }
 
-export function getProgrammaticPage(slug: string): ProgrammaticPage | undefined {
-  return PAGE_MAP.get(slug);
+export function buildCategoryFlatSlugA(category: ServiceCategory, city: City): string {
+  return `${SEGMENT_CATEGORY_SLUG[category]}-em-${city.slug}`;
 }
 
-export function getAllProgrammaticSlugs(): string[] {
-  return [...PAGE_MAP.keys()];
+export function buildCategoryFlatSlugB(category: ServiceCategory, city: City): string {
+  return `servico-de-${SEGMENT_CATEGORY_SLUG[category]}-em-${city.slug}`;
+}
+
+export function buildCategoryNestedPath(category: ServiceCategory, city: City): string {
+  return `/${city.slug}/${SEGMENT_CATEGORY_SLUG[category]}`;
+}
+
+export function buildSegmentNestedPath(
+  category: ServiceCategory,
+  segment: Segment,
+  city: City
+): string {
+  return `/${city.slug}/${SEGMENT_CATEGORY_SLUG[category]}/${segment.slug}`;
+}
+
+export function buildServiceNestedPath(service: ProgrammaticService, city: City): string {
+  return `/${city.slug}/${SEGMENT_CATEGORY_SLUG[service.category]}/${service.slug}`;
+}
+
+// Nested segment and service-specific routes share one dynamic route file and
+// resolve the leaf slug by trying SEGMENTS first, then SERVICES. This only
+// works if no slug is used by both data sets.
+const segmentSlugSet = new Set(SEGMENTS.map((segment) => segment.slug));
+const collidingServiceSlug = SERVICES.find((service) => segmentSlugSet.has(service.slug));
+if (collidingServiceSlug) {
+  throw new Error(
+    `Segment/service slug collision detected: "${collidingServiceSlug.slug}" is used by both SEGMENTS and SERVICES`
+  );
 }
 
 export const CATEGORY_ORDER: ServiceCategory[] = [
@@ -60,6 +102,41 @@ export const CATEGORY_ORDER: ServiceCategory[] = [
   "geral",
   "jardinagem",
 ];
+
+const PAGE_MAP: Map<string, ProgrammaticPage> = new Map();
+
+for (const city of CITIES) {
+  const hubSlug = buildHubSlug(city);
+  PAGE_MAP.set(hubSlug, { type: "hub", slug: hubSlug, city });
+
+  for (const service of SERVICES) {
+    const comboSlug = buildComboSlug(service, city);
+    PAGE_MAP.set(comboSlug, { type: "combo", slug: comboSlug, service, city });
+  }
+
+  for (const segment of SEGMENTS) {
+    for (const category of segment.relevantCategories) {
+      const segmentSlug = buildSegmentComboSlug(category, segment, city);
+      PAGE_MAP.set(segmentSlug, { type: "segment", slug: segmentSlug, category, segment, city });
+    }
+  }
+
+  for (const category of CATEGORY_ORDER) {
+    const flatSlugA = buildCategoryFlatSlugA(category, city);
+    PAGE_MAP.set(flatSlugA, { type: "category-flat", slug: flatSlugA, variant: "a", category, city });
+
+    const flatSlugB = buildCategoryFlatSlugB(category, city);
+    PAGE_MAP.set(flatSlugB, { type: "category-flat", slug: flatSlugB, variant: "b", category, city });
+  }
+}
+
+export function getProgrammaticPage(slug: string): ProgrammaticPage | undefined {
+  return PAGE_MAP.get(slug);
+}
+
+export function getAllProgrammaticSlugs(): string[] {
+  return [...PAGE_MAP.keys()];
+}
 
 export function getRelatedServiceCards(
   currentCategory: ServiceCategory,
@@ -73,6 +150,36 @@ export function getRelatedServiceCards(
       if (!service) throw new Error(`Missing representative service for category ${category}`);
       return { service, href: `/${buildComboSlug(service, city)}` };
     });
+}
+
+export function getOtherCategoriesForSegment(
+  segment: Segment,
+  currentCategory: ServiceCategory,
+  city: City
+): { category: ServiceCategory; href: string }[] {
+  return segment.relevantCategories
+    .filter((category) => category !== currentCategory)
+    .map((category) => ({
+      category,
+      href: `/${buildSegmentComboSlug(category, segment, city)}`,
+    }));
+}
+
+export function getOtherSegmentsForCategory(
+  category: ServiceCategory,
+  currentSegmentSlug: string,
+  city: City,
+  count = 4
+): { segment: Segment; href: string }[] {
+  return SEGMENTS.filter(
+    (segment) =>
+      segment.slug !== currentSegmentSlug && segment.relevantCategories.includes(category)
+  )
+    .slice(0, count)
+    .map((segment) => ({
+      segment,
+      href: `/${buildSegmentComboSlug(category, segment, city)}`,
+    }));
 }
 
 const REAL_SERVICE_REPRESENTATIVE_SLUG: Partial<Record<RealServiceId, string>> = {

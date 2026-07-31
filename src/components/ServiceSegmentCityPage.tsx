@@ -6,7 +6,6 @@ import {
   Wrench,
   Headset,
   Eye,
-  Users,
   ArrowRight,
   CheckCircle2,
   MapPin,
@@ -26,30 +25,35 @@ import TechSolutions from "./TechSolutions";
 import ContactSection from "./ContactSection";
 import OurPresence from "./OurPresence";
 import { CITIES, type City } from "@/lib/cities";
-import { CATEGORY_LABEL, type ProgrammaticService } from "@/lib/services";
-import { buildComboSlug, buildHubSlug, getRelatedServiceCards } from "@/lib/programmatic";
+import { CATEGORY_REPRESENTATIVE_SLUG, getServiceBySlug, type ServiceCategory } from "@/lib/services";
+import { SEGMENT_CATEGORY_LABEL, type Segment } from "@/lib/segments";
+import {
+  buildHubSlug,
+  buildSegmentComboSlug,
+  getOtherCategoriesForSegment,
+  getOtherSegmentsForCategory,
+} from "@/lib/programmatic";
 import { SITE_URL } from "@/lib/seo";
 
-const ICON_BY_CATEGORY = {
+const ICON_BY_CATEGORY: Partial<Record<ServiceCategory, typeof ShieldCheck>> = {
   portaria: ShieldCheck,
   limpeza: SprayCan,
   facilities: Wrench,
   vigilancia: Eye,
   jardinagem: SprayCan,
   recepcao: Headset,
-  geral: Users,
-} as const;
+};
 
 const REGIONAL_DIFFERENTIALS = [
   {
     icon: PackageCheck,
     title: "Implantação Estruturada",
-    text: "Diagnóstico do posto, seleção da equipe e treinamento com POP específico, com início de operação em 5 a 15 dias úteis.",
+    text: "Diagnóstico do local, seleção da equipe e treinamento com POP específico para o segmento, com início de operação em 5 a 15 dias úteis.",
   },
   {
     icon: CalendarX,
     title: "Equipe de Reserva",
-    text: "Cobertura imediata em caso de falta, férias ou desligamento, para que o posto nunca fique desguarnecido.",
+    text: "Cobertura imediata em caso de falta, férias ou desligamento, para que a operação nunca fique desguarnecida.",
   },
   {
     icon: GaugeCircle,
@@ -58,41 +62,62 @@ const REGIONAL_DIFFERENTIALS = [
   },
 ];
 
-function buildComboFaq(service: ProgrammaticService, city: City): FaqItem[] {
-  const nameLower = service.name.toLowerCase();
+function getHeroTitleClasses(fullText: string): string {
+  return fullText.length > 55
+    ? "text-3xl md:text-[51px] leading-[1.15]"
+    : "text-4xl md:text-6xl leading-[1.1]";
+}
+
+function buildSegmentFaq(
+  category: ServiceCategory,
+  segment: Segment,
+  city: City,
+  categoryLabel: string
+): FaqItem[] {
+  const labelLower = categoryLabel.toLowerCase();
+  const segmentLower = segment.name.toLowerCase();
   return [
     {
-      question: `A PS Proteção oferece ${service.name.toLowerCase()} na região do CEP ${city.cep}, em ${city.name}?`,
-      answer: `Sim. Atendemos ${city.name} (região do CEP ${city.cep}) e toda a ${city.region}, a partir da nossa sede em Americana, SP, com o mesmo padrão operacional aplicado em todos os municípios cobertos.`,
+      question: `A PS Proteção atende ${labelLower} para ${segmentLower} em ${city.name}, CEP ${city.cep}?`,
+      answer: `Sim. Atendemos ${segmentLower} em ${city.name} (região do CEP ${city.cep}) e toda a ${city.region}, a partir da nossa sede em Americana, SP, com equipe dimensionada para as necessidades específicas desse segmento.`,
     },
     {
-      question: `O que está incluso em ${service.name.toLowerCase()} em ${city.name}?`,
-      answer: service.intro,
+      question: `Quais os principais desafios de ${labelLower} para ${segmentLower}?`,
+      answer: segment.intro,
     },
     {
-      question: `Quanto tempo leva para implantar ${nameLower} em ${city.name}?`,
-      answer: `O prazo médio é de 5 a 15 dias úteis, contando diagnóstico do posto, seleção e treinamento da equipe com POP (Procedimento Operacional Padrão) específico para o seu endereço em ${city.name}, e início da operação com supervisão intensiva nas primeiras semanas.`,
+      question: `O que está incluso na operação de ${labelLower} para ${segmentLower} em ${city.name}?`,
+      answer: `${segment.painPoints.slice(0, 3).join("; ")}. Tudo isso com contrato, escopo e SLA definidos por escrito, incluindo substituição imediata em faltas.`,
     },
     {
-      question: `Como funciona a substituição em caso de falta na equipe em ${city.name}?`,
-      answer: `Mantemos equipe de reserva treinada para cobrir faltas, férias e desligamentos em qualquer posto da nossa área de atuação, incluindo ${city.name}, garantindo que a operação nunca fique descoberta.`,
+      question: `Quanto tempo leva para implantar ${labelLower} em um(a) ${segmentLower.replace(/^os |^as /, "")} em ${city.name}?`,
+      answer: `O prazo médio é de 5 a 15 dias úteis, contando diagnóstico do local, seleção e treinamento da equipe com POP específico para ${segmentLower}, e início da operação com supervisão intensiva nas primeiras semanas.`,
     },
     {
-      question: `Empresas pequenas e condomínios em ${city.name} também podem contratar ${nameLower}?`,
-      answer: `Sim. Dimensionamos ${nameLower} conforme o porte da operação — desde pequenos comércios e condomínios até indústrias de grande porte em ${city.name} e região.`,
+      question: `É possível combinar ${labelLower} com outros serviços para ${segmentLower} em ${city.name}?`,
+      answer: `Sim. Para ${segmentLower}, é comum integrar mais de uma frente — como limpeza, zeladoria e recepção — em um único contrato de facilities, com gestão unificada e um só ponto de contato comercial.`,
     },
   ];
 }
 
-export default function ServiceCityPage({
-  service,
+export default function ServiceSegmentCityPage({
+  category,
+  segment,
   city,
 }: {
-  service: ProgrammaticService;
+  category: ServiceCategory;
+  segment: Segment;
   city: City;
 }) {
-  const Icon = ICON_BY_CATEGORY[service.category];
-  const faqItems = buildComboFaq(service, city);
+  const Icon = ICON_BY_CATEGORY[category] ?? ShieldCheck;
+  const categoryLabel = SEGMENT_CATEGORY_LABEL[category] ?? category;
+  const representativeSlug = CATEGORY_REPRESENTATIVE_SLUG[category];
+  const representativeService = getServiceBySlug(representativeSlug);
+
+  const heroTitleText = `${categoryLabel} para ${segment.name} em ${city.name}, ${city.uf}`;
+  const heroTitleClasses = getHeroTitleClasses(heroTitleText);
+
+  const faqItems = buildSegmentFaq(category, segment, city, categoryLabel);
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -107,16 +132,16 @@ export default function ServiceCityPage({
     { label: "Início", href: "/" },
     { label: "Serviços", href: "/servicos" },
     { label: `Serviços em ${city.name}`, href: `/${buildHubSlug(city)}` },
-    { label: `${service.name} em ${city.name}` },
+    { label: `${categoryLabel} para ${segment.name} em ${city.name}` },
   ];
   const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    serviceType: service.name,
-    name: `${service.name} em ${city.name}, SP`,
-    description: service.intro,
+    serviceType: `${categoryLabel} para ${segment.name}`,
+    name: `${categoryLabel} para ${segment.name} em ${city.name}, SP`,
+    description: segment.intro,
     provider: {
       "@type": "LocalBusiness",
       name: "PS Proteção",
@@ -140,7 +165,8 @@ export default function ServiceCityPage({
     },
   };
 
-  const relatedCards = getRelatedServiceCards(service.category, city, 4);
+  const otherCategories = getOtherCategoriesForSegment(segment, category, city);
+  const otherSegments = getOtherSegmentsForCategory(category, segment.slug, city, 4);
   const nearbyCities = CITIES.filter(
     (c) => c.region === city.region && c.slug !== city.slug
   ).slice(0, 6);
@@ -160,14 +186,14 @@ export default function ServiceCityPage({
         <div className="absolute inset-0 z-0">
           <Image
             src="/assets/background-mobile.webp"
-            alt={`Profissional de segurança da PS Proteção em ${service.name.toLowerCase()} em ${city.name}`}
+            alt={`Profissional da PS Proteção prestando ${categoryLabel.toLowerCase()} para ${segment.name.toLowerCase()} em ${city.name}`}
             fill
             priority
             className="object-cover object-[75%_center] md:hidden"
           />
           <Image
             src="/brand/guarda-fachada.png"
-            alt={`Profissional de segurança da PS Proteção em ${service.name.toLowerCase()} em ${city.name}`}
+            alt={`Profissional da PS Proteção prestando ${categoryLabel.toLowerCase()} para ${segment.name.toLowerCase()} em ${city.name}`}
             fill
             priority
             className="hidden object-cover object-[75%_center] md:block"
@@ -199,14 +225,14 @@ export default function ServiceCityPage({
               <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 text-white px-5 py-2 rounded-full mb-8 backdrop-blur-md">
                 <span className="w-2.5 h-2.5 rounded-full bg-yellow animate-pulse" />
                 <span className="font-mono text-xs uppercase tracking-widest text-white/90">
-                  {CATEGORY_LABEL[service.category]} · {city.name}, {city.uf}
+                  {segment.name} · {city.name}, {city.uf}
                 </span>
               </div>
             </Reveal>
 
             <Reveal delayMs={160}>
-              <h1 className="text-white font-heading text-4xl md:text-6xl font-bold leading-[1.1] mb-8">
-                {service.name} em{" "}
+              <h1 className={`text-white font-heading font-bold mb-8 ${heroTitleClasses}`}>
+                {categoryLabel} para {segment.name} em{" "}
                 <span className="text-yellow">
                   {city.name}, {city.uf}
                 </span>
@@ -216,8 +242,9 @@ export default function ServiceCityPage({
 
             <Reveal delayMs={240}>
               <p className="text-white/80 text-lg mb-10 max-w-xl leading-relaxed">
-                Atendemos {city.name} e toda a {city.region} a partir da nossa sede em Americana,
-                SP, com supervisão ativa e o mesmo padrão operacional aplicado em todos os postos.
+                Atendemos {segment.name.toLowerCase()} em {city.name} e toda a {city.region} a
+                partir da nossa sede em Americana, SP, com equipe dimensionada para as
+                necessidades específicas desse segmento.
               </p>
             </Reveal>
 
@@ -256,14 +283,12 @@ export default function ServiceCityPage({
                 <Icon className="text-yellow" size={22} />
               </div>
               <h2 className="font-heading text-2xl md:text-3xl text-navy leading-tight mb-4">
-                Sobre {service.name.toLowerCase()} em {city.name}
+                {categoryLabel} para {segment.name.toLowerCase()} em {city.name}
               </h2>
-              <p className="text-graphite/70 text-lg leading-relaxed mb-6">{service.intro}</p>
-              <p className="text-graphite/70 leading-relaxed mb-6">
-                Atendemos {city.name}, na região do CEP {city.cep}, e toda a {city.region}, a
-                partir da nossa sede em Americana, SP, com supervisão ativa e o mesmo padrão
-                operacional aplicado em todos os municípios cobertos.
-              </p>
+              <p className="text-graphite/70 text-lg leading-relaxed mb-6">{segment.intro}</p>
+              {representativeService && (
+                <p className="text-graphite/70 leading-relaxed mb-6">{representativeService.intro}</p>
+              )}
               <div className="flex items-center gap-2 text-graphite/60 text-sm font-mono">
                 <MapPin size={15} className="text-yellow-dark shrink-0" />
                 {city.name}/{city.uf} · CEP {city.cep} · {city.lat.toFixed(4)},{" "}
@@ -273,13 +298,11 @@ export default function ServiceCityPage({
 
             <div className="lg:col-span-5">
               <ul className="flex flex-col gap-4">
-                {service.features.map((feature) => (
-                  <Reveal key={feature}>
+                {segment.painPoints.map((point) => (
+                  <Reveal key={point}>
                     <li className="flex items-start gap-3 p-5 rounded-2xl border border-navy/10 bg-surface">
                       <CheckCircle2 className="text-yellow-dark shrink-0 mt-0.5" size={20} />
-                      <span className="text-graphite/80 text-[15px] leading-relaxed">
-                        {feature}
-                      </span>
+                      <span className="text-graphite/80 text-[15px] leading-relaxed">{point}</span>
                     </li>
                   </Reveal>
                 ))}
@@ -307,24 +330,25 @@ export default function ServiceCityPage({
                 Presença ativa em {city.name} e em toda a {city.region}
               </h2>
               <p className="text-white/70 text-lg leading-relaxed mb-8">
-                A partir da nossa sede em Americana, SP, oferecemos {service.name.toLowerCase()}{" "}
-                em {city.name} (região do CEP {city.cep}) com o mesmo padrão operacional aplicado
-                em toda a nossa área de cobertura: supervisão ativa, POP definido por posto e
-                equipe de reserva para garantir que a operação nunca fique descoberta.
+                A partir da nossa sede em Americana, SP, oferecemos {categoryLabel.toLowerCase()}{" "}
+                para {segment.name.toLowerCase()} em {city.name} (região do CEP {city.cep}) com o
+                mesmo padrão operacional aplicado em toda a nossa área de cobertura: supervisão
+                ativa, POP definido por segmento e equipe de reserva para garantir que a operação
+                nunca fique descoberta.
               </p>
               {nearbyCities.length > 0 && (
                 <>
                   <div className="flex items-center gap-2 mb-4">
                     <MapPin size={16} className="text-yellow shrink-0" />
                     <span className="font-mono text-xs text-white/50 tracking-wide uppercase">
-                      Também atendemos {service.name.toLowerCase()} em
+                      Também atendemos {segment.name.toLowerCase()} em
                     </span>
                   </div>
                   <ul className="flex flex-wrap gap-2.5">
                     {nearbyCities.map((c) => (
                       <li key={c.slug}>
                         <Link
-                          href={`/${buildComboSlug(service, c)}`}
+                          href={`/${buildSegmentComboSlug(category, segment, c)}`}
                           className="inline-block px-4 py-2 bg-white/5 border border-white/10 rounded-full font-mono text-xs text-white/75 tracking-wide hover:bg-white/10 hover:text-white transition-colors"
                         >
                           {c.name}
@@ -374,7 +398,8 @@ export default function ServiceCityPage({
                 <span className="w-8 h-px bg-yellow" />
               </div>
               <h2 className="font-heading text-3xl md:text-[40px] text-navy leading-tight mb-4">
-                Perguntas sobre {service.name.toLowerCase()} em {city.name}
+                Perguntas sobre {categoryLabel.toLowerCase()} para {segment.name.toLowerCase()} em{" "}
+                {city.name}
               </h2>
             </div>
           </Reveal>
@@ -385,50 +410,92 @@ export default function ServiceCityPage({
       <ContactSection />
       <OurPresence />
 
-      <section className="py-20 md:py-[var(--spacing-section)] bg-white">
-        <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
-          <Reveal>
-            <div className="text-center mb-12 max-w-xl mx-auto">
-              <h2 className="font-heading text-2xl md:text-3xl text-navy leading-tight mb-3">
-                Outros serviços em {city.name}
-              </h2>
-              <p className="text-graphite/70">
-                Conheça outras frentes de terceirização que oferecemos em {city.name}.
-              </p>
-            </div>
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {relatedCards.map(({ service: related, href }, i) => {
-              const RelatedIcon = ICON_BY_CATEGORY[related.category];
-              return (
-                <Reveal key={related.slug} delayMs={i * 80}>
-                  <Link
-                    href={href}
-                    className="group h-full flex flex-col p-6 rounded-2xl border border-navy/10 bg-surface hover:border-yellow/50 transition-colors"
-                  >
-                    <div className="w-10 h-10 rounded-xl bg-navy flex items-center justify-center mb-4">
-                      <RelatedIcon className="text-yellow" size={18} />
-                    </div>
-                    <h3 className="font-heading text-base text-navy mb-2 leading-snug">
-                      {related.name} em {city.name}
-                    </h3>
-                    <span className="mt-auto inline-flex items-center gap-1.5 text-yellow-dark text-sm font-semibold">
-                      Saiba mais
-                      <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                    </span>
-                  </Link>
+      {(otherCategories.length > 0 || otherSegments.length > 0) && (
+        <section className="py-20 md:py-[var(--spacing-section)] bg-white">
+          <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
+            {otherCategories.length > 0 && (
+              <>
+                <Reveal>
+                  <div className="text-center mb-10 max-w-xl mx-auto">
+                    <h2 className="font-heading text-2xl md:text-3xl text-navy leading-tight mb-3">
+                      Outras frentes para {segment.name.toLowerCase()} em {city.name}
+                    </h2>
+                    <p className="text-graphite/70">
+                      Combine mais de um serviço para {segment.name.toLowerCase()} em um único
+                      contrato de facilities.
+                    </p>
+                  </div>
                 </Reveal>
-              );
-            })}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+                  {otherCategories.map(({ category: otherCategory, href }, i) => {
+                    const OtherIcon = ICON_BY_CATEGORY[otherCategory] ?? ShieldCheck;
+                    const otherLabel = SEGMENT_CATEGORY_LABEL[otherCategory] ?? otherCategory;
+                    return (
+                      <Reveal key={otherCategory} delayMs={i * 80}>
+                        <Link
+                          href={href}
+                          className="group h-full flex flex-col p-6 rounded-2xl border border-navy/10 bg-surface hover:border-yellow/50 transition-colors"
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-navy flex items-center justify-center mb-4">
+                            <OtherIcon className="text-yellow" size={18} />
+                          </div>
+                          <h3 className="font-heading text-base text-navy mb-2 leading-snug">
+                            {otherLabel} para {segment.name} em {city.name}
+                          </h3>
+                          <span className="mt-auto inline-flex items-center gap-1.5 text-yellow-dark text-sm font-semibold">
+                            Saiba mais
+                            <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                          </span>
+                        </Link>
+                      </Reveal>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+
+            {otherSegments.length > 0 && (
+              <>
+                <Reveal>
+                  <div className="text-center mb-10 max-w-xl mx-auto">
+                    <h2 className="font-heading text-2xl md:text-3xl text-navy leading-tight mb-3">
+                      Outros segmentos atendidos com {categoryLabel.toLowerCase()} em {city.name}
+                    </h2>
+                  </div>
+                </Reveal>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                  {otherSegments.map(({ segment: otherSegment, href }, i) => (
+                    <Reveal key={otherSegment.slug} delayMs={i * 80}>
+                      <Link
+                        href={href}
+                        className="group h-full flex flex-col p-6 rounded-2xl border border-navy/10 bg-surface hover:border-yellow/50 transition-colors"
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-navy flex items-center justify-center mb-4">
+                          <Icon className="text-yellow" size={18} />
+                        </div>
+                        <h3 className="font-heading text-base text-navy mb-2 leading-snug">
+                          {categoryLabel} para {otherSegment.name} em {city.name}
+                        </h3>
+                        <span className="mt-auto inline-flex items-center gap-1.5 text-yellow-dark text-sm font-semibold">
+                          Saiba mais
+                          <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                        </span>
+                      </Link>
+                    </Reveal>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="bg-navy py-20 md:py-28 relative overflow-hidden">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] relative z-10 text-center flex flex-col items-center gap-6">
           <Reveal>
             <h2 className="font-heading text-3xl md:text-4xl text-white max-w-2xl">
-              Pronto para contratar {service.name.toLowerCase()} em {city.name}?
+              Pronto para contratar {categoryLabel.toLowerCase()} para{" "}
+              {segment.name.toLowerCase()} em {city.name}?
             </h2>
           </Reveal>
           <Reveal delayMs={100}>

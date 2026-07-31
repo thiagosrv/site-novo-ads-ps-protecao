@@ -1,7 +1,18 @@
 import type { MetadataRoute } from "next";
 import { CITIES } from "@/lib/cities";
 import { SERVICES } from "@/lib/services";
-import { buildComboSlug, buildHubSlug } from "@/lib/programmatic";
+import { SEGMENTS } from "@/lib/segments";
+import {
+  buildComboSlug,
+  buildHubSlug,
+  buildSegmentComboSlug,
+  buildCategoryFlatSlugA,
+  buildCategoryFlatSlugB,
+  buildCategoryNestedPath,
+  buildSegmentNestedPath,
+  buildServiceNestedPath,
+  CATEGORY_ORDER,
+} from "@/lib/programmatic";
 import { SITE_URL } from "@/lib/seo";
 
 const HQ_CITY_SLUG = "americana";
@@ -45,5 +56,72 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  return [...staticRoutes, ...cityRoutes, ...hubRoutes, ...comboRoutes];
+  const segmentRoutes = CITIES.flatMap((city) =>
+    SEGMENTS.flatMap((segment) =>
+      segment.relevantCategories.map((category) => ({
+        url: `${SITE_URL}/${buildSegmentComboSlug(category, segment, city)}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.5,
+      }))
+    )
+  );
+
+  const categoryFlatRoutes = CITIES.flatMap((city) =>
+    CATEGORY_ORDER.flatMap((category) => [
+      {
+        url: `${SITE_URL}/${buildCategoryFlatSlugA(category, city)}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.5,
+      },
+      {
+        url: `${SITE_URL}/${buildCategoryFlatSlugB(category, city)}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.5,
+      },
+    ])
+  );
+
+  const categoryNestedRoutes = CITIES.flatMap((city) =>
+    CATEGORY_ORDER.map((category) => ({
+      url: `${SITE_URL}${buildCategoryNestedPath(category, city)}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    }))
+  );
+
+  const segmentNestedRoutes = CITIES.flatMap((city) =>
+    SEGMENTS.flatMap((segment) =>
+      segment.relevantCategories.map((category) => ({
+        url: `${SITE_URL}${buildSegmentNestedPath(category, segment, city)}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.5,
+      }))
+    )
+  );
+
+  const serviceNestedRoutes = CITIES.flatMap((city) =>
+    SERVICES.map((service) => ({
+      url: `${SITE_URL}${buildServiceNestedPath(service, city)}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    }))
+  );
+
+  return [
+    ...staticRoutes,
+    ...cityRoutes,
+    ...hubRoutes,
+    ...comboRoutes,
+    ...segmentRoutes,
+    ...categoryFlatRoutes,
+    ...categoryNestedRoutes,
+    ...segmentNestedRoutes,
+    ...serviceNestedRoutes,
+  ];
 }

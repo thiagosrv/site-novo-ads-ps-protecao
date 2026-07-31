@@ -23,6 +23,7 @@ import Implementation from "./Implementation";
 import TechSolutions from "./TechSolutions";
 import ContactSection from "./ContactSection";
 import OurPresence from "./OurPresence";
+import CityCategoryGrid from "./CityCategoryGrid";
 import { CITIES, type City } from "@/lib/cities";
 
 const SERVICES = [
@@ -169,6 +170,8 @@ export default function CityPage({ city }: { city: City }) {
           </div>
         </div>
       </section>
+
+      <CityCategoryGrid city={city} />
 
       <Testimonials />
       <Implementation />
