@@ -61,3 +61,13 @@ export const FALLBACK_CITY_SLUGS = [
   "lencois-paulista",
   "bauru",
 ];
+
+// Core service-area cities (have a dedicated static folder under src/app/).
+// Used to cap eager generateStaticParams() on the deepest nested routes so
+// the Vercel build doesn't run out of disk space creating per-page prefetch
+// segment caches for all 100 cities x every nested combination. The
+// FALLBACK_CITY_SLUGS cities still get every URL via dynamicParams fallback
+// (rendered on first request, then cached) -- no page is removed.
+export const CORE_CITIES: City[] = CITIES.filter(
+  (city) => !FALLBACK_CITY_SLUGS.includes(city.slug)
+);

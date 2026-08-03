@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ServiceCategoryCityPage from "@/components/ServiceCategoryCityPage";
-import { CITIES, getCityBySlug } from "@/lib/cities";
+import { CORE_CITIES, getCityBySlug } from "@/lib/cities";
 import { CATEGORY_LABEL } from "@/lib/services";
 import { CATEGORY_ORDER } from "@/lib/programmatic";
 import { getCategoryBySlug, SEGMENT_CATEGORY_SLUG } from "@/lib/segments";
 
+// See [filho]/page.tsx: capped to the 60 core cities to keep the Vercel
+// build's static output (and per-page segment prefetch caches) within disk
+// limits. The other 40 cities still resolve via dynamicParams fallback.
 export function generateStaticParams() {
-  return CITIES.flatMap((city) =>
+  return CORE_CITIES.flatMap((city) =>
     CATEGORY_ORDER.map((category) => ({
       slug: city.slug,
       categoria: SEGMENT_CATEGORY_SLUG[category],

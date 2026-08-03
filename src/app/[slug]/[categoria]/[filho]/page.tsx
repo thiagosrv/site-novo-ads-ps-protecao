@@ -2,12 +2,17 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ServiceSegmentCityPage from "@/components/ServiceSegmentCityPage";
 import ServiceCityPage from "@/components/ServiceCityPage";
-import { CITIES, getCityBySlug } from "@/lib/cities";
+import { CORE_CITIES, getCityBySlug } from "@/lib/cities";
 import { SEGMENTS, SEGMENT_CATEGORY_SLUG, SEGMENT_CATEGORY_LABEL, getCategoryBySlug, getSegmentBySlug } from "@/lib/segments";
 import { SERVICES, getServiceBySlug } from "@/lib/services";
 
+// Eagerly pre-rendered only for the 60 core cities; the remaining 40 render
+// on first request via dynamicParams (default true) and get cached after
+// that. Keeps every URL live while capping the Vercel build's static output
+// (each pre-rendered page also emits a segment prefetch cache, and building
+// all 100 cities x every combination exhausted the build container's disk).
 export function generateStaticParams() {
-  const segmentParams = CITIES.flatMap((city) =>
+  const segmentParams = CORE_CITIES.flatMap((city) =>
     SEGMENTS.flatMap((segment) =>
       segment.relevantCategories.map((category) => ({
         slug: city.slug,
@@ -17,7 +22,7 @@ export function generateStaticParams() {
     )
   );
 
-  const serviceParams = CITIES.flatMap((city) =>
+  const serviceParams = CORE_CITIES.flatMap((city) =>
     SERVICES.map((service) => ({
       slug: city.slug,
       categoria: SEGMENT_CATEGORY_SLUG[service.category],
