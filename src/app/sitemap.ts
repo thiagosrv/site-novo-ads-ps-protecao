@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "", priority: 1, changeFrequency: "monthly" as const },
     { path: "/servicos", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/sobre", priority: 0.6, changeFrequency: "monthly" as const },
+    { path: "/sobre/recrutamento-e-triagem", priority: 0.5, changeFrequency: "monthly" as const },
     { path: "/tecnologia", priority: 0.6, changeFrequency: "monthly" as const },
     { path: "/duvidas", priority: 0.6, changeFrequency: "monthly" as const },
     { path: "/contato", priority: 0.6, changeFrequency: "monthly" as const },

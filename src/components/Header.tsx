@@ -4,12 +4,19 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import WhatsAppCta from "./WhatsAppCta";
 
 const NAV_LINKS = [
   { label: "Início", href: "/" },
-  { label: "Sobre Nós", href: "/sobre" },
+  {
+    label: "Sobre Nós",
+    href: "/sobre",
+    children: [
+      { label: "Quem Somos", href: "/sobre" },
+      { label: "Recrutamento e Triagem", href: "/sobre/recrutamento-e-triagem" },
+    ],
+  },
   { label: "Serviços", href: "/servicos" },
   { label: "Dúvidas", href: "/duvidas" },
   { label: "Tecnologia", href: "/tecnologia" },
@@ -18,6 +25,7 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [mobileSubOpen, setMobileSubOpen] = useState(false);
   const pathname = usePathname();
 
   return (
@@ -39,7 +47,47 @@ export default function Header() {
 
         <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => {
-            const isActive = pathname === link.href;
+            const isActive =
+              pathname === link.href ||
+              (link.children?.some((child) => pathname === child.href) ?? false);
+
+            if (link.children) {
+              return (
+                <div key={link.href} className="relative group">
+                  <Link
+                    href={link.href}
+                    className={
+                      "inline-flex items-center gap-1 font-mono text-xs tracking-wide " +
+                      (isActive
+                        ? "text-yellow-dark border-b-2 border-yellow pb-1"
+                        : "text-graphite/60 hover:text-navy transition-colors")
+                    }
+                  >
+                    {link.label}
+                    <ChevronDown size={12} className="transition-transform group-hover:rotate-180" />
+                  </Link>
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-150 z-50">
+                    <div className="bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-navy/10 py-2 min-w-[220px]">
+                      {link.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className={
+                            "block px-5 py-2.5 font-mono text-xs tracking-wide whitespace-nowrap transition-colors " +
+                            (pathname === child.href
+                              ? "text-yellow-dark bg-yellow/5"
+                              : "text-graphite/70 hover:text-navy hover:bg-navy/5")
+                          }
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={link.href}
@@ -76,16 +124,53 @@ export default function Header() {
 
       {open && (
         <div className="md:hidden bg-surface border-t border-navy/10 px-6 py-6 flex flex-col items-center gap-5 text-center">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="text-graphite font-mono text-sm tracking-wide"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {NAV_LINKS.map((link) => {
+            if (link.children) {
+              return (
+                <div key={link.href} className="flex flex-col items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setMobileSubOpen((v) => !v)}
+                    className="inline-flex items-center gap-1.5 text-graphite font-mono text-sm tracking-wide"
+                  >
+                    {link.label}
+                    <ChevronDown
+                      size={14}
+                      className={`transition-transform ${mobileSubOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                  {mobileSubOpen && (
+                    <div className="flex flex-col items-center gap-3">
+                      {link.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => {
+                            setOpen(false);
+                            setMobileSubOpen(false);
+                          }}
+                          className="text-graphite/70 font-mono text-xs tracking-wide"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="text-graphite font-mono text-sm tracking-wide"
+              >
+                {link.label}
+              </Link>
+            );
+          })}
           <WhatsAppCta
             href="https://wa.me/5519982892037"
             label="Solicitar proposta"
