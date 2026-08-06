@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -26,10 +26,22 @@ const NAV_LINKS = [
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [mobileSubOpen, setMobileSubOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-lg shadow-sm border-b border-navy/10">
+    <header
+      className={`fixed top-0 w-full z-50 bg-white backdrop-blur-lg border-b transition-all duration-300 ${
+        scrolled ? "shadow-sm border-navy/10" : "border-transparent"
+      }`}
+    >
       <nav className="flex justify-between items-center px-4 sm:px-6 md:px-8 py-3 md:py-4 max-w-[var(--container-max)] mx-auto gap-2">
         <Link href="/" className="flex items-center gap-2 md:gap-3 shrink-0 min-w-0">
           <Image

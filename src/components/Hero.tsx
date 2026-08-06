@@ -46,8 +46,8 @@ export default function Hero() {
           <Reveal>
             <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 text-white px-5 py-2 rounded-full mb-8 backdrop-blur-md">
               <span className="w-2.5 h-2.5 rounded-full bg-yellow animate-pulse" />
-              <span className="font-mono text-xs uppercase tracking-widest text-white/90">
-                Inteligência Operacional Ativa
+              <span className="font-mono text-[0.6rem] uppercase tracking-widest text-white/90">
+                Serviços Terceirizados em Americana e Região
               </span>
             </div>
           </Reveal>
