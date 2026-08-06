@@ -17,7 +17,14 @@ const NAV_LINKS = [
       { label: "Recrutamento e Triagem", href: "/sobre/recrutamento-e-triagem" },
     ],
   },
-  { label: "Serviços", href: "/servicos" },
+  {
+    label: "Serviços",
+    href: "/servicos",
+    children: [
+      { label: "Todos os Serviços", href: "/servicos" },
+      { label: "Padrão Operacional e Supervisão", href: "/servicos/padrao-operacional-e-supervisao" },
+    ],
+  },
   { label: "Dúvidas", href: "/duvidas" },
   { label: "Tecnologia", href: "/tecnologia" },
   { label: "Contato", href: "/contato" },
