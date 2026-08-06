@@ -90,11 +90,21 @@ export default function RecrutamentoTriagemPage() {
                 </h1>
               </Reveal>
               <Reveal delayMs={200}>
-                <p className="text-white/80 text-lg max-w-2xl mx-auto md:mx-0 leading-relaxed">
+                <p className="text-white/80 text-lg max-w-2xl mx-auto md:mx-0 leading-relaxed mb-8">
                   A segurança da sua empresa começa antes de um profissional vestir o nosso
                   uniforme. Conheça o protocolo de Background Check que aplicamos a cada
                   colaborador.
                 </p>
+                <WhatsAppCta
+                  href="https://wa.me/5519982892037"
+                  label={
+                    <>
+                      <MessageCircle size={18} />
+                      Fale com um especialista
+                    </>
+                  }
+                  className="px-7 py-3.5 text-[15px]"
+                />
               </Reveal>
             </div>
 

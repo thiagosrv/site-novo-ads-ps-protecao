@@ -105,12 +105,22 @@ export default function PadraoOperacionalPage() {
                 </h1>
               </GsapReveal>
               <GsapReveal delayMs={200}>
-                <p className="text-white/80 text-lg max-w-2xl mx-auto md:mx-0 leading-relaxed">
+                <p className="text-white/80 text-lg max-w-2xl mx-auto md:mx-0 leading-relaxed mb-8">
                   A excelência de uma operação de Portaria e Facilities se comprova na rotina —
                   na postura, no preparo e na infraestrutura de apoio. Unimos presença visual
                   ostensiva a uma engenharia operacional robusta, para que o seu fluxo de
                   trabalho jamais seja interrompido.
                 </p>
+                <WhatsAppCta
+                  href="https://wa.me/5519982892037"
+                  label={
+                    <>
+                      <MessageCircle size={18} />
+                      Fale com um especialista
+                    </>
+                  }
+                  className="px-7 py-3.5 text-[15px]"
+                />
               </GsapReveal>
             </div>
 
@@ -171,11 +181,12 @@ export default function PadraoOperacionalPage() {
 
           <GsapReveal delayMs={100} className="md:col-span-6">
             <div className="rounded-[24px] overflow-hidden border border-navy/10 bg-surface shadow-[0_25px_55px_-25px_rgba(0,15,105,0.35)] max-w-md mx-auto md:max-w-none">
-              <div className="relative aspect-[3/4]">
+              <div className="relative aspect-[16/9]">
                 <Image
-                  src="/assets/porteiro.webp"
-                  alt="Profissional de portaria PS Proteção rigorosamente fardado"
+                  src="/assets/uniforme-psprotecao.webp"
+                  alt="Profissional PS Proteção rigorosamente fardado em posto de monitoramento"
                   fill
+                  quality={90}
                   className="object-cover"
                 />
               </div>
@@ -219,6 +230,27 @@ export default function PadraoOperacionalPage() {
               </GsapReveal>
             ))}
           </div>
+
+          <GsapReveal delayMs={400} className="mt-6 md:mt-8">
+            <div className="rounded-[24px] overflow-hidden border border-white/10 bg-white/5">
+              <div className="relative aspect-[16/9] md:aspect-[21/9]">
+                <Image
+                  src="/assets/treinamento-operacional.webp"
+                  alt="Treinamento interno PS Proteção — Procedimento Operacional para Portaria"
+                  fill
+                  quality={90}
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex items-center gap-3 px-6 py-5">
+                <GraduationCap size={20} className="text-yellow shrink-0" />
+                <span className="font-heading text-white text-sm md:text-base leading-snug">
+                  Treinamentos internos periódicos, com procedimentos operacionais padronizados
+                  para cada posto
+                </span>
+              </div>
+            </div>
+          </GsapReveal>
         </div>
       </section>
 
