@@ -17,10 +17,8 @@ export default function ProcessCard({
   return (
     <div
       className={clsx(
-        "rounded-[20px] border p-6 md:p-7 transition-all duration-300",
-        accent
-          ? "bg-white/[0.07] border-yellow/30"
-          : "bg-white/[0.03] border-white/10 hover:bg-white/[0.05] hover:border-white/20"
+        "rounded-[20px] border p-6 md:p-7 bg-navy-deep transition-all duration-300",
+        accent ? "border-yellow/30" : "border-white/10 hover:border-white/20"
       )}
     >
       <div className="flex items-center gap-4 mb-4">

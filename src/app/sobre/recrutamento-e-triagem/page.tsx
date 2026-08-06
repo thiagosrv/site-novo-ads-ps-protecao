@@ -14,6 +14,7 @@ import Reveal from "@/components/Reveal";
 import WhatsAppCta from "@/components/WhatsAppCta";
 import SectionLabel from "@/components/SectionLabel";
 import ProcessCard from "@/components/ProcessCard";
+import MarqueeBand from "@/components/MarqueeBand";
 
 export const metadata: Metadata = {
   title: "Processo de Recrutamento e Triagem | PS Proteção",
@@ -125,6 +126,8 @@ export default function RecrutamentoTriagemPage() {
         </div>
       </section>
 
+      <MarqueeBand />
+
       {/* Recrutamento de alta performance */}
       <section className="py-24 md:py-[var(--spacing-section)] bg-white overflow-hidden">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-x-16 items-center">
@@ -194,13 +197,15 @@ export default function RecrutamentoTriagemPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-start">
             <Reveal className="md:col-span-5 order-1">
-              <div className="relative rounded-[24px] overflow-hidden border border-white/10 h-[320px] md:h-full md:min-h-[420px]">
-                <Image
-                  src="/assets/certificado-antecedentes-criminais.png"
-                  alt="Certificado de antecedentes criminais — checagem obrigatória PS Proteção"
-                  fill
-                  className="object-cover"
-                />
+              <div className="relative rounded-[24px] overflow-hidden border border-white/10 bg-white">
+                <div className="relative aspect-[4/5]">
+                  <Image
+                    src="/assets/certificado-antecedentes-criminais.png"
+                    alt="Certificado de antecedentes criminais — checagem obrigatória PS Proteção"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
                 <div className="absolute inset-x-4 bottom-4">
                   <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md rounded-full px-4 py-2">
                     <Lock size={16} className="text-yellow-dark" />
