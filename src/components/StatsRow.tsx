@@ -11,7 +11,11 @@ const STATS = [
 
 export default function StatsRow() {
   return (
-    <section className="relative z-20 -mt-10 md:-mt-14 px-6 md:px-[var(--spacing-grid-margin)]">
+    <section className="relative z-20 -mt-24 md:-mt-28 pb-10 md:pb-14 px-6 md:px-[var(--spacing-grid-margin)] overflow-hidden">
+      <div
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-navy-deep to-surface"
+        aria-hidden="true"
+      />
       <Reveal>
         <div className="max-w-[var(--container-max)] mx-auto bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] p-8 md:p-12 border border-navy/5 grid grid-cols-2 md:grid-cols-4 gap-8">
           {STATS.map((stat) => {

@@ -1,17 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ChevronRight, Smartphone, Radar, FileBarChart, FileCheck2, BellRing } from "lucide-react";
 import Reveal from "./Reveal";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const TECH_ITEMS = [
   {
     key: "acesso",
+    icon: Smartphone,
     label: "Aplicativo de Controle de Acesso Personalizado",
     tag: "Aplicativo próprio",
     title: "Aplicativo de Controle de Acesso Personalizado",
@@ -20,6 +17,7 @@ const TECH_ITEMS = [
   },
   {
     key: "bancada",
+    icon: Radar,
     label: "Supervisão de Bancada",
     tag: "Dupla camada de supervisão",
     title: "Supervisão de Bancada",
@@ -28,6 +26,7 @@ const TECH_ITEMS = [
   },
   {
     key: "relatorio",
+    icon: FileBarChart,
     label: "Relatório de Supervisão Mensal",
     tag: "Indicadores mensais",
     title: "Relatório de Supervisão Mensal",
@@ -36,6 +35,7 @@ const TECH_ITEMS = [
   },
   {
     key: "pop",
+    icon: FileCheck2,
     label: "Implantação com POPs e SLAs",
     tag: "Processo formal",
     title: "Implantação com POPs e SLAs",
@@ -44,6 +44,7 @@ const TECH_ITEMS = [
   },
   {
     key: "presenca",
+    icon: BellRing,
     label: 'Dispositivo "Sempre Alerta"',
     tag: "Vigilância sempre ativa",
     title: 'Dispositivo "Sempre Alerta"',
@@ -55,41 +56,20 @@ const TECH_ITEMS = [
 export default function TechSolutions() {
   const [active, setActive] = useState(TECH_ITEMS[0].key);
   const activeItem = TECH_ITEMS.find((item) => item.key === active) ?? TECH_ITEMS[0];
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top 75%",
-          end: "top 25%",
-          scrub: 0.6,
-        },
-      });
-
-      tl.to(section, { backgroundColor: "#F5F7FB" }, 0)
-        .to(".ts-heading", { color: "#000F6A" }, 0)
-        .to(".ts-desc", { color: "rgba(21,26,37,0.7)" }, 0)
-        .to(".ts-tablist", { borderColor: "rgba(0,15,106,0.1)" }, 0)
-        .to(".ts-tab-btn", { color: "#151A25", borderColor: "rgba(0,15,106,0.1)" }, 0)
-        .to(".ts-tab-num", { color: "rgba(21,26,37,0.4)" }, 0)
-        .to(".ts-tab-chevron", { color: "rgba(21,26,37,0.3)" }, 0);
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
+  const ActiveIcon = activeItem.icon;
 
   return (
     <section
       id="solucoes-adaptadas"
-      ref={sectionRef}
-      className="py-20 md:py-[var(--spacing-section)] bg-navy"
+      className="relative py-20 md:py-[var(--spacing-section)] bg-gradient-to-b from-navy to-navy-deep overflow-hidden"
     >
-      <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
+      <div
+        className="absolute inset-0 texture-grid opacity-60 pointer-events-none"
+        style={{ maskImage: "radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 75%)" }}
+        aria-hidden="true"
+      />
+
+      <div className="relative max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
         <Reveal>
           <div className="mb-16 max-w-2xl mx-auto text-center md:mx-0 md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
@@ -98,24 +78,28 @@ export default function TechSolutions() {
                 Tecnologia e processos próprios
               </span>
             </div>
-            <h2 className="ts-heading font-heading text-3xl md:text-[48px] text-white mb-4 leading-tight">
-              Tecnologias Aplicadas a Serviços
+            <h2 className="font-heading text-3xl md:text-[48px] text-white mb-4 leading-tight">
+              Tecnologias{" "}
+              <span className="bg-gradient-to-r from-yellow to-tech-blue bg-clip-text text-transparent">
+                Aplicadas a Serviços
+              </span>
             </h2>
-            <p className="ts-desc text-lg text-white/70 leading-relaxed">
+            <p className="text-lg text-white/70 leading-relaxed">
               Ferramentas e processos que já operam nos postos de serviço da PS Proteção.
               Selecione um item para ver como funciona na prática.
             </p>
           </div>
         </Reveal>
 
-        <Reveal className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-stretch">
+        <Reveal className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-stretch">
           <div
             role="tablist"
             aria-label="Tecnologias Aplicadas a Serviços"
-            className="ts-tablist md:col-span-5 flex flex-col border-t border-white/10"
+            className="md:col-span-5 flex flex-col gap-3"
           >
-            {TECH_ITEMS.map((item, i) => {
+            {TECH_ITEMS.map((item) => {
               const isActive = item.key === active;
+              const Icon = item.icon;
               return (
                 <button
                   key={item.key}
@@ -123,50 +107,64 @@ export default function TechSolutions() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(item.key)}
-                  className={`ts-tab-btn group flex items-center gap-4 text-left py-6 border-b border-white/10 text-white transition-opacity ${
-                    isActive ? "opacity-100" : "opacity-50 hover:opacity-80"
+                  className={`group text-left rounded-2xl p-[1.5px] transition-all duration-300 ${
+                    isActive ? "gradient-border" : "bg-white/10 hover:bg-white/20"
                   }`}
                 >
-                  <span
-                    className={`font-mono text-sm shrink-0 ${
-                      isActive ? "text-yellow" : "ts-tab-num text-white/40"
+                  <div
+                    className={`flex items-center gap-4 rounded-[14px] px-5 py-5 transition-colors duration-300 ${
+                      isActive ? "bg-navy-deep" : "bg-navy-deep/50 group-hover:bg-navy-deep/80"
                     }`}
                   >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-heading text-lg md:text-xl flex-1 leading-snug">
-                    {item.label}
-                  </span>
-                  <ChevronRight
-                    size={20}
-                    className={`shrink-0 transition-transform ${
-                      isActive ? "text-yellow translate-x-1" : "ts-tab-chevron text-white/30"
-                    }`}
-                  />
+                    <span
+                      className={`flex items-center justify-center w-10 h-10 rounded-full shrink-0 transition-colors duration-300 ${
+                        isActive ? "bg-yellow text-navy" : "bg-white/10 text-white/40"
+                      }`}
+                    >
+                      <Icon size={18} />
+                    </span>
+                    <span
+                      className={`font-heading text-base md:text-lg flex-1 leading-snug transition-colors duration-300 ${
+                        isActive ? "text-white" : "text-white/50"
+                      }`}
+                    >
+                      {item.label}
+                    </span>
+                    <ChevronRight
+                      size={18}
+                      className={`shrink-0 transition-transform duration-300 ${
+                        isActive ? "text-yellow translate-x-1" : "text-white/25"
+                      }`}
+                    />
+                  </div>
                 </button>
               );
             })}
           </div>
 
           <div className="md:col-span-7">
-            <div className="rounded-3xl overflow-hidden border border-navy/10 bg-white h-full flex flex-col">
-              <div className="relative h-64 md:h-80 bg-navy/5">
-                <Image
-                  key={activeItem.image}
-                  src={activeItem.image}
-                  alt={activeItem.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-8 md:p-10">
-                <span className="text-navy font-mono text-[11px] font-bold tracking-widest uppercase">
-                  {activeItem.tag}
-                </span>
-                <h3 className="font-heading text-2xl text-navy mt-3 mb-4 leading-snug">
-                  {activeItem.title}
-                </h3>
-                <p className="text-graphite/70 leading-relaxed">{activeItem.text}</p>
+            <div className="gradient-border rounded-3xl p-[1.5px] h-full">
+              <div className="relative rounded-[22px] overflow-hidden bg-white h-full flex flex-col">
+                <div className="relative h-64 md:h-80 bg-navy/5">
+                  <Image
+                    key={activeItem.image}
+                    src={activeItem.image}
+                    alt={activeItem.title}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/50 via-transparent to-transparent" />
+                </div>
+                <div className="p-8 md:p-10">
+                  <span className="inline-flex items-center gap-2 text-navy font-mono text-[11px] font-bold tracking-widest uppercase">
+                    <ActiveIcon size={14} className="text-yellow-dark" />
+                    {activeItem.tag}
+                  </span>
+                  <h3 className="font-heading text-2xl text-navy mt-3 mb-4 leading-snug">
+                    {activeItem.title}
+                  </h3>
+                  <p className="text-graphite/70 leading-relaxed">{activeItem.text}</p>
+                </div>
               </div>
             </div>
           </div>

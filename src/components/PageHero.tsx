@@ -10,7 +10,7 @@ export default function PageHero({
   description: string;
 }) {
   return (
-    <section className="relative bg-navy pt-40 pb-20 md:pt-48 md:pb-24 overflow-hidden">
+    <section className="relative bg-gradient-to-b from-navy to-navy-deep pt-36 pb-48 md:pt-44 md:pb-56 overflow-hidden">
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none opacity-20 z-0"
         viewBox="0 0 1440 400"

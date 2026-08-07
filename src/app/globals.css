@@ -69,6 +69,21 @@ body {
   }
 }
 
+.texture-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.gradient-border {
+  background: linear-gradient(
+    155deg,
+    rgba(252, 191, 7, 0.6) 0%,
+    rgba(65, 147, 255, 0.4) 45%,
+    rgba(252, 191, 7, 0.15) 100%
+  );
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);
