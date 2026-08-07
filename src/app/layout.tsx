@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Sora, Inter, IBM_Plex_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -63,6 +64,16 @@ export default function RootLayout({
         <WhatsAppFloatingButton />
         <CookieConsent />
       </body>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=AW-18320528244"
+        strategy="beforeInteractive"
+      />
+      <Script id="google-tag-ads" strategy="beforeInteractive">
+        {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'AW-18320528244');`}
+      </Script>
     </html>
   );
 }
