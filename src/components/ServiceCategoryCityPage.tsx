@@ -467,7 +467,7 @@ export default function ServiceCategoryCityPage({
               fill
               priority
               quality={90}
-              className="object-cover object-[78%_center] z-0"
+              className="object-cover object-[78%_20%] z-0"
             />
             <div className="absolute inset-0 hero-gradient z-0" aria-hidden="true" />
             <div
