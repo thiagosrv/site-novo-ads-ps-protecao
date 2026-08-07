@@ -18,6 +18,7 @@ const INSTITUTIONAL_LINKS = [
   { label: "Tecnologia", href: "/tecnologia" },
   { label: "Dúvidas", href: "/duvidas" },
   { label: "Contato", href: "/contato" },
+  { label: "Canal de Ética", href: "/canal-de-etica" },
 ];
 
 export default function Footer() {

@@ -29,6 +29,7 @@ const STATIC_PATHS = [
   "/contato",
   "/privacidade",
   "/obrigado",
+  "/canal-de-etica",
 ];
 
 function buildAllValidPaths(): string[] {

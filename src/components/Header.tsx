@@ -27,7 +27,14 @@ const NAV_LINKS = [
   },
   { label: "Dúvidas", href: "/duvidas" },
   { label: "Tecnologia", href: "/tecnologia" },
-  { label: "Contato", href: "/contato" },
+  {
+    label: "Contato",
+    href: "/contato",
+    children: [
+      { label: "Fale Conosco", href: "/contato" },
+      { label: "Canal de Ética", href: "/canal-de-etica" },
+    ],
+  },
 ];
 
 export default function Header() {
@@ -76,10 +83,10 @@ export default function Header() {
                   <Link
                     href={link.href}
                     className={
-                      "inline-flex items-center gap-1 font-mono text-xs tracking-wide " +
+                      "inline-flex items-center gap-1 font-mono text-xs font-medium tracking-wide " +
                       (isActive
                         ? "text-yellow-dark border-b-2 border-yellow pb-1"
-                        : "text-graphite/60 hover:text-navy transition-colors")
+                        : "text-graphite/80 hover:text-navy transition-colors")
                     }
                   >
                     {link.label}
@@ -113,8 +120,8 @@ export default function Header() {
                 href={link.href}
                 className={
                   isActive
-                    ? "text-yellow-dark border-b-2 border-yellow pb-1 font-mono text-xs tracking-wide"
-                    : "text-graphite/60 hover:text-navy transition-colors font-mono text-xs tracking-wide"
+                    ? "text-yellow-dark border-b-2 border-yellow pb-1 font-mono text-xs font-medium tracking-wide"
+                    : "text-graphite/80 hover:text-navy transition-colors font-mono text-xs font-medium tracking-wide"
                 }
               >
                 {link.label}
