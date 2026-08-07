@@ -455,7 +455,7 @@ export default function ServiceCategoryCityPage({
       />
 
       <section
-        className={`relative pt-[154px] pb-[74px] md:pt-[186px] md:pb-[90px] overflow-hidden ${
+        className={`relative min-h-screen flex items-center pt-[110px] pb-24 md:pt-[130px] md:pb-28 overflow-hidden ${
           isPortariaHero ? "bg-gradient-to-br from-navy via-navy to-navy-deep" : "bg-navy"
         }`}
       >
@@ -488,7 +488,7 @@ export default function ServiceCategoryCityPage({
           <circle className="fill-yellow" cx="1360" cy="120" r="4" />
         </svg>
 
-        <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
+        <div className="relative z-10 w-full max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
           <Reveal>
             <div className="mb-8">
               <Breadcrumbs items={breadcrumbItems} dark />
