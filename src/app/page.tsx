@@ -29,7 +29,7 @@ export default function Home() {
       <Services />
       <Testimonials />
       <Implementation />
-      <TechSolutions />
+      <TechSolutions scrollTransition />
       <HomeFaq />
       <ContactSection />
       <OurPresence />

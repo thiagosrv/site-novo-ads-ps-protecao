@@ -57,6 +57,16 @@ export default function RootLayout({
       className={`${sora.variable} ${inter.variable} ${ibmPlexMono.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col bg-surface text-graphite font-body">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18320528244"
+          strategy="beforeInteractive"
+        />
+        <Script id="google-tag-ads" strategy="beforeInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'AW-18320528244');`}
+        </Script>
         <QuoteModalProvider>
           <LoadingScreen />
           <LocalBusinessSchema />
@@ -67,16 +77,6 @@ export default function RootLayout({
           <CookieConsent />
         </QuoteModalProvider>
       </body>
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=AW-18320528244"
-        strategy="beforeInteractive"
-      />
-      <Script id="google-tag-ads" strategy="beforeInteractive">
-        {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'AW-18320528244');`}
-      </Script>
     </html>
   );
 }

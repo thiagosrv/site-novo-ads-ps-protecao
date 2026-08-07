@@ -92,6 +92,7 @@ export default function ServiceCityPage({
   city: City;
 }) {
   const Icon = ICON_BY_CATEGORY[service.category];
+  const isPortariaHero = service.category === "portaria";
   const faqItems = buildComboFaq(service, city);
   const faqSchema = {
     "@context": "https://schema.org",
@@ -156,23 +157,36 @@ export default function ServiceCityPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
 
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-navy pt-28 pb-16 md:pt-20">
+      <section
+        className={`relative min-h-[85vh] flex items-center overflow-hidden pt-28 pb-16 md:pt-20 ${
+          isPortariaHero ? "bg-gradient-to-br from-navy via-navy to-navy-deep" : "bg-navy"
+        }`}
+      >
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/background-mobile.webp"
+            src={isPortariaHero ? "/assets/uniforme-psprotecao.webp" : "/assets/background-mobile.webp"}
             alt={`Profissional de segurança da PS Proteção em ${service.name.toLowerCase()} em ${city.name}`}
             fill
             priority
+            quality={isPortariaHero ? 90 : undefined}
             className="object-cover object-[75%_center] md:hidden"
           />
           <Image
-            src="/brand/guarda-fachada.png"
+            src={isPortariaHero ? "/assets/uniforme-psprotecao.webp" : "/brand/guarda-fachada.png"}
             alt={`Profissional de segurança da PS Proteção em ${service.name.toLowerCase()} em ${city.name}`}
             fill
             priority
+            quality={isPortariaHero ? 90 : undefined}
             className="hidden object-cover object-[75%_center] md:block"
           />
           <div className="absolute inset-0 hero-gradient" />
+          {isPortariaHero && (
+            <div
+              className="texture-halftone absolute inset-0 pointer-events-none opacity-20"
+              style={{ maskImage: "linear-gradient(to right, transparent 0%, black 58%)" }}
+              aria-hidden="true"
+            />
+          )}
         </div>
 
         <svg

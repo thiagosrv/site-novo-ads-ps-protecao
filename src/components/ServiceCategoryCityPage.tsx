@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import {
   ShieldCheck,
@@ -89,6 +90,24 @@ const HERO_TITLE_TEXT: Record<CategoryPageVariant, (label: string, city: City) =
   nested: (label, city) => `${label} terceirizada em ${city.name}, ${city.uf}`,
 };
 
+const HERO_TITLE_JSX: Record<CategoryPageVariant, (label: string, city: City) => ReactNode> = {
+  "flat-a": (label, city) => (
+    <>
+      {label} em <span className="text-yellow">{city.name}, {city.uf}</span>
+    </>
+  ),
+  "flat-b": (label, city) => (
+    <>
+      Serviço de {label} em <span className="text-yellow">{city.name}, {city.uf}</span>
+    </>
+  ),
+  nested: (label, city) => (
+    <>
+      {label} terceirizada em <span className="text-yellow">{city.name}, {city.uf}</span>
+    </>
+  ),
+};
+
 const HERO_SUBTITLE: Record<CategoryPageVariant, (label: string, city: City) => string> = {
   "flat-a": (label, city) =>
     `Reduza o custo total da operação de ${label.toLowerCase()} em ${city.name}: uma fatura mensal previsível substitui encargos, férias, 13º e rescisão de uma equipe própria.`,
@@ -168,6 +187,7 @@ export default function ServiceCategoryCityPage({
 
   const heroTitleText = HERO_TITLE_TEXT[variant](categoryLabel, city);
   const heroTitleClasses = getHeroTitleClasses(heroTitleText);
+  const isPortariaHero = category === "portaria";
 
   const faqPool = buildCategoryFaqPool(categoryLabel, city);
   const faqItems = FAQ_SELECTION[variant].map((i) => faqPool[i]);
@@ -434,7 +454,29 @@ export default function ServiceCategoryCityPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
 
-      <section className="relative bg-navy pt-36 pb-16 md:pt-44 md:pb-20 overflow-hidden">
+      <section
+        className={`relative pt-[154px] pb-[74px] md:pt-[186px] md:pb-[90px] overflow-hidden ${
+          isPortariaHero ? "bg-gradient-to-br from-navy via-navy to-navy-deep" : "bg-navy"
+        }`}
+      >
+        {isPortariaHero && (
+          <>
+            <Image
+              src="/assets/uniforme-psprotecao.webp"
+              alt="Profissional de portaria PS Proteção rigorosamente fardado"
+              fill
+              priority
+              quality={90}
+              className="object-cover object-[78%_center] z-0"
+            />
+            <div className="absolute inset-0 hero-gradient z-0" aria-hidden="true" />
+            <div
+              className="texture-halftone absolute inset-0 z-0 pointer-events-none opacity-20"
+              style={{ maskImage: "linear-gradient(to right, transparent 0%, black 58%)" }}
+              aria-hidden="true"
+            />
+          </>
+        )}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none opacity-20 z-0"
           viewBox="0 0 1440 400"
@@ -463,7 +505,7 @@ export default function ServiceCategoryCityPage({
             </Reveal>
             <Reveal delayMs={160}>
               <h1 className={`text-white font-heading font-bold mb-6 ${heroTitleClasses}`}>
-                {heroTitleText}
+                {HERO_TITLE_JSX[variant](categoryLabel, city)}
               </h1>
             </Reveal>
             <Reveal delayMs={240}>

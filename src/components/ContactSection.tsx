@@ -41,7 +41,8 @@ export default function ContactSection() {
       className="py-20 md:py-[var(--spacing-section)] px-6 md:px-[var(--spacing-grid-margin)] max-w-[var(--container-max)] mx-auto"
     >
       <Reveal>
-        <div className="bg-white/60 rounded-[2.5rem] md:rounded-[3rem] relative overflow-hidden border border-navy/10">
+        <div className="gradient-border rounded-[2.5rem] md:rounded-[3rem] p-[1.5px] shadow-[0_30px_70px_rgba(0,15,106,0.12)]">
+        <div className="bg-white/70 backdrop-blur-md rounded-[calc(2.5rem-1.5px)] md:rounded-[calc(3rem-1.5px)] relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-navy/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-yellow/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
@@ -107,6 +108,7 @@ export default function ContactSection() {
               />
             </div>
           </div>
+        </div>
         </div>
       </Reveal>
     </section>

@@ -36,6 +36,19 @@ const LOADING_SLIDES = [
 
 const FUNCTIONS = ["Portaria e Controle de Acesso", "Limpeza e Conservação", "Recepção e Atendimento"];
 
+const TAGLINE_NORMAL = "Prontos para ";
+const TAGLINE_HIGHLIGHT = "servir";
+const TAGLINE_END = ".";
+const TAGLINE_CHARS = [
+  ...TAGLINE_NORMAL.split("").map((char) => ({ char, highlight: false })),
+  ...TAGLINE_HIGHLIGHT.split("").map((char) => ({ char, highlight: true })),
+  ...TAGLINE_END.split("").map((char) => ({ char, highlight: false })),
+];
+const TAGLINE_HIGHLIGHT_INDICES = TAGLINE_CHARS.reduce<number[]>((acc, item, i) => {
+  if (item.highlight) acc.push(i);
+  return acc;
+}, []);
+
 export default function LoadingScreen() {
   const pathname = usePathname();
   const [shouldRender, setShouldRender] = useState(false);
@@ -45,6 +58,8 @@ export default function LoadingScreen() {
   const brandStageRef = useRef<HTMLDivElement>(null);
   const percentRef = useRef<HTMLSpanElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const taglineCharRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const cursorRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (pathname !== "/") return;
@@ -91,10 +106,28 @@ export default function LoadingScreen() {
           { opacity: 0, y: 24, scale: 0.96 },
           { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "power2.out" }
         )
+        .set(cursorRef.current, { opacity: 1 })
+        .to(taglineCharRefs.current, {
+          opacity: 1,
+          duration: 0.02,
+          stagger: 0.045,
+          ease: "none",
+        })
+        .to(
+          TAGLINE_HIGHLIGHT_INDICES.map((i) => taglineCharRefs.current[i]),
+          { scale: 1.14, duration: 0.16, ease: "power2.out" },
+          ">-0.02"
+        )
+        .to(TAGLINE_HIGHLIGHT_INDICES.map((i) => taglineCharRefs.current[i]), {
+          scale: 1,
+          duration: 0.16,
+          ease: "power2.in",
+        })
+        .to(cursorRef.current, { opacity: 0, duration: 0.2 }, ">-0.05")
         .to(
           brandStageRef.current,
           { opacity: 0, y: -24, scale: 0.96, duration: 0.5, ease: "power2.in" },
-          "+=1.1"
+          "+=0.4"
         )
         .to(
           containerRef.current,
@@ -180,7 +213,24 @@ export default function LoadingScreen() {
             PS Proteção
           </h2>
           <p className="mt-4 md:mt-6 font-heading font-medium text-navy text-center text-[clamp(1rem,2.6vw,1.75rem)]">
-            Prontos para <span className="font-extrabold">servir</span>.
+            {TAGLINE_CHARS.map((item, i) => (
+              <span
+                key={i}
+                ref={(el) => {
+                  taglineCharRefs.current[i] = el;
+                }}
+                className={`inline-block ${item.highlight ? "font-extrabold" : ""}`}
+                style={{ opacity: 0 }}
+              >
+                {item.char === " " ? " " : item.char}
+              </span>
+            ))}
+            <span
+              ref={cursorRef}
+              className="inline-block w-[2px] h-[0.85em] bg-navy ml-1 align-middle animate-pulse"
+              style={{ opacity: 0 }}
+              aria-hidden="true"
+            />
           </p>
         </div>
       </div>

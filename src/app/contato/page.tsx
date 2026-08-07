@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Clock, Phone, Star } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import ContactSection from "@/components/ContactSection";
+import MarqueeBand from "@/components/MarqueeBand";
 import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
@@ -32,6 +33,13 @@ const INFO_CARDS = [
   },
 ];
 
+const MARQUEE_ITEMS = [
+  "Resposta em Até 1 Hora Útil",
+  "Atendimento 24 Horas por Dia",
+  "Diagnóstico Operacional Gratuito",
+  "Canal Dedicado por Área",
+];
+
 export default function ContatoPage() {
   return (
     <>
@@ -41,35 +49,43 @@ export default function ContatoPage() {
         description="Solicite uma proposta, tire dúvidas ou agende uma visita técnica. Nossa equipe responde rapidamente."
       />
 
-      <section className="pt-16 md:pt-20 -mb-4">
-        <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-3 gap-6">
-          {INFO_CARDS.map((card, i) => {
-            const Icon = card.icon;
-            const content = (
-              <div className="bg-white rounded-2xl p-7 border border-navy/5 shadow-sm h-full flex flex-col gap-4 text-center md:text-left">
-                <div className="w-11 h-11 rounded-full bg-surface flex items-center justify-center mx-auto md:mx-0">
-                  <Icon className="text-navy" size={20} />
+      <section className="relative z-20 -mt-24 md:-mt-28 pb-10 md:pb-14 px-6 md:px-[var(--spacing-grid-margin)]">
+        <Reveal>
+          <div className="max-w-[var(--container-max)] mx-auto bg-white rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.14)] border border-navy/5 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-navy/5 overflow-hidden">
+            {INFO_CARDS.map((card) => {
+              const Icon = card.icon;
+              const content = (
+                <div className="p-8 md:p-10 flex flex-col gap-4 text-center md:text-left h-full">
+                  <div className="w-12 h-12 rounded-full bg-yellow/10 flex items-center justify-center mx-auto md:mx-0">
+                    <Icon className="text-yellow-dark" size={22} />
+                  </div>
+                  <div>
+                    <h3 className="font-heading text-navy text-lg mb-1.5">{card.title}</h3>
+                    <p className="text-graphite/70 text-sm leading-relaxed">{card.text}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-heading text-navy text-base mb-1">{card.title}</h3>
-                  <p className="text-graphite/70 text-sm leading-relaxed">{card.text}</p>
+              );
+              return card.href ? (
+                <a
+                  key={card.title}
+                  href={card.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block h-full hover:bg-surface/70 transition-colors"
+                >
+                  {content}
+                </a>
+              ) : (
+                <div key={card.title} className="h-full hover:bg-surface/50 transition-colors">
+                  {content}
                 </div>
-              </div>
-            );
-            return (
-              <Reveal key={card.title} delayMs={i * 80}>
-                {card.href ? (
-                  <a href={card.href} target="_blank" rel="noopener noreferrer" className="block h-full">
-                    {content}
-                  </a>
-                ) : (
-                  content
-                )}
-              </Reveal>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        </Reveal>
       </section>
+
+      <MarqueeBand items={MARQUEE_ITEMS} />
 
       <ContactSection />
     </>

@@ -136,7 +136,8 @@ export default function CityServicesHubPage({ city }: { city: City }) {
             </Reveal>
             <Reveal delayMs={160}>
               <h1 className="text-white font-heading text-4xl md:text-5xl font-bold leading-[1.15] mb-6">
-                Todos os nossos serviços em {city.name}, {city.uf}
+                Todos os nossos serviços em{" "}
+                <span className="text-yellow">{city.name}, {city.uf}</span>
               </h1>
             </Reveal>
             <Reveal delayMs={240}>

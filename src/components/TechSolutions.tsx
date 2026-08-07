@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronRight, Smartphone, Radar, FileBarChart, FileCheck2, BellRing } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "./Reveal";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const TECH_ITEMS = [
   {
@@ -53,18 +57,60 @@ const TECH_ITEMS = [
   },
 ];
 
-export default function TechSolutions() {
+export default function TechSolutions({
+  scrollTransition = false,
+}: {
+  scrollTransition?: boolean;
+}) {
   const [active, setActive] = useState(TECH_ITEMS[0].key);
   const activeItem = TECH_ITEMS.find((item) => item.key === active) ?? TECH_ITEMS[0];
   const ActiveIcon = activeItem.icon;
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!scrollTransition) return;
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 75%",
+          end: "top 20%",
+          scrub: 0.6,
+        },
+      });
+
+      tl.to(section, { backgroundColor: "#F5F7FB" }, 0)
+        .to(".ts-texture", { opacity: 0 }, 0)
+        .to(".ts-heading", { color: "#000F6A" }, 0)
+        .to(".ts-desc", { color: "rgba(21,26,37,0.7)" }, 0)
+        .to(".ts-tab-wrap-inactive", { backgroundColor: "rgba(0,15,106,0.05)" }, 0)
+        .to(".ts-tab-inner", { backgroundColor: "#FFFFFF" }, 0)
+        .to(
+          ".ts-tab-icon-inactive",
+          { backgroundColor: "rgba(0,15,106,0.05)", color: "rgba(0,15,106,0.3)" },
+          0
+        )
+        .to(".ts-tab-label", { color: "#151A25" }, 0)
+        .to(".ts-tab-label-inactive", { opacity: 0.55 }, 0)
+        .to(".ts-tab-chevron-inactive", { color: "rgba(0,15,106,0.25)" }, 0);
+    }, section);
+
+    return () => ctx.revert();
+  }, [scrollTransition]);
 
   return (
     <section
       id="solucoes-adaptadas"
-      className="relative py-20 md:py-[var(--spacing-section)] bg-gradient-to-b from-navy to-navy-deep overflow-hidden"
+      ref={sectionRef}
+      className={`relative py-20 md:py-[var(--spacing-section)] overflow-hidden ${
+        scrollTransition ? "bg-navy" : "bg-gradient-to-b from-navy to-navy-deep"
+      }`}
     >
       <div
-        className="absolute inset-0 texture-grid opacity-60 pointer-events-none"
+        className="ts-texture absolute inset-0 texture-grid opacity-60 pointer-events-none"
         style={{ maskImage: "radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 75%)" }}
         aria-hidden="true"
       />
@@ -78,13 +124,13 @@ export default function TechSolutions() {
                 Tecnologia e processos próprios
               </span>
             </div>
-            <h2 className="font-heading text-3xl md:text-[48px] text-white mb-4 leading-tight">
+            <h2 className="ts-heading font-heading text-3xl md:text-[48px] text-white mb-4 leading-tight">
               Tecnologias{" "}
               <span className="bg-gradient-to-r from-yellow to-tech-blue bg-clip-text text-transparent">
                 Aplicadas a Serviços
               </span>
             </h2>
-            <p className="text-lg text-white/70 leading-relaxed">
+            <p className="ts-desc text-lg text-white/70 leading-relaxed">
               Ferramentas e processos que já operam nos postos de serviço da PS Proteção.
               Selecione um item para ver como funciona na prática.
             </p>
@@ -108,24 +154,26 @@ export default function TechSolutions() {
                   aria-selected={isActive}
                   onClick={() => setActive(item.key)}
                   className={`group text-left rounded-2xl p-[1.5px] transition-all duration-300 ${
-                    isActive ? "gradient-border" : "bg-white/10 hover:bg-white/20"
+                    isActive
+                      ? "gradient-border"
+                      : "ts-tab-wrap-inactive bg-white/10 hover:bg-white/20"
                   }`}
                 >
                   <div
-                    className={`flex items-center gap-4 rounded-[14px] px-5 py-5 transition-colors duration-300 ${
+                    className={`ts-tab-inner flex items-center gap-4 rounded-[14px] px-5 py-5 transition-colors duration-300 ${
                       isActive ? "bg-navy-deep" : "bg-navy-deep/50 group-hover:bg-navy-deep/80"
                     }`}
                   >
                     <span
                       className={`flex items-center justify-center w-10 h-10 rounded-full shrink-0 transition-colors duration-300 ${
-                        isActive ? "bg-yellow text-navy" : "bg-white/10 text-white/40"
+                        isActive ? "bg-yellow text-navy" : "ts-tab-icon-inactive bg-white/10 text-white/40"
                       }`}
                     >
                       <Icon size={18} />
                     </span>
                     <span
-                      className={`font-heading text-base md:text-lg flex-1 leading-snug transition-colors duration-300 ${
-                        isActive ? "text-white" : "text-white/50"
+                      className={`ts-tab-label font-heading text-base md:text-lg flex-1 leading-snug transition-colors duration-300 ${
+                        isActive ? "text-white" : "ts-tab-label-inactive text-white/50"
                       }`}
                     >
                       {item.label}
@@ -133,7 +181,7 @@ export default function TechSolutions() {
                     <ChevronRight
                       size={18}
                       className={`shrink-0 transition-transform duration-300 ${
-                        isActive ? "text-yellow translate-x-1" : "text-white/25"
+                        isActive ? "text-yellow translate-x-1" : "ts-tab-chevron-inactive text-white/25"
                       }`}
                     />
                   </div>

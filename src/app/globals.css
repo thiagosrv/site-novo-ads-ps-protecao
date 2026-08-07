@@ -75,6 +75,11 @@ body {
   background-size: 44px 44px;
 }
 
+.texture-halftone {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1.4px);
+  background-size: 9px 9px;
+}
+
 .gradient-border {
   background: linear-gradient(
     155deg,
