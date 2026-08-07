@@ -455,8 +455,10 @@ export default function ServiceCategoryCityPage({
       />
 
       <section
-        className={`relative min-h-screen flex items-center pt-[110px] pb-24 md:pt-[130px] md:pb-28 overflow-hidden ${
-          isPortariaHero ? "bg-gradient-to-br from-navy via-navy to-navy-deep" : "bg-navy"
+        className={`relative flex items-center overflow-hidden pt-[110px] pb-16 md:pt-[130px] md:pb-28 ${
+          isPortariaHero
+            ? "md:min-h-screen bg-gradient-to-br from-navy via-navy to-navy-deep"
+            : "min-h-screen bg-navy"
         }`}
       >
         {isPortariaHero && (
@@ -467,12 +469,16 @@ export default function ServiceCategoryCityPage({
               fill
               priority
               quality={90}
-              className="object-cover object-[78%_20%] z-0"
+              className="hidden md:block object-cover object-[78%_20%] z-0"
             />
-            <div className="absolute inset-0 hero-gradient z-0" aria-hidden="true" />
+            <div className="absolute inset-0 hero-gradient z-0 hidden md:block" aria-hidden="true" />
             <div
-              className="texture-halftone absolute inset-0 z-0 pointer-events-none opacity-20"
+              className="texture-halftone absolute inset-0 z-0 pointer-events-none opacity-20 hidden md:block"
               style={{ maskImage: "linear-gradient(to right, transparent 0%, black 58%)" }}
+              aria-hidden="true"
+            />
+            <div
+              className="texture-halftone absolute inset-0 z-0 pointer-events-none opacity-20 md:hidden"
               aria-hidden="true"
             />
           </>
@@ -494,7 +500,7 @@ export default function ServiceCategoryCityPage({
               <Breadcrumbs items={breadcrumbItems} dark />
             </div>
           </Reveal>
-          <div className="max-w-2xl">
+          <div className="max-w-2xl mx-auto text-center md:mx-0 md:text-left">
             <Reveal delayMs={80}>
               <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 text-white px-5 py-2 rounded-full mb-8 backdrop-blur-md">
                 <span className="w-2.5 h-2.5 rounded-full bg-yellow animate-pulse" />
@@ -509,12 +515,12 @@ export default function ServiceCategoryCityPage({
               </h1>
             </Reveal>
             <Reveal delayMs={240}>
-              <p className="text-white/80 text-lg leading-relaxed mb-10">
+              <p className="text-white/80 text-[16px] md:text-lg leading-relaxed mb-10">
                 {HERO_SUBTITLE[variant](categoryLabel, city)}
               </p>
             </Reveal>
             <Reveal delayMs={320}>
-              <div className="flex flex-col sm:flex-row gap-4 items-start">
+              <div className="flex flex-col sm:flex-row gap-4 items-center md:items-start">
                 <WhatsAppCta
                   city={city.name}
                   className="px-7 py-3.5 text-[15px] hover:scale-[1.03] shadow-[0_8px_24px_rgba(252,191,7,0.25)]"
@@ -533,6 +539,19 @@ export default function ServiceCategoryCityPage({
                 </Link>
               </div>
             </Reveal>
+            {isPortariaHero && (
+              <Reveal delayMs={380}>
+                <div className="md:hidden relative mt-10 w-full aspect-[16/9] rounded-2xl overflow-hidden">
+                  <Image
+                    src="/assets/uniforme-psprotecao.webp"
+                    alt="Profissional de portaria PS Proteção rigorosamente fardado"
+                    fill
+                    quality={90}
+                    className="object-cover object-[78%_20%]"
+                  />
+                </div>
+              </Reveal>
+            )}
           </div>
         </div>
       </section>

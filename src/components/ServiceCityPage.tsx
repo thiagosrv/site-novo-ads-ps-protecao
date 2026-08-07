@@ -158,19 +158,22 @@ export default function ServiceCityPage({
       />
 
       <section
-        className={`relative min-h-screen flex items-center overflow-hidden pt-28 pb-16 md:pt-20 ${
-          isPortariaHero ? "bg-gradient-to-br from-navy via-navy to-navy-deep" : "bg-navy"
+        className={`relative flex items-center overflow-hidden pt-28 pb-16 md:pt-20 ${
+          isPortariaHero
+            ? "md:min-h-screen bg-gradient-to-br from-navy via-navy to-navy-deep"
+            : "min-h-screen bg-navy"
         }`}
       >
         <div className="absolute inset-0 z-0">
-          <Image
-            src={isPortariaHero ? "/assets/uniforme-psprotecao.webp" : "/assets/background-mobile.webp"}
-            alt={`Profissional de segurança da PS Proteção em ${service.name.toLowerCase()} em ${city.name}`}
-            fill
-            priority
-            quality={isPortariaHero ? 90 : undefined}
-            className={`object-cover md:hidden ${isPortariaHero ? "object-[75%_20%]" : "object-[75%_center]"}`}
-          />
+          {!isPortariaHero && (
+            <Image
+              src="/assets/background-mobile.webp"
+              alt={`Profissional de segurança da PS Proteção em ${service.name.toLowerCase()} em ${city.name}`}
+              fill
+              priority
+              className="object-cover object-[75%_center] md:hidden"
+            />
+          )}
           <Image
             src={isPortariaHero ? "/assets/uniforme-psprotecao.webp" : "/brand/guarda-fachada.png"}
             alt={`Profissional de segurança da PS Proteção em ${service.name.toLowerCase()} em ${city.name}`}
@@ -179,13 +182,19 @@ export default function ServiceCityPage({
             quality={isPortariaHero ? 90 : undefined}
             className={`hidden object-cover md:block ${isPortariaHero ? "object-[75%_20%]" : "object-[75%_center]"}`}
           />
-          <div className="absolute inset-0 hero-gradient" />
+          <div className={`absolute inset-0 hero-gradient ${isPortariaHero ? "hidden md:block" : ""}`} />
           {isPortariaHero && (
-            <div
-              className="texture-halftone absolute inset-0 pointer-events-none opacity-20"
-              style={{ maskImage: "linear-gradient(to right, transparent 0%, black 58%)" }}
-              aria-hidden="true"
-            />
+            <>
+              <div
+                className="texture-halftone absolute inset-0 pointer-events-none opacity-20 hidden md:block"
+                style={{ maskImage: "linear-gradient(to right, transparent 0%, black 58%)" }}
+                aria-hidden="true"
+              />
+              <div
+                className="texture-halftone absolute inset-0 pointer-events-none opacity-20 md:hidden"
+                aria-hidden="true"
+              />
+            </>
           )}
         </div>
 
@@ -229,7 +238,7 @@ export default function ServiceCityPage({
             </Reveal>
 
             <Reveal delayMs={240}>
-              <p className="text-white/80 text-lg mb-10 max-w-xl leading-relaxed">
+              <p className="text-white/80 text-[16px] md:text-lg mb-10 max-w-xl mx-auto md:mx-0 leading-relaxed">
                 Atendemos {city.name} e toda a {city.region} a partir da nossa sede em Americana,
                 SP, com supervisão ativa e o mesmo padrão operacional aplicado em todos os postos.
               </p>
@@ -255,6 +264,20 @@ export default function ServiceCityPage({
                 </Link>
               </div>
             </Reveal>
+
+            {isPortariaHero && (
+              <Reveal delayMs={380}>
+                <div className="md:hidden relative mt-10 w-full aspect-[16/9] rounded-2xl overflow-hidden">
+                  <Image
+                    src="/assets/uniforme-psprotecao.webp"
+                    alt={`Profissional de segurança da PS Proteção em ${service.name.toLowerCase()} em ${city.name}`}
+                    fill
+                    quality={90}
+                    className="object-cover object-[75%_20%]"
+                  />
+                </div>
+              </Reveal>
+            )}
           </div>
         </div>
       </section>
