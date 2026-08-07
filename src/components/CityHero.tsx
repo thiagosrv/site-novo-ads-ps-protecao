@@ -69,7 +69,7 @@ export default function CityHero({ city }: { city: City }) {
           <Reveal delayMs={300}>
             <div className="flex flex-col sm:flex-row gap-4 items-center md:items-start">
               <WhatsAppCta
-                href="https://wa.me/5519982892037"
+                city={city.name}
                 className="px-7 py-3.5 text-[15px] hover:scale-[1.03] shadow-[0_8px_24px_rgba(252,191,7,0.25)]"
                 label={
                   <>

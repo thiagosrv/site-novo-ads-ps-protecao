@@ -16,6 +16,7 @@ import PageHero from "@/components/PageHero";
 import StatsRow from "@/components/StatsRow";
 import FaqAccordion from "@/components/FaqAccordion";
 import Reveal from "@/components/Reveal";
+import QuoteTriggerButton from "@/components/QuoteTriggerButton";
 
 export const metadata: Metadata = {
   title: "Quem Somos | PS Proteção",
@@ -476,15 +477,10 @@ export default function SobrePage() {
           </Reveal>
           <Reveal delayMs={100}>
             <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-              <a
-                href="https://wa.me/5519982892037"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-7 py-3.5 transition-colors"
-              >
+              <QuoteTriggerButton className="inline-flex items-center justify-center gap-2 rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-7 py-3.5 transition-colors">
                 <MessageCircle size={18} />
                 Falar pelo WhatsApp
-              </a>
+              </QuoteTriggerButton>
               <a
                 href="https://protecaotalentos.online"
                 target="_blank"

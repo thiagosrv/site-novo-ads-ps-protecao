@@ -28,6 +28,7 @@ const STATIC_PATHS = [
   "/duvidas",
   "/contato",
   "/privacidade",
+  "/obrigado",
 ];
 
 function buildAllValidPaths(): string[] {

@@ -6,6 +6,7 @@ import PageHero from "@/components/PageHero";
 import StatsRow from "@/components/StatsRow";
 import FaqAccordion from "@/components/FaqAccordion";
 import Reveal from "@/components/Reveal";
+import QuoteTriggerButton from "@/components/QuoteTriggerButton";
 
 export const metadata: Metadata = {
   title: "Serviços e Soluções em Facilities | PS Proteção",
@@ -190,15 +191,10 @@ export default function ServicosPage() {
                         </li>
                       ))}
                     </ul>
-                    <a
-                      href="https://wa.me/5519982892037"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 self-center md:self-start mt-2 rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-6 py-3 transition-colors"
-                    >
+                    <QuoteTriggerButton className="inline-flex items-center gap-2 self-center md:self-start mt-2 rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-6 py-3 transition-colors">
                       <MessageCircle size={18} />
                       Solicitar proposta
-                    </a>
+                    </QuoteTriggerButton>
                   </div>
                 </div>
               </Reveal>
@@ -242,15 +238,10 @@ export default function ServicosPage() {
           </Reveal>
           <Reveal delayMs={100}>
             <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-              <a
-                href="https://wa.me/5519982892037"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-7 py-3.5 transition-colors"
-              >
+              <QuoteTriggerButton className="inline-flex items-center justify-center gap-2 rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-7 py-3.5 transition-colors">
                 <MessageCircle size={18} />
                 Falar pelo WhatsApp
-              </a>
+              </QuoteTriggerButton>
               <Link
                 href="/contato"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 backdrop-blur-sm px-7 py-3.5 font-heading font-semibold text-white hover:bg-white/15 transition-colors"

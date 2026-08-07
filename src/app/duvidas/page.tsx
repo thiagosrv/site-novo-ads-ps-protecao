@@ -3,6 +3,7 @@ import { MessageCircle, Layers, Building2, Settings2 } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import FaqAccordion from "@/components/FaqAccordion";
 import Reveal from "@/components/Reveal";
+import QuoteTriggerButton from "@/components/QuoteTriggerButton";
 
 export const metadata: Metadata = {
   title: "Perguntas Frequentes | PS Proteção",
@@ -163,15 +164,10 @@ export default function DuvidasPage() {
             </p>
           </Reveal>
           <Reveal delayMs={200}>
-            <a
-              href="https://wa.me/5519982892037"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-7 py-3.5 transition-colors"
-            >
+            <QuoteTriggerButton className="inline-flex items-center justify-center gap-2 rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-7 py-3.5 transition-colors">
               <MessageCircle size={18} />
               Falar pelo WhatsApp
-            </a>
+            </QuoteTriggerButton>
           </Reveal>
         </div>
       </section>

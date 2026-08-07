@@ -7,6 +7,7 @@ import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import LoadingScreen from "@/components/LoadingScreen";
 import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
 import CookieConsent from "@/components/CookieConsent";
+import QuoteModalProvider from "@/components/QuoteModalProvider";
 import { SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
@@ -56,13 +57,15 @@ export default function RootLayout({
       className={`${sora.variable} ${inter.variable} ${ibmPlexMono.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col bg-surface text-graphite font-body">
-        <LoadingScreen />
-        <LocalBusinessSchema />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <WhatsAppFloatingButton />
-        <CookieConsent />
+        <QuoteModalProvider>
+          <LoadingScreen />
+          <LocalBusinessSchema />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <WhatsAppFloatingButton />
+          <CookieConsent />
+        </QuoteModalProvider>
       </body>
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=AW-18320528244"
