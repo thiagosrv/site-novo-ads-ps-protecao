@@ -184,7 +184,7 @@ export default function ServiceSegmentCityPage({
       />
 
       <section
-        className={`relative min-h-[85vh] flex items-center overflow-hidden pt-28 pb-16 md:pt-20 ${
+        className={`relative min-h-screen flex items-center overflow-hidden pt-28 pb-16 md:pt-20 ${
           isPortariaHero ? "bg-gradient-to-br from-navy via-navy to-navy-deep" : "bg-navy"
         }`}
       >
@@ -195,7 +195,7 @@ export default function ServiceSegmentCityPage({
             fill
             priority
             quality={isPortariaHero ? 90 : undefined}
-            className="object-cover object-[75%_center] md:hidden"
+            className={`object-cover md:hidden ${isPortariaHero ? "object-[75%_20%]" : "object-[75%_center]"}`}
           />
           <Image
             src={isPortariaHero ? "/assets/uniforme-psprotecao.webp" : "/brand/guarda-fachada.png"}
@@ -203,7 +203,7 @@ export default function ServiceSegmentCityPage({
             fill
             priority
             quality={isPortariaHero ? 90 : undefined}
-            className="hidden object-cover object-[75%_center] md:block"
+            className={`hidden object-cover md:block ${isPortariaHero ? "object-[75%_20%]" : "object-[75%_center]"}`}
           />
           <div className="absolute inset-0 hero-gradient" />
           {isPortariaHero && (
