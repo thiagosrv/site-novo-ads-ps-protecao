@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { MessageCircle } from "lucide-react";
 import { buildWhatsAppUrl, readAndClearQuotePayload } from "@/lib/quote";
+import { getStoredGclid } from "@/lib/gclid";
 
-const REDIRECT_DELAY_MS = 3000;
+const REDIRECT_DELAY_MS = 6000;
 
 declare global {
   interface Window {
-    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
   }
 }
 
@@ -33,18 +34,16 @@ export default function ObrigadoContent() {
       window.location.href = url;
     }
 
-    if (typeof window.gtag === "function") {
-      window.gtag("event", "conversion", {
-        send_to: "AW-18320528244/71ZkCI2S3t0cEPSm9J9E",
-        value: 1.0,
-        currency: "BRL",
-        event_callback: redirect,
-        event_timeout: REDIRECT_DELAY_MS,
-      });
-    }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "conversion_whatsapp",
+      value: 1.0,
+      currency: "BRL",
+      gclid: getStoredGclid() ?? undefined,
+    });
 
-    const fallbackTimer = setTimeout(redirect, REDIRECT_DELAY_MS + 500);
-    return () => clearTimeout(fallbackTimer);
+    const redirectTimer = setTimeout(redirect, REDIRECT_DELAY_MS);
+    return () => clearTimeout(redirectTimer);
   }, []);
 
   useEffect(() => {

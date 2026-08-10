@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Sora, Inter, IBM_Plex_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,6 +7,8 @@ import LoadingScreen from "@/components/LoadingScreen";
 import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
 import CookieConsent from "@/components/CookieConsent";
 import QuoteModalProvider from "@/components/QuoteModalProvider";
+import GoogleTagManager, { GTM_ID } from "@/components/GoogleTagManager";
+import GclidCapture from "@/components/GclidCapture";
 import { SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
@@ -57,16 +58,16 @@ export default function RootLayout({
       className={`${sora.variable} ${inter.variable} ${ibmPlexMono.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col bg-surface text-graphite font-body">
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18320528244"
-          strategy="beforeInteractive"
-        />
-        <Script id="google-tag-ads" strategy="beforeInteractive">
-          {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'AW-18320528244');`}
-        </Script>
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+        <GoogleTagManager />
+        <GclidCapture />
         <QuoteModalProvider>
           <LoadingScreen />
           <LocalBusinessSchema />
