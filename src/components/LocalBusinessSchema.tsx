@@ -30,6 +30,12 @@ const LOCAL_BUSINESS_SCHEMA = {
     longitude: -47.30249,
   },
   hasMap: "https://maps.app.goo.gl/rFdMcsozBJnGW3Sq7",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    reviewCount: "70",
+    bestRating: "5",
+  },
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
@@ -79,6 +85,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   sameAs: [
     "https://maps.app.goo.gl/rFdMcsozBJnGW3Sq7",
     "https://share.google/eWwjNSUDdjT59UiGY",
+    "https://share.google/hnbDKKadI4SNmQKKm",
     "https://www.linkedin.com/company/ps-protecao",
     "https://www.instagram.com/protecao_seguranca/",
     "https://web.facebook.com/protecaoeseguranca",

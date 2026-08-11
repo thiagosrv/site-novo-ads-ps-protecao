@@ -116,16 +116,21 @@ export default function Footer() {
           <div className="space-y-6">
             <div className="flex items-start gap-3 text-white/60 leading-relaxed text-left justify-center md:justify-start">
               <MapPin size={18} className="text-yellow shrink-0 mt-0.5" />
-              <a
-                href="https://maps.google.com/maps?q=-22.7301816,-47.30249"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-yellow transition-colors"
-              >
-                Rua São Gabriel, 1623 — Vila Belvedere
-                <br />
-                Americana · SP
-              </a>
+              <div>
+                <Link href="/americana" className="hover:text-yellow transition-colors">
+                  Rua São Gabriel, 1623 — Vila Belvedere
+                  <br />
+                  Americana · SP
+                </Link>
+                <a
+                  href="https://maps.google.com/maps?q=-22.7301816,-47.30249"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-xs text-white/40 hover:text-yellow transition-colors mt-1"
+                >
+                  Como chegar (Google Maps)
+                </a>
+              </div>
             </div>
             <QuoteTriggerButton className="flex items-center justify-center md:justify-start gap-3 text-white font-bold text-xl hover:text-yellow transition-colors group">
               <MessageCircle className="text-yellow group-hover:scale-110 transition-transform" size={26} />

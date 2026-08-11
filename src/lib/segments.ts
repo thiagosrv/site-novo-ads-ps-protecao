@@ -92,7 +92,7 @@ export const SEGMENTS: Segment[] = [
       "Limpeza compatível com o fluxo intenso de cargas",
       "Rondas periódicas no perímetro e pátio de manobras",
     ],
-    relevantCategories: ["vigilancia", "limpeza"],
+    relevantCategories: ["portaria", "vigilancia", "limpeza"],
   },
   {
     slug: "centros-de-distribuicao",
@@ -157,7 +157,7 @@ export const SEGMENTS: Segment[] = [
       "Adaptação do escopo ao avanço físico da obra em cada etapa",
       "Registro de ocorrências para o engenheiro responsável",
     ],
-    relevantCategories: ["vigilancia", "limpeza"],
+    relevantCategories: ["portaria", "vigilancia", "limpeza"],
   },
   {
     slug: "hospitais",

@@ -11,6 +11,7 @@ import {
   GaugeCircle,
   CalendarX,
   ArrowRight,
+  Star,
 } from "lucide-react";
 import CityHero from "./CityHero";
 import Reveal from "./Reveal";
@@ -25,6 +26,7 @@ import ContactSection from "./ContactSection";
 import OurPresence from "./OurPresence";
 import CityCategoryGrid from "./CityCategoryGrid";
 import { CITIES, type City } from "@/lib/cities";
+import { SITE_URL } from "@/lib/seo";
 
 const SERVICES = [
   {
@@ -78,7 +80,24 @@ const DIFFERENTIALS = [
 ];
 
 function buildFaq(city: City): FaqItem[] {
+  const hqItems: FaqItem[] =
+    city.slug === "americana"
+      ? [
+          {
+            question: "Onde fica a sede da PS Proteção em Americana?",
+            answer:
+              "Nossa sede fica na Rua São Gabriel, 1623, no bairro Vila Belvedere, a cerca de 5 minutos do Centro de Americana, ao lado do Portal de Americana e com acesso rápido à Rodovia Anhanguera.",
+          },
+          {
+            question: "É possível visitar a sede da PS Proteção em Americana?",
+            answer:
+              "Sim. Atendemos presencialmente de segunda a sexta, das 8h às 18h, e aos sábados das 8h às 12h. Recomendamos agendar previamente pelo WhatsApp para garantir um consultor disponível no horário.",
+          },
+        ]
+      : [];
+
   return [
+    ...hqItems,
     {
       question: `A PS Proteção atende empresas em ${city.name}?`,
       answer: `Sim. A PS Proteção atende empresas, condomínios e indústrias em ${city.name} e em toda a ${city.region}, a partir da nossa sede em Americana, SP, com a mesma supervisão ativa e padrão operacional aplicados em todos os municípios atendidos.`,
@@ -107,6 +126,7 @@ function buildFaq(city: City): FaqItem[] {
 }
 
 export default function CityPage({ city }: { city: City }) {
+  const isHQ = city.slug === "americana";
   const faqItems = buildFaq(city);
   const faqSchema = {
     "@context": "https://schema.org",
@@ -121,15 +141,89 @@ export default function CityPage({ city }: { city: City }) {
     })),
   };
 
+  const breadcrumbSchema = isHQ
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Início", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: city.name, item: `${SITE_URL}/${city.slug}` },
+        ],
+      }
+    : null;
+
   const relatedCities = CITIES.filter(
     (c) => c.region === city.region && c.slug !== city.slug
   ).slice(0, 8);
 
   return (
     <>
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
       <CityHero city={city} />
       <StatsBar />
       <Differentiators />
+
+      {isHQ && (
+        <section className="py-20 md:py-[var(--spacing-section)] bg-surface">
+          <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+              <Reveal className="lg:col-span-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="w-8 h-px bg-yellow" />
+                  <span className="font-mono text-navy text-sm tracking-widest uppercase">
+                    Nossa sede
+                  </span>
+                </div>
+                <h2 className="font-heading text-3xl md:text-[40px] text-navy leading-tight mb-5">
+                  Sede própria no Vila Belvedere, a 5 minutos do Centro de Americana
+                </h2>
+                <p className="text-graphite/70 text-lg leading-relaxed mb-6">
+                  Nosso endereço fica ao lado do Portal de Americana, com acesso rápido à Rodovia
+                  Anhanguera — uma localização estratégica que agiliza o deslocamento das nossas
+                  equipes de supervisão para toda a Região Metropolitana de Campinas.
+                </p>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex items-center gap-1 text-yellow-dark">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star key={i} size={16} className="fill-current" />
+                    ))}
+                  </div>
+                  <a
+                    href="https://share.google/hnbDKKadI4SNmQKKm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-sm text-navy hover:text-yellow-dark transition-colors"
+                  >
+                    4.8 · 70 avaliações no Google
+                  </a>
+                </div>
+                <p className="font-mono text-sm text-graphite/60">
+                  Rua São Gabriel, 1623 — Vila Belvedere, Americana/SP
+                </p>
+              </Reveal>
+
+              <Reveal className="lg:col-span-6" delayMs={120}>
+                <div className="rounded-3xl overflow-hidden aspect-[4/3] border border-navy/10 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+                  <iframe
+                    src="https://www.google.com/maps?q=Rua+S%C3%A3o+Gabriel%2C+1623+-+Vila+Belvedere%2C+Americana+-+SP%2C+13473-000&output=embed"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Localização da sede da PS Proteção em Americana, SP"
+                  />
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="py-20 md:py-[var(--spacing-section)] bg-white">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">

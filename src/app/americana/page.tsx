@@ -6,8 +6,8 @@ import { getCityBySlug } from "@/lib/cities";
 const SLUG = "americana";
 
 export const metadata: Metadata = {
-  title: "Terceirização de Portaria e Limpeza em Americana | PS Proteção",
-  description: "Terceirização de serviços em Americana, com padrão, supervisão e relatório. Portaria, limpeza, zeladoria e recepção para empresas e condomínios em Americana.",
+  title: "PS Proteção em Americana, SP | Sede no Vila Belvedere · 4.8★ (70 avaliações)",
+  description: "Sede própria da PS Proteção em Americana, SP, no Vila Belvedere, a 5 minutos do Centro. Terceirização de portaria, limpeza, zeladoria e recepção com padrão, supervisão e relatório. Nota 4.8 no Google (70 avaliações).",
   alternates: {
     canonical: `/${SLUG}`,
   },

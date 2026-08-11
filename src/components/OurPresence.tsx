@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Building2, Landmark } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Building2, Landmark } from "lucide-react";
 import Reveal from "./Reveal";
 
 export default function OurPresence() {
@@ -27,6 +28,13 @@ export default function OurPresence() {
               segue em expansão para novas regiões do Estado de São Paulo, sempre com a mesma
               estrutura de supervisão e padrão operacional.
             </p>
+            <Link
+              href="/americana"
+              className="inline-flex items-center gap-2 mt-6 text-navy font-heading font-semibold hover:text-navy-deep transition-colors justify-center md:justify-start"
+            >
+              Conheça nossa sede em Americana
+              <ArrowRight size={16} />
+            </Link>
           </Reveal>
 
           <Reveal className="md:col-span-6 order-1 md:order-2" delayMs={120}>

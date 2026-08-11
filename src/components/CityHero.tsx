@@ -52,9 +52,9 @@ export default function CityHero({ city }: { city: City }) {
 
           <Reveal delayMs={100}>
             <h1 className="text-white font-heading text-4xl md:text-6xl font-bold leading-[1.1] mb-8">
-              Terceirização com controle, supervisão e{" "}
-              <span className="text-yellow">padrão operacional</span> em{" "}
-              <span className="text-yellow">{city.name}</span>.
+              Serviços Terceirizados de{" "}
+              <span className="text-yellow">Portaria e Limpeza</span> em{" "}
+              <span className="text-yellow">{city.name}</span> - SP
             </h1>
           </Reveal>
 
