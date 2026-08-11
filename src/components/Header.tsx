@@ -140,7 +140,7 @@ export default function Header() {
           <button
             type="button"
             aria-label={open ? "Fechar menu" : "Abrir menu"}
-            className="md:hidden text-navy shrink-0"
+            className="press-feedback md:hidden text-navy shrink-0"
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <X size={22} /> : <Menu size={22} />}
@@ -148,63 +148,75 @@ export default function Header() {
         </div>
       </nav>
 
-      {open && (
-        <div className="md:hidden bg-surface border-t border-navy/10 px-6 py-6 flex flex-col items-center gap-5 text-center">
-          {NAV_LINKS.map((link) => {
-            if (link.children) {
-              return (
-                <div key={link.href} className="flex flex-col items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setMobileSubOpen((v) => !v)}
-                    className="inline-flex items-center gap-1.5 text-graphite font-mono text-sm tracking-wide"
-                  >
-                    {link.label}
-                    <ChevronDown
-                      size={14}
-                      className={`transition-transform ${mobileSubOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  {mobileSubOpen && (
-                    <div className="flex flex-col items-center gap-3">
-                      {link.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          onClick={() => {
-                            setOpen(false);
-                            setMobileSubOpen(false);
-                          }}
-                          className="text-graphite/70 font-mono text-xs tracking-wide"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
+      <div
+        className={`mobile-menu-panel md:hidden grid transition-all duration-300 ease-out ${
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="bg-surface border-t border-navy/10 px-6 py-6 flex flex-col items-center gap-5 text-center">
+            {NAV_LINKS.map((link) => {
+              if (link.children) {
+                return (
+                  <div key={link.href} className="flex flex-col items-center gap-3 w-full">
+                    <button
+                      type="button"
+                      onClick={() => setMobileSubOpen((v) => !v)}
+                      className="press-feedback inline-flex items-center gap-1.5 text-graphite font-mono text-sm tracking-wide"
+                    >
+                      {link.label}
+                      <ChevronDown
+                        size={14}
+                        className={`transition-transform duration-300 ${mobileSubOpen ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                    <div
+                      className={`mobile-menu-panel grid transition-all duration-300 ease-out w-full ${
+                        mobileSubOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <div className="flex flex-col items-center gap-3">
+                          {link.children.map((child) => (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              onClick={() => {
+                                setOpen(false);
+                                setMobileSubOpen(false);
+                              }}
+                              className="text-graphite/70 font-mono text-xs tracking-wide"
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  )}
-                </div>
-              );
-            }
+                  </div>
+                );
+              }
 
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="text-graphite font-mono text-sm tracking-wide"
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-          <WhatsAppCta
-            href="https://wa.me/5519982892037"
-            label="Solicitar proposta"
-            onClick={() => setOpen(false)}
-            className="px-6 py-3 text-sm"
-          />
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="text-graphite font-mono text-sm tracking-wide"
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+            <WhatsAppCta
+              href="https://wa.me/5519982892037"
+              label="Solicitar proposta"
+              onClick={() => setOpen(false)}
+              className="px-6 py-3 text-sm"
+            />
+          </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }

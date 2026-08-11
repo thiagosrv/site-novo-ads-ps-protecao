@@ -20,7 +20,7 @@ export default function FaqAccordion({ items }: { items: FaqItem[] }) {
                 type="button"
                 onClick={() => setOpen(isOpen ? null : i)}
                 aria-expanded={isOpen}
-                className="w-full flex items-center justify-between gap-4 text-left px-6 py-5"
+                className="press-feedback w-full flex items-center justify-between gap-4 text-left px-6 py-5"
               >
                 <span className="font-heading text-base md:text-lg text-navy">{item.question}</span>
                 <ChevronDown

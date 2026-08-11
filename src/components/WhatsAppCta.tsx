@@ -29,7 +29,7 @@ export default function WhatsAppCta({
         openQuoteModal({ city });
       }}
       className={clsx(
-        "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full text-center font-heading font-semibold tracking-wide bg-gradient-to-r from-yellow to-yellow-dark text-navy transition-all duration-300 hover:from-[#25D366] hover:to-[#1fae59] hover:text-white hover:shadow-lg hover:shadow-[#25D366]/25",
+        "press-scale-only group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full text-center font-heading font-semibold tracking-wide bg-gradient-to-r from-yellow to-yellow-dark text-navy transition-all duration-300 hover:from-[#25D366] hover:to-[#1fae59] hover:text-white hover:shadow-lg hover:shadow-[#25D366]/25",
         className
       )}
     >

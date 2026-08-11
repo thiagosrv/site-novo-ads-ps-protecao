@@ -69,6 +69,108 @@ body {
   }
 }
 
+/*
+  Longhand (not shorthand `transition:`) so this composes with whatever
+  transition-property a button already declares (colors, opacity, etc.)
+  instead of silently replacing it — the list below is a superset of every
+  property currently transitioned by buttons that use this class.
+*/
+.press-feedback {
+  transition-property: color, background-color, border-color, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.2s;
+}
+
+.press-feedback:active {
+  transform: scale(0.97);
+  transition-duration: 0.1s;
+}
+
+/*
+  For buttons that already declare their own `transition-all`/
+  `transition-transform` (e.g. WhatsAppCta's gradient hover swap) — adds
+  only the pressed-state transform, without touching transition-property/
+  duration and risking narrowing an existing broader transition list.
+*/
+.press-scale-only:active {
+  transform: scale(0.97);
+}
+
+.modal-backdrop {
+  opacity: 0;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-backdrop.is-open {
+  opacity: 1;
+}
+
+.modal-panel {
+  opacity: 0;
+  transform: translateY(10px) scale(0.97);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-panel.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.popover-panel {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transform-origin: bottom right;
+  transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.popover-panel.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.step-fade {
+  animation: step-fade-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@keyframes step-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press-feedback,
+  .press-feedback:active,
+  .press-scale-only:active {
+    transform: none;
+    transition: none;
+  }
+
+  .modal-backdrop,
+  .modal-panel,
+  .popover-panel {
+    transition: none;
+  }
+
+  .modal-panel,
+  .popover-panel {
+    transform: none;
+  }
+
+  .step-fade {
+    animation: none;
+  }
+
+  .mobile-menu-panel {
+    transition: none;
+  }
+}
+
 .texture-grid {
   background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);

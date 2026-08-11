@@ -8,8 +8,24 @@ const TALENTOS_URL = "https://protecaotalentos.online";
 
 export default function WhatsAppFloatingButton() {
   const [open, setOpen] = useState(false);
+  const [panelMounted, setPanelMounted] = useState(false);
+  const [panelVisible, setPanelVisible] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const { openQuoteModal } = useQuoteModal();
+
+  useEffect(() => {
+    if (open) {
+      // Keep-mounted-during-exit: mounting is a side effect of the open
+      // transition, not derivable at render time.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setPanelMounted(true);
+      const raf = requestAnimationFrame(() => setPanelVisible(true));
+      return () => cancelAnimationFrame(raf);
+    }
+    setPanelVisible(false);
+    const timeout = setTimeout(() => setPanelMounted(false), 180);
+    return () => clearTimeout(timeout);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -34,15 +50,19 @@ export default function WhatsAppFloatingButton() {
 
   return (
     <div ref={wrapperRef} className="fixed bottom-5 right-5 md:bottom-6 md:right-6 z-50">
-      {open && (
-        <div className="absolute bottom-[72px] right-0 w-72 rounded-2xl bg-white shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-navy/10 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200">
+      {panelMounted && (
+        <div
+          className={`popover-panel absolute bottom-[72px] right-0 w-72 rounded-2xl bg-white shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-navy/10 overflow-hidden ${
+            panelVisible ? "is-open" : ""
+          }`}
+        >
           <div className="flex items-center justify-between px-5 py-3.5 bg-navy">
             <span className="font-heading text-white text-sm">Como podemos ajudar?</span>
             <button
               type="button"
               aria-label="Fechar"
               onClick={() => setOpen(false)}
-              className="text-white/70 hover:text-white transition-colors"
+              className="press-feedback text-white/70 hover:text-white"
             >
               <X size={16} />
             </button>
@@ -54,7 +74,7 @@ export default function WhatsAppFloatingButton() {
                 setOpen(false);
                 openQuoteModal();
               }}
-              className="w-full flex items-center gap-3 rounded-xl px-3.5 py-3 text-left hover:bg-surface transition-colors"
+              className="press-feedback w-full flex items-center gap-3 rounded-xl px-3.5 py-3 text-left hover:bg-surface"
             >
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#25D366]/10 text-[#25D366]">
                 <MessageCircle size={19} />
@@ -70,7 +90,7 @@ export default function WhatsAppFloatingButton() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
-              className="w-full flex items-center gap-3 rounded-xl px-3.5 py-3 text-left hover:bg-surface transition-colors"
+              className="press-feedback w-full flex items-center gap-3 rounded-xl px-3.5 py-3 text-left hover:bg-surface"
             >
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-navy/10 text-navy">
                 <Briefcase size={19} />
@@ -88,7 +108,7 @@ export default function WhatsAppFloatingButton() {
         type="button"
         aria-label={open ? "Fechar opções de contato" : "Fale conosco pelo WhatsApp"}
         onClick={() => setOpen((v) => !v)}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/25 transition-transform duration-300 hover:scale-110 hover:shadow-xl"
+        className="press-feedback flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/25 hover:scale-110 hover:shadow-xl"
       >
         {open ? (
           <X size={24} />

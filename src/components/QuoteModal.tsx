@@ -34,6 +34,8 @@ export default function QuoteModal({
   const [step, setStep] = useState<1 | 2>(1);
   const [form, setForm] = useState(EMPTY_FORM);
   const [touched, setTouched] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -45,14 +47,37 @@ export default function QuoteModal({
   }, [isOpen, prefillCity]);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (isOpen) {
+      // Keep-mounted-during-exit: mounting is a side effect of the isOpen
+      // transition, not derivable at render time.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMounted(true);
+      const raf = requestAnimationFrame(() => setOpen(true));
+      return () => cancelAnimationFrame(raf);
+    }
+    setOpen(false);
+    const timeout = setTimeout(() => setMounted(false), 250);
+    return () => clearTimeout(timeout);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!mounted) return;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen]);
+  }, [mounted]);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
+  if (!mounted) return null;
 
   const isStep1Valid =
     form.name.trim().length > 1 &&
@@ -75,29 +100,30 @@ export default function QuoteModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-navy/60 backdrop-blur-sm"
+      className={`modal-backdrop fixed inset-0 z-[100] flex items-center justify-center p-4 bg-navy/60 backdrop-blur-sm ${open ? "is-open" : ""}`}
       role="dialog"
       aria-modal="true"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg bg-white rounded-[2rem] shadow-2xl p-6 md:p-8 max-h-[90vh] overflow-y-auto"
+        className={`modal-panel relative w-full max-w-lg bg-white rounded-[2rem] shadow-2xl p-6 md:p-8 max-h-[90vh] overflow-y-auto ${open ? "is-open" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           aria-label="Fechar"
           onClick={onClose}
-          className="absolute top-5 right-5 text-graphite/50 hover:text-navy transition-colors"
+          className="press-feedback absolute top-5 right-5 text-graphite/50 hover:text-navy"
         >
           <X size={22} />
         </button>
 
         <div className="flex items-center gap-2 mb-6">
-          <span className={`h-1.5 w-8 rounded-full ${step === 1 ? "bg-yellow" : "bg-yellow/40"}`} />
-          <span className={`h-1.5 w-8 rounded-full ${step === 2 ? "bg-yellow" : "bg-navy/10"}`} />
+          <span className={`h-1.5 w-8 rounded-full transition-colors duration-300 ${step === 1 ? "bg-yellow" : "bg-yellow/40"}`} />
+          <span className={`h-1.5 w-8 rounded-full transition-colors duration-300 ${step === 2 ? "bg-yellow" : "bg-navy/10"}`} />
         </div>
 
+        <div key={step} className="step-fade">
         {step === 1 ? (
           <>
             <h2 className="font-heading text-2xl text-navy mb-1">Solicitar cotação</h2>
@@ -158,7 +184,7 @@ export default function QuoteModal({
             <button
               type="button"
               onClick={handleNext}
-              className="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-yellow to-yellow-dark text-navy font-heading font-semibold px-7 py-3.5 hover:opacity-90 transition-opacity"
+              className="press-feedback mt-6 w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-yellow to-yellow-dark text-navy font-heading font-semibold px-7 py-3.5 hover:opacity-90"
             >
               Continuar
               <ArrowRight size={18} />
@@ -169,7 +195,7 @@ export default function QuoteModal({
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="inline-flex items-center gap-1.5 text-graphite/60 hover:text-navy text-sm mb-4 transition-colors"
+              className="press-feedback inline-flex items-center gap-1.5 text-graphite/60 hover:text-navy text-sm mb-4"
             >
               <ArrowLeft size={16} />
               Voltar
@@ -183,7 +209,7 @@ export default function QuoteModal({
                   key={category}
                   type="button"
                   onClick={() => handleSelectService(label)}
-                  className="rounded-2xl border border-navy/10 bg-surface hover:bg-yellow/10 hover:border-yellow px-4 py-5 text-center font-heading font-semibold text-navy text-sm transition-colors"
+                  className="press-feedback rounded-2xl border border-navy/10 bg-surface hover:bg-yellow/10 hover:border-yellow px-4 py-5 text-center font-heading font-semibold text-navy text-sm"
                 >
                   {label}
                 </button>
@@ -191,6 +217,7 @@ export default function QuoteModal({
             </div>
           </>
         )}
+        </div>
       </div>
     </div>
   );
