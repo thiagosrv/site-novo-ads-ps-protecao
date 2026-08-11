@@ -225,6 +225,44 @@ export default function CityPage({ city }: { city: City }) {
         </section>
       )}
 
+      {!isHQ && city.hqProximity && (
+        <section className="py-20 md:py-[var(--spacing-section)] bg-surface">
+          <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
+            <Reveal className="max-w-3xl">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="w-8 h-px bg-yellow" />
+                <span className="font-mono text-navy text-sm tracking-widest uppercase">
+                  Sede próxima
+                </span>
+              </div>
+              <h2 className="font-heading text-3xl md:text-[40px] text-navy leading-tight mb-5">
+                Sede a {city.hqProximity.minutes} minutos de {city.name}
+              </h2>
+              <p className="text-graphite/70 text-lg leading-relaxed mb-6">
+                Resposta imediata em {city.name}. Atendemos em postos de serviço no{" "}
+                {city.hqProximity.industrialArea} e em toda a cidade, com a mesma supervisão
+                ativa e padrão operacional da nossa sede em Americana.
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1 text-yellow-dark">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={16} className="fill-current" />
+                  ))}
+                </div>
+                <a
+                  href="https://share.google/hnbDKKadI4SNmQKKm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-sm text-navy hover:text-yellow-dark transition-colors"
+                >
+                  4.8 · 70 avaliações no Google
+                </a>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
+
       <section className="py-20 md:py-[var(--spacing-section)] bg-white">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
           <Reveal>

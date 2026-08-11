@@ -1,8 +1,8 @@
 [
   { "slug": "campinas", "name": "Campinas", "region": "Região Metropolitana de Campinas", "uf": "SP", "cep": "13010-001", "lat": -22.9053, "lng": -47.0659 },
   { "slug": "americana", "name": "Americana", "region": "Região Metropolitana de Campinas", "uf": "SP", "cep": "13465-000", "lat": -22.7374, "lng": -47.3331 },
-  { "slug": "santa-barbara-d-oeste", "name": "Santa Bárbara d'Oeste", "region": "Região Metropolitana de Campinas", "uf": "SP", "cep": "13450-000", "lat": -22.7553, "lng": -47.4143 },
-  { "slug": "nova-odessa", "name": "Nova Odessa", "region": "Região Metropolitana de Campinas", "uf": "SP", "cep": "13460-000", "lat": -22.7832, "lng": -47.2941 },
+  { "slug": "santa-barbara-d-oeste", "name": "Santa Bárbara d'Oeste", "region": "Região Metropolitana de Campinas", "uf": "SP", "cep": "13450-000", "lat": -22.7553, "lng": -47.4143, "hqProximity": { "minutes": 15, "industrialArea": "Distrito Industrial de Santa Bárbara d'Oeste" } },
+  { "slug": "nova-odessa", "name": "Nova Odessa", "region": "Região Metropolitana de Campinas", "uf": "SP", "cep": "13460-000", "lat": -22.7832, "lng": -47.2941, "hqProximity": { "minutes": 15, "industrialArea": "Distrito Industrial de Nova Odessa" } },
   { "slug": "sumare", "name": "Sumaré", "region": "Região Metropolitana de Campinas", "uf": "SP", "cep": "13170-000", "lat": -22.8204, "lng": -47.2728 },
   { "slug": "hortolandia", "name": "Hortolândia", "region": "Região Metropolitana de Campinas", "uf": "SP", "cep": "13183-000", "lat": -22.8529, "lng": -47.2143 },
   { "slug": "paulinia", "name": "Paulínia", "region": "Região Metropolitana de Campinas", "uf": "SP", "cep": "13140-000", "lat": -22.7542, "lng": -47.1488 },

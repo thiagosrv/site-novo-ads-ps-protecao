@@ -8,7 +8,7 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-[85vh] flex items-center overflow-hidden bg-navy pt-28 pb-16 md:pt-20"
+      className="relative min-h-screen flex items-center overflow-hidden bg-navy pt-28 pb-16 md:pt-20"
     >
       <div className="absolute inset-0 z-0">
         <Image
@@ -53,9 +53,10 @@ export default function Hero() {
           </Reveal>
 
           <Reveal delayMs={100}>
-            <h1 className="text-white font-heading text-4xl md:text-6xl font-bold leading-[1.1] mb-8">
-              Terceirização com controle, supervisão e{" "}
-              <span className="text-yellow">padrão operacional</span>.
+            <h1 className="text-white font-heading text-[32px] md:text-[54px] font-bold leading-[1.1] mb-8">
+              Serviços Terceirizados de{" "}
+              <span className="text-yellow">Portaria e Limpeza</span> com{" "}
+              <span className="text-yellow">Padrão Operacional</span> e Supervisão.
             </h1>
           </Reveal>
 

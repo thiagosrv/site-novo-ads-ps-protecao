@@ -8,6 +8,10 @@ export type City = {
   cep: string;
   lat: number;
   lng: number;
+  hqProximity?: {
+    minutes: number;
+    industrialArea: string;
+  };
 };
 
 export const CITIES: City[] = citiesData;
