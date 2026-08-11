@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle2, MessageCircle, Mail } from "lucide-react";
+import { CheckCircle2, MessageCircle, Mail, ArrowRight } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import StatsRow from "@/components/StatsRow";
 import FaqAccordion from "@/components/FaqAccordion";
@@ -23,6 +23,7 @@ const SERVICES = [
     title: "Portaria e Controle de Acesso",
     image: "/assets/porteiro.webp",
     alt: "Porteiro PS Proteção — Controle de Acesso",
+    href: "/servicos/portaria",
     description:
       "Profissionais treinados para realizar a gestão de acesso ao seu estabelecimento com organização, cordialidade e rigor nos procedimentos operacionais.",
     features: [
@@ -38,6 +39,7 @@ const SERVICES = [
     title: "Limpeza e Conservação",
     image: "/assets/limpeza.webp",
     alt: "Limpeza e Conservação PS Proteção",
+    href: "/servicos/limpeza",
     description:
       "Equipes especializadas que mantêm seus ambientes impecáveis com rotinas de limpeza definidas, produtos adequados e profissionais uniformizados.",
     features: [
@@ -191,10 +193,21 @@ export default function ServicosPage() {
                         </li>
                       ))}
                     </ul>
-                    <QuoteTriggerButton className="inline-flex items-center gap-2 self-center md:self-start mt-2 rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-6 py-3 transition-colors">
-                      <MessageCircle size={18} />
-                      Solicitar proposta
-                    </QuoteTriggerButton>
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-2">
+                      <QuoteTriggerButton className="inline-flex items-center gap-2 self-center md:self-start rounded-full bg-yellow hover:bg-yellow-dark text-navy font-heading font-semibold px-6 py-3 transition-colors">
+                        <MessageCircle size={18} />
+                        Solicitar proposta
+                      </QuoteTriggerButton>
+                      {service.href && (
+                        <Link
+                          href={service.href}
+                          className="inline-flex items-center gap-1.5 font-heading font-semibold text-navy hover:text-yellow-dark transition-colors"
+                        >
+                          Saiba mais
+                          <ArrowRight size={16} />
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
               </Reveal>
