@@ -8,6 +8,7 @@ import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
 import CookieConsent from "@/components/CookieConsent";
 import QuoteModalProvider from "@/components/QuoteModalProvider";
 import GoogleTagManager, { GTM_ID } from "@/components/GoogleTagManager";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import GclidCapture from "@/components/GclidCapture";
 import { SITE_URL } from "@/lib/seo";
 import "./globals.css";
@@ -67,6 +68,7 @@ export default function RootLayout({
           />
         </noscript>
         <GoogleTagManager />
+        <GoogleAnalytics />
         <GclidCapture />
         <QuoteModalProvider>
           <LoadingScreen />
