@@ -14,13 +14,17 @@ import {
   CATEGORY_ORDER,
 } from "@/lib/programmatic";
 import { SITE_URL } from "@/lib/seo";
+import { listPublishedPosts } from "@/lib/blog/queries";
 
 const HQ_CITY_SLUG = "americana";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     { path: "", priority: 1, changeFrequency: "monthly" as const },
     { path: "/servicos", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/blog", priority: 0.7, changeFrequency: "weekly" as const },
     { path: "/sobre", priority: 0.6, changeFrequency: "monthly" as const },
     { path: "/sobre/recrutamento-e-triagem", priority: 0.5, changeFrequency: "monthly" as const },
     { path: "/servicos/padrao-operacional-e-supervisao", priority: 0.5, changeFrequency: "monthly" as const },
@@ -117,6 +121,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
+  const posts = await listPublishedPosts();
+  const postRoutes = posts.map((post) => ({
+    url: `${SITE_URL}/blog/${post.slug}`,
+    lastModified: post.updatedAt,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
   return [
     ...staticRoutes,
     ...cityRoutes,
@@ -127,5 +139,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...categoryNestedRoutes,
     ...segmentNestedRoutes,
     ...serviceNestedRoutes,
+    ...postRoutes,
   ];
 }

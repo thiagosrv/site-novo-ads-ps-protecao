@@ -65,8 +65,20 @@ function buildAllValidPaths(): string[] {
 
 export const VALID_PATHS: Set<string> = new Set(buildAllValidPaths());
 
+// Not enumerable like the routes above — /admin/* is the admin shell and
+// /blog/[slug] slugs live in the database, not in a static list. Matched by
+// prefix instead of exact string, on top of (not instead of) the exact-match
+// allowlist above.
+const DYNAMIC_PATH_PREFIXES = ["/admin", "/blog"];
+
+function matchesDynamicPrefix(pathname: string): boolean {
+  return DYNAMIC_PATH_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
+}
+
 export function isValidPath(pathname: string): boolean {
   const normalized =
     pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
-  return VALID_PATHS.has(normalized);
+  return VALID_PATHS.has(normalized) || matchesDynamicPrefix(normalized);
 }

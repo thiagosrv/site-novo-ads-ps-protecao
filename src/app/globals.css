@@ -209,3 +209,80 @@ body {
     animation: none;
   }
 }
+
+/*
+  Shared rich-text styling for blog post bodies — used both by the Tiptap
+  editor's content area (.ProseMirror) and the public /blog/[slug] render,
+  so what the author sees while writing matches what visitors read. No
+  Typography plugin dependency; hand-rolled to match the design tokens.
+*/
+.blog-prose {
+  color: var(--color-graphite);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.blog-prose > * + * {
+  margin-top: 1.25em;
+}
+
+.blog-prose h2 {
+  font-family: var(--font-heading);
+  color: var(--color-navy);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2em;
+}
+
+.blog-prose h3 {
+  font-family: var(--font-heading);
+  color: var(--color-navy);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.75em;
+}
+
+.blog-prose p {
+  margin-top: 1.25em;
+}
+
+.blog-prose ul,
+.blog-prose ol {
+  padding-left: 1.5em;
+}
+
+.blog-prose ul {
+  list-style: disc;
+}
+
+.blog-prose ol {
+  list-style: decimal;
+}
+
+.blog-prose li + li {
+  margin-top: 0.4em;
+}
+
+.blog-prose blockquote {
+  border-left: 3px solid var(--color-yellow);
+  padding-left: 1em;
+  color: var(--color-graphite);
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.blog-prose a {
+  color: var(--color-tech-blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.blog-prose strong {
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+.ProseMirror {
+  outline: none;
+  min-height: 320px;
+}

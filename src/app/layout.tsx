@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import { Sora, Inter, IBM_Plex_Mono } from "next/font/google";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import LocalBusinessSchema from "@/components/LocalBusinessSchema";
-import LoadingScreen from "@/components/LoadingScreen";
-import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
-import CookieConsent from "@/components/CookieConsent";
-import QuoteModalProvider from "@/components/QuoteModalProvider";
+import SiteChrome from "@/components/SiteChrome";
 import GoogleTagManager, { GTM_ID } from "@/components/GoogleTagManager";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import GclidCapture from "@/components/GclidCapture";
@@ -70,15 +64,7 @@ export default function RootLayout({
         <GoogleTagManager />
         <GoogleAnalytics />
         <GclidCapture />
-        <QuoteModalProvider>
-          <LoadingScreen />
-          <LocalBusinessSchema />
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <WhatsAppFloatingButton />
-          <CookieConsent />
-        </QuoteModalProvider>
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );
