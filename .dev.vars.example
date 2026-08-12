@@ -1,0 +1,20 @@
+# Local secrets for `wrangler dev` / `opennextjs-cloudflare preview` — copy to
+# `.dev.vars` (gitignored) and fill in. These are separate from `.env.local`,
+# which `next dev` still uses; OpenNext reads both when running locally.
+#
+# NEXTJS_ENV picks which .env file Next.js loads when running on the Workers
+# runtime locally (mirrors `next dev`'s NODE_ENV-based .env selection).
+NEXTJS_ENV=development
+
+# Same values as .env.example / .env.local — see that file for where each
+# one comes from (Vercel Postgres/Neon, Vercel Blob, admin auth).
+POSTGRES_URL=
+POSTGRES_URL_NON_POOLING=
+POSTGRES_USER=
+POSTGRES_HOST=
+POSTGRES_PASSWORD=
+POSTGRES_DATABASE=
+BLOB_READ_WRITE_TOKEN=
+ADMIN_EMAIL=
+ADMIN_PASSWORD_HASH=
+SESSION_SECRET=
