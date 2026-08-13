@@ -5,7 +5,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "*.public.blob.vercel-storage.com",
+        // Covers the R2 Public Development URL (pub-<hash>.r2.dev). If a
+        // custom domain is connected to the bucket later, add its hostname
+        // here too — remotePatterns can't be derived from R2_PUBLIC_URL at
+        // build time.
+        hostname: "*.r2.dev",
       },
     ],
   },

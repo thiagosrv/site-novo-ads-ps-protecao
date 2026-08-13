@@ -4,8 +4,8 @@ import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { put, del } from "@vercel/blob";
 import { sql } from "@/lib/db";
+import { putObject, deleteObject, publicUrl, keyFromPublicUrl } from "@/lib/r2";
 import {
   SESSION_COOKIE_NAME,
   SESSION_MAX_AGE_SECONDS,
@@ -231,9 +231,10 @@ export async function deletePost(id: string): Promise<{ ok: true } | { ok: false
   revalidatePath(`/blog/${deleted.slug}`);
 
   try {
-    await del(deleted.cover_image_url);
+    const key = keyFromPublicUrl(deleted.cover_image_url);
+    if (key) await deleteObject(key);
   } catch {
-    // Non-fatal — an orphaned blob doesn't block the post deletion.
+    // Non-fatal — an orphaned object doesn't block the post deletion.
   }
 
   return { ok: true };
@@ -258,12 +259,9 @@ export async function uploadCoverImage(formData: FormData): Promise<UploadCoverI
   }
 
   const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const pathname = `blog/covers/${randomUUID()}.${extension}`;
+  const key = `blog/covers/${randomUUID()}.${extension}`;
 
-  const blob = await put(pathname, file, {
-    access: "public",
-    contentType: file.type,
-  });
+  await putObject(key, file, file.type);
 
-  return { ok: true, url: blob.url };
+  return { ok: true, url: publicUrl(key) };
 }
