@@ -34,6 +34,10 @@ export default function PostEditor({ post }: { post: Post | null }) {
   const [coverImageAlt, setCoverImageAlt] = useState(post?.coverImageAlt ?? "");
   const [metaDescription, setMetaDescription] = useState(post?.metaDescription ?? "");
   const [focusKeyword, setFocusKeyword] = useState(post?.focusKeyword ?? "");
+  const [secondaryKeywords, setSecondaryKeywords] = useState(post?.secondaryKeywords ?? "");
+  const [authorName, setAuthorName] = useState(post?.authorName ?? "");
+  const [authorBio, setAuthorBio] = useState(post?.authorBio ?? "");
+  const [videoEmbedUrl, setVideoEmbedUrl] = useState(post?.videoEmbedUrl ?? "");
   const [bodyHtml, setBodyHtml] = useState(post?.bodyHtml ?? "");
   const [formError, setFormError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -68,8 +72,24 @@ export default function PostEditor({ post }: { post: Post | null }) {
         bodyHtml,
         coverImageAlt,
         siteHostname: new URL(SITE_URL).hostname,
+        authorName,
+        authorBio,
+        secondaryKeywords,
+        videoEmbedUrl,
       }),
-    [title, subtitle, effectiveSlug, metaDescription, focusKeyword, bodyHtml, coverImageAlt]
+    [
+      title,
+      subtitle,
+      effectiveSlug,
+      metaDescription,
+      focusKeyword,
+      bodyHtml,
+      coverImageAlt,
+      authorName,
+      authorBio,
+      secondaryKeywords,
+      videoEmbedUrl,
+    ]
   );
 
   function handleSave(status: PostStatus) {
@@ -88,6 +108,10 @@ export default function PostEditor({ post }: { post: Post | null }) {
         bodyJson: editor?.getJSON() ?? {},
         metaDescription,
         focusKeyword,
+        authorName,
+        authorBio,
+        secondaryKeywords,
+        videoEmbedUrl,
         status,
       });
 
@@ -171,6 +195,55 @@ export default function PostEditor({ post }: { post: Post | null }) {
           />
         </div>
 
+        <div className="rounded-2xl border border-navy/10 bg-white p-5">
+          <h2 className="mb-4 font-heading text-sm font-semibold text-navy">
+            Assinatura de autoridade (E-E-A-T)
+          </h2>
+          <label className="block">
+            <span className="mb-1.5 block text-xs font-mono uppercase tracking-wide text-graphite/60">
+              Nome do autor
+            </span>
+            <input
+              value={authorName}
+              onChange={(e) => setAuthorName(e.target.value)}
+              placeholder="ex: Paulo Souza"
+              className={inputClass}
+            />
+          </label>
+          <label className="mt-4 block">
+            <span className="mb-1.5 block text-xs font-mono uppercase tracking-wide text-graphite/60">
+              Credenciais / bio do autor
+            </span>
+            <textarea
+              value={authorBio}
+              onChange={(e) => setAuthorBio(e.target.value)}
+              placeholder="ex: Diretor de operações da PS Proteção, com 15 anos de experiência em segurança patrimonial e facilities."
+              rows={2}
+              className={inputClass}
+            />
+          </label>
+        </div>
+
+        <div className="rounded-2xl border border-navy/10 bg-white p-5">
+          <h2 className="mb-1 font-heading text-sm font-semibold text-navy">
+            Multimídia de retenção (dwell time)
+          </h2>
+          <p className="mb-3 text-xs text-graphite/50">
+            Não obrigatório. Um vídeo incorporado tende a aumentar o tempo de permanência na página.
+          </p>
+          <label className="block">
+            <span className="mb-1.5 block text-xs font-mono uppercase tracking-wide text-graphite/60">
+              URL de embed (YouTube ou Vimeo)
+            </span>
+            <input
+              value={videoEmbedUrl}
+              onChange={(e) => setVideoEmbedUrl(e.target.value)}
+              placeholder="https://www.youtube.com/embed/VIDEO_ID"
+              className={inputClass}
+            />
+          </label>
+        </div>
+
         <div>
           <EditorToolbar editor={editor} />
           <div className="rounded-b-xl border border-navy/10 bg-white">
@@ -208,7 +281,13 @@ export default function PostEditor({ post }: { post: Post | null }) {
       </div>
 
       <div className="lg:sticky lg:top-20 lg:self-start">
-        <SeoPanel analysis={analysis} focusKeyword={focusKeyword} onFocusKeywordChange={setFocusKeyword} />
+        <SeoPanel
+          analysis={analysis}
+          focusKeyword={focusKeyword}
+          onFocusKeywordChange={setFocusKeyword}
+          secondaryKeywords={secondaryKeywords}
+          onSecondaryKeywordsChange={setSecondaryKeywords}
+        />
       </div>
     </div>
   );

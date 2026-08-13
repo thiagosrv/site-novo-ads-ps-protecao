@@ -14,7 +14,7 @@ import {
   verifyCredentials,
 } from "@/lib/auth";
 import { slugify } from "@/lib/blog/slug";
-import { analyzeSeo, htmlToPlainText } from "@/lib/seo/analyzeSeo";
+import { analyzeSeo, htmlToPlainText, isSafeVideoEmbedUrl } from "@/lib/seo/analyzeSeo";
 import { SITE_URL } from "@/lib/seo";
 import type { PostStatus } from "@/lib/blog/queries";
 
@@ -61,6 +61,10 @@ export type SavePostInput = {
   bodyJson: unknown;
   metaDescription: string;
   focusKeyword: string;
+  authorName: string;
+  authorBio: string;
+  secondaryKeywords: string;
+  videoEmbedUrl: string;
   status: PostStatus;
 };
 
@@ -109,12 +113,22 @@ export async function savePost(input: SavePostInput): Promise<SavePostResult> {
   const coverImageAlt = input.coverImageAlt.trim();
   const metaDescription = input.metaDescription.trim();
   const focusKeyword = input.focusKeyword.trim();
+  const authorName = input.authorName.trim();
+  const authorBio = input.authorBio.trim();
+  const secondaryKeywords = input.secondaryKeywords.trim();
+  const videoEmbedUrl = input.videoEmbedUrl.trim();
 
   if (!title) return { ok: false, error: "O título é obrigatório." };
   if (!coverImageUrl) return { ok: false, error: "A imagem de capa é obrigatória." };
   if (!coverImageAlt) return { ok: false, error: "O texto alternativo da imagem é obrigatório." };
   if (!metaDescription) return { ok: false, error: "A meta descrição é obrigatória." };
   if (!focusKeyword) return { ok: false, error: "A palavra-chave foco é obrigatória." };
+  if (videoEmbedUrl && !isSafeVideoEmbedUrl(videoEmbedUrl)) {
+    return {
+      ok: false,
+      error: "A URL de vídeo precisa ser um embed do YouTube ou Vimeo (https).",
+    };
+  }
 
   const ctaHrefRegex = /<a\s+[^>]*data-cta-button="true"[^>]*href="([^"]*)"/gi;
   let ctaMatch: RegExpExecArray | null;
@@ -140,6 +154,10 @@ export async function savePost(input: SavePostInput): Promise<SavePostResult> {
     bodyHtml: input.bodyHtml,
     coverImageAlt,
     siteHostname,
+    authorName,
+    authorBio,
+    secondaryKeywords,
+    videoEmbedUrl,
   });
 
   const bodyJson = JSON.stringify(input.bodyJson ?? {});
@@ -159,6 +177,10 @@ export async function savePost(input: SavePostInput): Promise<SavePostResult> {
         body_json = ${bodyJson}::jsonb,
         meta_description = ${metaDescription},
         focus_keyword = ${focusKeyword},
+        author_name = ${authorName || null},
+        author_bio = ${authorBio || null},
+        secondary_keywords = ${secondaryKeywords || null},
+        video_embed_url = ${videoEmbedUrl || null},
         word_count = ${wordCount},
         seo_score = ${score},
         status = ${input.status},
@@ -174,10 +196,12 @@ export async function savePost(input: SavePostInput): Promise<SavePostResult> {
       INSERT INTO posts (
         title, subtitle, slug, cover_image_url, cover_image_alt,
         body_html, body_json, meta_description, focus_keyword,
+        author_name, author_bio, secondary_keywords, video_embed_url,
         word_count, seo_score, status, published_at
       ) VALUES (
         ${title}, ${subtitle || null}, ${slug}, ${coverImageUrl}, ${coverImageAlt},
         ${input.bodyHtml}, ${bodyJson}::jsonb, ${metaDescription}, ${focusKeyword},
+        ${authorName || null}, ${authorBio || null}, ${secondaryKeywords || null}, ${videoEmbedUrl || null},
         ${wordCount}, ${score}, ${input.status},
         ${publishedAtClause ? new Date().toISOString() : null}
       )

@@ -7,9 +7,10 @@ const CATEGORY_LABELS: Record<SeoCheckCategory, string> = {
   basic: "Básico",
   title: "Título e meta descrição",
   additional: "Adicional",
+  eeat: "Assinatura de autoridade (E-E-A-T)",
 };
 
-const CATEGORY_ORDER: SeoCheckCategory[] = ["basic", "title", "additional"];
+const CATEGORY_ORDER: SeoCheckCategory[] = ["basic", "title", "additional", "eeat"];
 
 function scoreTone(score: number): { text: string; bg: string; label: string } {
   if (score >= 80) return { text: "text-green-700", bg: "bg-green-100", label: "Ótimo" };
@@ -34,10 +35,14 @@ export default function SeoPanel({
   analysis,
   focusKeyword,
   onFocusKeywordChange,
+  secondaryKeywords,
+  onSecondaryKeywordsChange,
 }: {
   analysis: SeoAnalysisResult;
   focusKeyword: string;
   onFocusKeywordChange: (value: string) => void;
+  secondaryKeywords: string;
+  onSecondaryKeywordsChange: (value: string) => void;
 }) {
   const tone = scoreTone(analysis.score);
   const checksByCategory = CATEGORY_ORDER.map((category) => ({
@@ -67,6 +72,21 @@ export default function SeoPanel({
           placeholder="ex: portaria terceirizada"
           className="w-full rounded-xl border border-navy/10 bg-surface px-4 py-2.5 text-graphite placeholder:text-graphite/40 focus:outline-none focus:ring-2 focus:ring-yellow/50"
         />
+      </label>
+
+      <label className="mt-4 block">
+        <span className="mb-1.5 block text-xs font-mono uppercase tracking-wide text-graphite/60">
+          Palavras-chave secundárias (LSI)
+        </span>
+        <input
+          value={secondaryKeywords}
+          onChange={(e) => onSecondaryKeywordsChange(e.target.value)}
+          placeholder="ex: vigilância patrimonial, ronda noturna, controle de acesso"
+          className="w-full rounded-xl border border-navy/10 bg-surface px-4 py-2.5 text-graphite placeholder:text-graphite/40 focus:outline-none focus:ring-2 focus:ring-yellow/50"
+        />
+        <span className="mt-1 block text-xs text-graphite/40">
+          Termos relacionados, separados por vírgula — reforçam a densidade semântica do conteúdo.
+        </span>
       </label>
 
       <div className="mt-5 space-y-5">

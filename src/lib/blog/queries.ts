@@ -14,6 +14,10 @@ export type Post = {
   excerpt: string | null;
   metaDescription: string;
   focusKeyword: string;
+  authorName: string | null;
+  authorBio: string | null;
+  secondaryKeywords: string | null;
+  videoEmbedUrl: string | null;
   wordCount: number;
   seoScore: number | null;
   status: PostStatus;
@@ -34,6 +38,10 @@ type PostRow = {
   excerpt: string | null;
   meta_description: string;
   focus_keyword: string;
+  author_name: string | null;
+  author_bio: string | null;
+  secondary_keywords: string | null;
+  video_embed_url: string | null;
   word_count: number;
   seo_score: number | null;
   status: PostStatus;
@@ -55,6 +63,10 @@ function mapRow(row: PostRow): Post {
     excerpt: row.excerpt,
     metaDescription: row.meta_description,
     focusKeyword: row.focus_keyword,
+    authorName: row.author_name,
+    authorBio: row.author_bio,
+    secondaryKeywords: row.secondary_keywords,
+    videoEmbedUrl: row.video_embed_url,
     wordCount: row.word_count,
     seoScore: row.seo_score,
     status: row.status,

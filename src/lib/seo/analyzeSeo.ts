@@ -4,7 +4,7 @@
 // No DOM dependency, so it behaves identically in both environments.
 
 export type SeoCheckStatus = "pass" | "warning" | "fail";
-export type SeoCheckCategory = "basic" | "additional" | "title";
+export type SeoCheckCategory = "basic" | "additional" | "title" | "eeat";
 
 export type SeoCheck = {
   id: string;
@@ -23,6 +23,10 @@ export type SeoAnalysisInput = {
   bodyHtml: string;
   coverImageAlt: string;
   siteHostname: string;
+  authorName: string;
+  authorBio: string;
+  secondaryKeywords: string;
+  videoEmbedUrl: string;
 };
 
 export type SeoAnalysisResult = {
@@ -46,6 +50,12 @@ const CHECK_WEIGHTS: Record<string, number> = {
   externalLinks: 6,
   externalLinksRel: 4,
   readability: 6,
+  authorName: 6,
+  authorBio: 8,
+  semanticDensity: 8,
+  // multimediaRetention is intentionally absent — dwell-time multimedia is
+  // optional per product decision, so it never affects the score (see the
+  // totalWeight/earnedWeight fallback to 0 for unweighted check ids below).
 };
 
 const MIN_WORDS = 800;
@@ -116,6 +126,30 @@ function extractLinks(bodyHtml: string): LinkInfo[] {
   return links;
 }
 
+const ALLOWED_VIDEO_EMBED_HOSTS = [
+  "www.youtube.com",
+  "www.youtube-nocookie.com",
+  "player.vimeo.com",
+];
+
+export function isSafeVideoEmbedUrl(url: string): boolean {
+  const trimmed = url.trim();
+  if (!trimmed) return false;
+  try {
+    const parsed = new URL(trimmed);
+    return parsed.protocol === "https:" && ALLOWED_VIDEO_EMBED_HOSTS.includes(parsed.hostname);
+  } catch {
+    return false;
+  }
+}
+
+function parseSecondaryKeywords(raw: string): string[] {
+  return raw
+    .split(",")
+    .map((k) => k.trim())
+    .filter(Boolean);
+}
+
 function isInternalLink(href: string, siteHostname: string): boolean {
   if (href.startsWith("/") || href.startsWith("#")) return true;
   try {
@@ -167,6 +201,10 @@ export function analyzeSeo(input: SeoAnalysisInput): SeoAnalysisResult {
     bodyHtml,
     coverImageAlt,
     siteHostname,
+    authorName,
+    authorBio,
+    secondaryKeywords,
+    videoEmbedUrl,
   } = input;
 
   const wordCount = countWords(bodyText);
@@ -323,6 +361,63 @@ export function analyzeSeo(input: SeoAnalysisInput): SeoAnalysisResult {
     "readability",
     readabilityCheck(bodyHtml),
     "Legibilidade (aproximação por tamanho médio de frase/parágrafo, não uma fórmula científica).",
+    "additional"
+  );
+
+  // Densidade semântica (LSI)
+  const secondaryKeywordList = parseSecondaryKeywords(secondaryKeywords);
+  if (secondaryKeywordList.length === 0) {
+    push(
+      checks,
+      "semanticDensity",
+      "warning",
+      "Nenhuma palavra-chave secundária (LSI) informada — termos relacionados ajudam o Google a entender o contexto do conteúdo.",
+      "additional"
+    );
+  } else {
+    const matched = secondaryKeywordList.filter((kw) => containsKeyword(bodyText, kw));
+    const ratio = matched.length / secondaryKeywordList.length;
+    let semanticStatus: SeoCheckStatus;
+    if (ratio >= 0.5) semanticStatus = "pass";
+    else if (ratio > 0) semanticStatus = "warning";
+    else semanticStatus = "fail";
+    push(
+      checks,
+      "semanticDensity",
+      semanticStatus,
+      `${matched.length} de ${secondaryKeywordList.length} palavra(s)-chave secundária(s) (LSI) encontrada(s) no conteúdo.`,
+      "additional"
+    );
+  }
+
+  // E-E-A-T — assinatura de autoridade
+  push(
+    checks,
+    "authorName",
+    authorName.trim() ? "pass" : "fail",
+    "O post deve ter um autor identificado (nome).",
+    "eeat"
+  );
+
+  const bioLength = authorBio.trim().length;
+  let authorBioStatus: SeoCheckStatus;
+  if (bioLength >= 40) authorBioStatus = "pass";
+  else if (bioLength > 0) authorBioStatus = "warning";
+  else authorBioStatus = "fail";
+  push(
+    checks,
+    "authorBio",
+    authorBioStatus,
+    "A assinatura do autor deve incluir credenciais/experiência (E-E-A-T) — mínimo recomendado de 40 caracteres.",
+    "eeat"
+  );
+
+  // Multimídia de retenção (dwell time) — não obrigatório, não afeta a nota.
+  push(
+    checks,
+    "multimediaRetention",
+    isSafeVideoEmbedUrl(videoEmbedUrl) ? "pass" : "warning",
+    "Vídeo/multimídia incorporado (não obrigatório) — ajuda a aumentar o tempo de permanência (dwell time) na página.",
     "additional"
   );
 

@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    serverActions: {
+      // Default is 1MB; uploadCoverImage (src/lib/blog/actions.ts) allows
+      // up to 8MB, so the framework guard needs matching headroom or real
+      // cover photos never reach that check.
+      bodySizeLimit: "10mb",
+    },
+  },
 };
 
 export default nextConfig;

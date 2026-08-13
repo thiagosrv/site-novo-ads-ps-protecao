@@ -6,6 +6,7 @@ import Breadcrumbs, { buildBreadcrumbSchema } from "@/components/Breadcrumbs";
 import WhatsAppCta from "@/components/WhatsAppCta";
 import { getPublishedPostBySlug } from "@/lib/blog/queries";
 import { SITE_URL } from "@/lib/seo";
+import { isSafeVideoEmbedUrl } from "@/lib/seo/analyzeSeo";
 
 export const dynamic = "force-dynamic";
 
@@ -58,6 +59,7 @@ export default async function BlogPostPage({
   const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
 
   const readingMinutes = Math.max(1, Math.round(post.wordCount / 200));
+  const hasSafeVideoEmbed = Boolean(post.videoEmbedUrl && isSafeVideoEmbedUrl(post.videoEmbedUrl));
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -71,11 +73,17 @@ export default async function BlogPostPage({
       "@type": "WebPage",
       "@id": `${SITE_URL}/blog/${post.slug}`,
     },
-    author: {
-      "@type": "Organization",
-      name: "PS Proteção",
-      "@id": `${SITE_URL}/#organization`,
-    },
+    author: post.authorName
+      ? {
+          "@type": "Person",
+          name: post.authorName,
+          ...(post.authorBio ? { description: post.authorBio } : {}),
+        }
+      : {
+          "@type": "Organization",
+          name: "PS Proteção",
+          "@id": `${SITE_URL}/#organization`,
+        },
     publisher: {
       "@type": "Organization",
       name: "PS Proteção",
@@ -151,6 +159,33 @@ export default async function BlogPostPage({
       <article className="py-16 md:py-24 bg-surface">
         <div className="max-w-3xl mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
           <div className="blog-prose max-w-none" dangerouslySetInnerHTML={{ __html: post.bodyHtml }} />
+
+          {hasSafeVideoEmbed && (
+            <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-2xl shadow-[0_20px_45px_-20px_rgba(0,15,105,0.3)]">
+              <iframe
+                src={post.videoEmbedUrl!}
+                title={post.title}
+                className="absolute inset-0 h-full w-full"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
+
+          {post.authorName && (
+            <div className="mt-12 flex items-start gap-4 rounded-2xl border border-navy/10 bg-white p-6">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-navy/5 font-heading text-sm font-semibold text-navy">
+                {post.authorName.charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <p className="font-heading text-sm font-semibold text-navy">{post.authorName}</p>
+                {post.authorBio && (
+                  <p className="mt-1 text-sm leading-relaxed text-graphite/70">{post.authorBio}</p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </article>
 
