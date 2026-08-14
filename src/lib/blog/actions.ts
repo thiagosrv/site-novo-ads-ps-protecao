@@ -285,7 +285,12 @@ export async function uploadCoverImage(formData: FormData): Promise<UploadCoverI
   const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
   const key = `blog/covers/${randomUUID()}.${extension}`;
 
-  await putObject(key, file, file.type);
+  try {
+    await putObject(key, file, file.type);
+  } catch (error) {
+    console.error("uploadCoverImage: R2 upload failed", error);
+    return { ok: false, error: "Falha ao enviar a imagem para o armazenamento. Tente novamente." };
+  }
 
   return { ok: true, url: publicUrl(key) };
 }

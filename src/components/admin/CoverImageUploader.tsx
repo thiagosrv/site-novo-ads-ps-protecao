@@ -57,16 +57,21 @@ export default function CoverImageUploader({
     }
 
     setIsUploading(true);
-    const formData = new FormData();
-    formData.set("file", file);
-    const result = await uploadCoverImage(formData);
-    setIsUploading(false);
+    try {
+      const formData = new FormData();
+      formData.set("file", file);
+      const result = await uploadCoverImage(formData);
 
-    if (!result.ok) {
-      setError(result.error);
-      return;
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+      onImageUrlChange(result.url);
+    } catch {
+      setError("Falha inesperada ao enviar a imagem. Tente novamente.");
+    } finally {
+      setIsUploading(false);
     }
-    onImageUrlChange(result.url);
   }
 
   return (
