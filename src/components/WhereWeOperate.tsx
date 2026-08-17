@@ -3,9 +3,26 @@ import { MapPin, ArrowRight, MessageCircle } from "lucide-react";
 import GsapReveal from "@/components/GsapReveal";
 import SectionLabel from "@/components/SectionLabel";
 import WhatsAppCta from "@/components/WhatsAppCta";
-import { CITIES, PRIORITY_CITIES } from "@/lib/cities";
+import { CITIES, getCityBySlug, type City } from "@/lib/cities";
 import { buildCategoryNestedPath } from "@/lib/programmatic";
 import { CATEGORY_LABEL, type ServiceCategory } from "@/lib/services";
+
+const FEATURED_CITY_SLUGS = [
+  "americana",
+  "santa-barbara-d-oeste",
+  "piracicaba",
+  "campinas",
+  "nova-odessa",
+  "sumare",
+  "valinhos",
+  "vinhedo",
+  "limeira",
+  "indaiatuba",
+];
+
+const FEATURED_CITIES: City[] = FEATURED_CITY_SLUGS.map((slug) => getCityBySlug(slug)).filter(
+  (city): city is City => Boolean(city)
+);
 
 export default function WhereWeOperate({ category }: { category: ServiceCategory }) {
   const categoryLabel = CATEGORY_LABEL[category];
@@ -48,7 +65,7 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
         </GsapReveal>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5">
-          {PRIORITY_CITIES.map((city, i) => (
+          {FEATURED_CITIES.map((city, i) => (
             <GsapReveal key={city.slug} delayMs={i * 60}>
               <Link
                 href={buildCategoryNestedPath(category, city)}
