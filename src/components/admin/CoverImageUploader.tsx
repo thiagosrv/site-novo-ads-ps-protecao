@@ -5,25 +5,6 @@ import Image from "next/image";
 import { ImagePlus, Loader2, X } from "lucide-react";
 import { uploadCoverImage } from "@/lib/blog/actions";
 
-const ASPECT_RATIO = 16 / 9;
-const ASPECT_TOLERANCE = 0.03;
-
-function readImageDimensions(file: File): Promise<{ width: number; height: number }> {
-  return new Promise((resolve, reject) => {
-    const url = URL.createObjectURL(file);
-    const img = new window.Image();
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      resolve({ width: img.naturalWidth, height: img.naturalHeight });
-    };
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new Error("Não foi possível ler a imagem."));
-    };
-    img.src = url;
-  });
-}
-
 export default function CoverImageUploader({
   imageUrl,
   imageAlt,
@@ -41,21 +22,6 @@ export default function CoverImageUploader({
 
   async function handleFileSelected(file: File) {
     setError(null);
-
-    const { width, height } = await readImageDimensions(file).catch(() => ({
-      width: 0,
-      height: 0,
-    }));
-    if (width && height) {
-      const ratio = width / height;
-      if (Math.abs(ratio - ASPECT_RATIO) > ASPECT_TOLERANCE) {
-        setError(
-          `A imagem precisa estar no formato 16:9 (recebida ${width}×${height}, proporção ${ratio.toFixed(2)}).`
-        );
-        return;
-      }
-    }
-
     setIsUploading(true);
     try {
       const formData = new FormData();
@@ -77,7 +43,7 @@ export default function CoverImageUploader({
   return (
     <div>
       <span className="mb-1.5 block text-xs font-mono uppercase tracking-wide text-graphite/60">
-        Imagem de capa (16:9)
+        Imagem de capa
       </span>
 
       {imageUrl ? (
@@ -101,7 +67,7 @@ export default function CoverImageUploader({
         >
           {isUploading ? <Loader2 size={28} className="animate-spin" /> : <ImagePlus size={28} />}
           <span className="text-sm font-medium">
-            {isUploading ? "Enviando..." : "Enviar imagem (formato 16:9)"}
+            {isUploading ? "Enviando..." : "Enviar imagem"}
           </span>
         </button>
       )}
