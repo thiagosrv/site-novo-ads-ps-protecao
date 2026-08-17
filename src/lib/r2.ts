@@ -35,7 +35,7 @@ export async function putObject(key: string, body: Blob, contentType: string): P
   const res = await client().fetch(objectUrl(key), {
     method: "PUT",
     body,
-    headers: { "Content-Type": contentType },
+    headers: { "Content-Type": contentType, "Content-Length": String(body.size) },
   });
   if (!res.ok) {
     throw new Error(`R2 upload failed: ${res.status} ${await res.text()}`);
