@@ -118,7 +118,7 @@ export default async function BlogPostPage({
           <circle className="fill-yellow" cx="1360" cy="150" r="4" />
         </svg>
 
-        <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
+        <div className="relative z-10 max-w-3xl md:max-w-none md:w-3/5 mx-auto px-6 md:px-0">
           <div className="mb-8">
             <Breadcrumbs items={breadcrumbItems} dark />
           </div>
@@ -143,7 +143,7 @@ export default async function BlogPostPage({
         </div>
       </section>
 
-      <div className="max-w-3xl mx-auto px-6 md:px-[var(--spacing-grid-margin)] -mt-12 md:-mt-16 relative z-10">
+      <div className="max-w-3xl md:max-w-none md:w-3/5 mx-auto px-6 md:px-0 -mt-12 md:-mt-16 relative z-10">
         <div className="relative aspect-[16/9] overflow-hidden rounded-3xl shadow-[0_25px_55px_-20px_rgba(0,15,105,0.35)]">
           <Image
             src={post.coverImageUrl}
@@ -157,7 +157,7 @@ export default async function BlogPostPage({
       </div>
 
       <article className="py-16 md:py-24 bg-surface">
-        <div className="max-w-3xl mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
+        <div className="max-w-3xl md:max-w-none md:w-3/5 mx-auto px-6 md:px-0">
           <div className="blog-prose max-w-none" dangerouslySetInnerHTML={{ __html: post.bodyHtml }} />
 
           {hasSafeVideoEmbed && (
@@ -190,7 +190,7 @@ export default async function BlogPostPage({
       </article>
 
       <section className="bg-gradient-to-br from-navy to-navy-deep py-20 relative overflow-hidden">
-        <div className="max-w-3xl mx-auto px-6 md:px-[var(--spacing-grid-margin)] relative z-10 text-center flex flex-col items-center gap-6">
+        <div className="max-w-3xl md:max-w-none md:w-3/5 mx-auto px-6 md:px-0 relative z-10 text-center flex flex-col items-center gap-6">
           <h2 className="font-heading text-3xl md:text-4xl text-white">
             Pronto para terceirizar com quem entende do assunto?
           </h2>
