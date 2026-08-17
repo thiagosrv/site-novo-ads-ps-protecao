@@ -1,5 +1,4 @@
 import Link from "next/link";
-import clsx from "clsx";
 import {
   ArrowRight,
   Building2,
@@ -68,6 +67,33 @@ const OPERATING_PLACES: OperatingPlace[] = [
   },
 ];
 
+function OperatingPlaceIcon({ place, index }: { place: OperatingPlace; index: number }) {
+  const Icon = place.icon;
+  return (
+    <div className="relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-yellow/30 bg-navy-deep shadow-[0_0_0_6px_rgba(7,19,56,1)]">
+      <Icon size={24} className="text-yellow" />
+      <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-yellow font-mono text-[10px] font-bold text-navy">
+        {index + 1}
+      </span>
+    </div>
+  );
+}
+
+function OperatingPlaceText({
+  place,
+  categoryLabel,
+}: {
+  place: OperatingPlace;
+  categoryLabel: string;
+}) {
+  return (
+    <div className="max-w-[168px] text-center">
+      <p className="font-heading text-sm font-semibold text-white leading-snug">{place.label}</p>
+      <p className="mt-1.5 text-xs leading-relaxed text-white/50">{place.copy(categoryLabel)}</p>
+    </div>
+  );
+}
+
 export default function WhereWeOperate({ category }: { category: ServiceCategory }) {
   const categoryLabel = CATEGORY_LABEL[category];
 
@@ -110,31 +136,73 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
           </div>
         </GsapReveal>
 
-        {/* Tipos de operação: esteira de medalhões em zigue-zague, ligados por uma linha
-            tracejada — deliberadamente diferente do grid de cards das cidades abaixo. */}
+        {/* Tipos de operação: linha do tempo com nó central por item. Desktop usa uma
+            grade de 3 linhas (texto / ícone / texto) para que o ícone fique sempre
+            alinhado à mesma linha horizontal mesmo alternando o texto acima/abaixo.
+            Mobile usa uma linha do tempo vertical dedicada, não um reflow do layout
+            desktop — leitura sequencial de cima para baixo, sem quebra de linha de
+            texto disputando espaço com os ícones. */}
         <GsapReveal>
           <p className="mb-10 text-center font-mono text-xs uppercase tracking-[0.2em] text-yellow/60">
             Tipos de operação atendidos
           </p>
-          <div className="relative mb-20 md:mb-24">
+
+          {/* Desktop / tablet */}
+          <div className="relative mb-20 hidden md:block md:mb-24">
             <div
-              className="pointer-events-none absolute inset-x-8 top-8 hidden border-t border-dashed border-yellow/25 md:block"
+              className="grid"
+              style={{
+                gridTemplateColumns: `repeat(${OPERATING_PLACES.length}, minmax(0, 1fr))`,
+                gridTemplateRows: "minmax(92px, auto) auto minmax(92px, auto)",
+              }}
+            >
+              <div
+                className="relative z-0 flex items-center"
+                style={{ gridColumn: "1 / -1", gridRow: 2 }}
+                aria-hidden="true"
+              >
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-yellow/25 to-transparent" />
+              </div>
+              {OPERATING_PLACES.flatMap((place, i) => {
+                const isUp = i % 2 === 0;
+                return [
+                  <div
+                    key={`${place.label}-top`}
+                    style={{ gridColumn: i + 1, gridRow: 1 }}
+                    className="flex items-end justify-center px-2 pb-4"
+                  >
+                    {isUp && <OperatingPlaceText place={place} categoryLabel={categoryLabel} />}
+                  </div>,
+                  <div
+                    key={`${place.label}-icon`}
+                    style={{ gridColumn: i + 1, gridRow: 2 }}
+                    className="flex items-center justify-center px-2"
+                  >
+                    <OperatingPlaceIcon place={place} index={i} />
+                  </div>,
+                  <div
+                    key={`${place.label}-bottom`}
+                    style={{ gridColumn: i + 1, gridRow: 3 }}
+                    className="flex items-start justify-center px-2 pt-4"
+                  >
+                    {!isUp && <OperatingPlaceText place={place} categoryLabel={categoryLabel} />}
+                  </div>,
+                ];
+              })}
+            </div>
+          </div>
+
+          {/* Mobile: linha do tempo vertical dedicada */}
+          <div className="relative mb-16 md:hidden">
+            <div
+              className="pointer-events-none absolute left-8 top-8 bottom-8 w-px bg-gradient-to-b from-yellow/30 via-yellow/15 to-transparent"
               aria-hidden="true"
             />
-            <div className="relative flex flex-wrap justify-center gap-x-8 gap-y-12 md:flex-nowrap md:justify-between">
-              {OPERATING_PLACES.map((place, i) => {
-                const Icon = place.icon;
-                return (
-                  <div
-                    key={place.label}
-                    className={clsx(
-                      "flex w-[150px] flex-col items-center text-center",
-                      i % 2 === 1 && "md:translate-y-8"
-                    )}
-                  >
-                    <div className="relative z-10 mb-4 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-yellow/30 bg-navy-deep shadow-[0_0_0_6px_rgba(7,19,56,1)]">
-                      <Icon size={26} className="text-yellow" />
-                    </div>
+            <div className="flex flex-col gap-8">
+              {OPERATING_PLACES.map((place, i) => (
+                <div key={place.label} className="relative flex items-start gap-5">
+                  <OperatingPlaceIcon place={place} index={i} />
+                  <div className="max-w-[calc(100%-80px)] pt-3">
                     <p className="font-heading text-sm font-semibold text-white leading-snug">
                       {place.label}
                     </p>
@@ -142,8 +210,8 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
                       {place.copy(categoryLabel)}
                     </p>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </div>
         </GsapReveal>
