@@ -48,7 +48,7 @@ export default function ContactSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start relative z-10 p-8 md:p-16">
             <div className="md:col-span-5 pt-0 md:pt-8 text-center md:text-left">
-              <h2 className="font-heading text-3xl md:text-[40px] text-navy mb-6 leading-tight">
+              <h2 className="font-heading text-3xl md:text-[48px] text-navy mb-6 leading-tight">
                 Pronto para elevar o padrão da sua operação?
               </h2>
               <p className="text-lg text-graphite/70 mb-10">

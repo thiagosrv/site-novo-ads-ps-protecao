@@ -118,9 +118,9 @@ export default function TechSolutions({
       <div className="relative max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
         <Reveal>
           <div className="mb-16 max-w-2xl mx-auto text-center md:mx-0 md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
-              <span className="w-8 h-px bg-yellow" />
-              <span className="font-mono text-yellow text-sm tracking-widest uppercase">
+            <div className="inline-flex items-center gap-3 bg-tech-blue/10 border border-tech-blue/30 px-5 py-2 rounded-full mb-6 backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-tech-blue animate-pulse" />
+              <span className="font-mono text-tech-blue text-xs tracking-widest uppercase">
                 Tecnologia e processos próprios
               </span>
             </div>
@@ -166,7 +166,7 @@ export default function TechSolutions({
                   >
                     <span
                       className={`flex items-center justify-center w-10 h-10 rounded-full shrink-0 transition-colors duration-300 ${
-                        isActive ? "bg-yellow text-navy" : "ts-tab-icon-inactive bg-white/10 text-white/40"
+                        isActive ? "bg-tech-blue text-white" : "ts-tab-icon-inactive bg-white/10 text-white/40"
                       }`}
                     >
                       <Icon size={18} />
@@ -181,7 +181,7 @@ export default function TechSolutions({
                     <ChevronRight
                       size={18}
                       className={`shrink-0 transition-transform duration-300 ${
-                        isActive ? "text-yellow translate-x-1" : "ts-tab-chevron-inactive text-white/25"
+                        isActive ? "text-tech-blue translate-x-1" : "ts-tab-chevron-inactive text-white/25"
                       }`}
                     />
                   </div>
@@ -190,8 +190,28 @@ export default function TechSolutions({
             })}
           </div>
 
-          <div className="md:col-span-7">
-            <div className="gradient-border rounded-3xl p-[1.5px] h-full">
+          <div className="md:col-span-7 relative">
+            <div
+              className="absolute -inset-6 bg-tech-blue/10 rounded-[2.5rem] blur-2xl pointer-events-none"
+              aria-hidden="true"
+            />
+            <svg
+              className="absolute -top-2.5 -left-2.5 w-7 h-7 text-tech-blue/50 pointer-events-none"
+              viewBox="0 0 28 28"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="M28 1H7a6 6 0 0 0-6 6v21" stroke="currentColor" strokeWidth="2" />
+            </svg>
+            <svg
+              className="absolute -bottom-2.5 -right-2.5 w-7 h-7 text-tech-blue/50 pointer-events-none"
+              viewBox="0 0 28 28"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="M0 27h21a6 6 0 0 0 6-6V0" stroke="currentColor" strokeWidth="2" />
+            </svg>
+            <div className="relative gradient-border rounded-3xl p-[1.5px] h-full">
               <div className="relative rounded-[22px] overflow-hidden bg-white h-full flex flex-col">
                 <div className="relative h-64 md:h-80 bg-navy/5">
                   <Image
@@ -204,8 +224,8 @@ export default function TechSolutions({
                   <div className="absolute inset-0 bg-gradient-to-t from-navy/50 via-transparent to-transparent" />
                 </div>
                 <div className="p-8 md:p-10">
-                  <span className="inline-flex items-center gap-2 text-navy font-mono text-[11px] font-bold tracking-widest uppercase">
-                    <ActiveIcon size={14} className="text-yellow-dark" />
+                  <span className="inline-flex items-center gap-2 text-tech-blue font-mono text-[11px] font-bold tracking-widest uppercase">
+                    <ActiveIcon size={14} className="text-tech-blue" />
                     {activeItem.tag}
                   </span>
                   <h3 className="font-heading text-2xl text-navy mt-3 mb-4 leading-snug">

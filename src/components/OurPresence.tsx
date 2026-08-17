@@ -18,7 +18,7 @@ export default function OurPresence() {
                 Presença Consolidada
               </span>
             </div>
-            <h2 className="font-heading text-3xl md:text-[40px] text-navy mb-5 leading-tight text-center md:text-left">
+            <h2 className="font-heading text-3xl md:text-[48px] text-navy mb-5 leading-tight text-center md:text-left">
               Presença consolidada na RMC e Piracicaba, expandindo por São Paulo
             </h2>
             <p className="text-lg text-graphite/70 leading-relaxed text-center md:text-left">

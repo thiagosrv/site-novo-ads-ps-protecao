@@ -52,7 +52,7 @@ export default function Hero() {
           </Reveal>
 
           <Reveal delayMs={100}>
-            <h1 className="text-white font-heading text-[32px] md:text-[54px] font-bold leading-[1.1] mb-8">
+            <h1 className="text-white font-heading text-4xl md:text-6xl font-bold leading-[1.1] mb-8">
               Serviços Terceirizados de{" "}
               <span className="text-yellow">Portaria e Limpeza</span> com{" "}
               <span className="text-yellow">Padrão Operacional</span> e Supervisão.
