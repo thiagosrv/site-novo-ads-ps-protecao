@@ -18,6 +18,7 @@ import WhatsAppCta from "@/components/WhatsAppCta";
 import SectionLabel from "@/components/SectionLabel";
 import ProcessCard from "@/components/ProcessCard";
 import MarqueeBand from "@/components/MarqueeBand";
+import WhereWeOperate from "@/components/WhereWeOperate";
 import Breadcrumbs, { buildBreadcrumbSchema } from "@/components/Breadcrumbs";
 import FaqAccordion, { type FaqItem } from "@/components/FaqAccordion";
 import { SITE_URL } from "@/lib/seo";
@@ -248,6 +249,11 @@ export default function ServicoLimpezaPage() {
                   <strong className="text-navy">1.000 clientes atendidos</strong>, com a mesma
                   supervisão de perto que existia no primeiro contrato da empresa.
                 </p>
+                <p>
+                  Da administradora de condomínio à indústria de grande porte, aplicamos o mesmo
+                  padrão operacional e a mesma disciplina de supervisão em cada contrato — não
+                  existe cliente pequeno demais para receber atenção da nossa equipe de campo.
+                </p>
               </div>
             </div>
           </GsapReveal>
@@ -294,6 +300,29 @@ export default function ServicoLimpezaPage() {
                   ou processo seletivo — apenas o{" "}
                   <strong className="text-navy">resultado combinado</strong>, todos os dias.
                 </p>
+              </div>
+              <ul className="flex flex-col gap-3 max-w-[62ch] mx-auto md:mx-0">
+                {[
+                  "EPIs e produtos de limpeza certificados",
+                  "Escala dimensionada por m² e fluxo de circulação",
+                  "Relatórios periódicos de execução e auditoria",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-graphite/70 text-sm md:text-base">
+                    <CheckCircle2 size={18} className="text-yellow-dark shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="pt-2 flex justify-center md:justify-start">
+                <WhatsAppCta
+                  label={
+                    <>
+                      <MessageCircle size={16} />
+                      Tirar dúvidas sobre a implantação
+                    </>
+                  }
+                  className="px-6 py-3 text-sm"
+                />
               </div>
             </div>
           </GsapReveal>
@@ -352,6 +381,8 @@ export default function ServicoLimpezaPage() {
         </div>
       </section>
 
+      <WhereWeOperate category="limpeza" />
+
       {/* FAQ */}
       <section className="py-24 md:py-[var(--spacing-section)] bg-surface">
         <div className="max-w-3xl mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
@@ -364,6 +395,22 @@ export default function ServicoLimpezaPage() {
             </div>
           </GsapReveal>
           <FaqAccordion items={FAQ_ITEMS} />
+          <GsapReveal delayMs={150}>
+            <div className="mt-10 flex flex-col items-center gap-4 text-center">
+              <p className="text-graphite/70 text-sm md:text-base">
+                Não encontrou sua dúvida aqui? Fale direto com nossa equipe.
+              </p>
+              <WhatsAppCta
+                label={
+                  <>
+                    <MessageCircle size={16} />
+                    Falar com um especialista
+                  </>
+                }
+                className="px-6 py-3 text-sm"
+              />
+            </div>
+          </GsapReveal>
         </div>
       </section>
 
