@@ -1,5 +1,15 @@
 import Link from "next/link";
-import { MapPin, ArrowRight, MessageCircle } from "lucide-react";
+import clsx from "clsx";
+import {
+  ArrowRight,
+  Building2,
+  Factory,
+  GraduationCap,
+  HardHat,
+  HeartPulse,
+  MessageCircle,
+  type LucideIcon,
+} from "lucide-react";
 import GsapReveal from "@/components/GsapReveal";
 import SectionLabel from "@/components/SectionLabel";
 import WhatsAppCta from "@/components/WhatsAppCta";
@@ -23,6 +33,40 @@ const FEATURED_CITY_SLUGS = [
 const FEATURED_CITIES: City[] = FEATURED_CITY_SLUGS.map((slug) => getCityBySlug(slug)).filter(
   (city): city is City => Boolean(city)
 );
+
+type OperatingPlace = {
+  icon: LucideIcon;
+  label: string;
+  copy: (categoryLabel: string) => string;
+};
+
+const OPERATING_PLACES: OperatingPlace[] = [
+  {
+    icon: Factory,
+    label: "Indústrias",
+    copy: (c) => `${c} adaptada a regime de turnos e ao processo produtivo.`,
+  },
+  {
+    icon: Building2,
+    label: "Empresas",
+    copy: (c) => `${c} para escritórios, comércios e centros corporativos.`,
+  },
+  {
+    icon: GraduationCap,
+    label: "Instituições de Ensino",
+    copy: (c) => `${c} compatível com a rotina de escolas e faculdades.`,
+  },
+  {
+    icon: HeartPulse,
+    label: "Instituições de Saúde",
+    copy: (c) => `${c} seguindo protocolos de biossegurança hospitalar.`,
+  },
+  {
+    icon: HardHat,
+    label: "Obras",
+    copy: (c) => `${c} adaptada ao avanço físico do canteiro de obras.`,
+  },
+];
 
 export default function WhereWeOperate({ category }: { category: ServiceCategory }) {
   const categoryLabel = CATEGORY_LABEL[category];
@@ -51,42 +95,92 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
 
       <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
         <GsapReveal>
-          <div className="mb-14 max-w-2xl mx-auto text-center">
-            <SectionLabel align="center">Onde Operamos</SectionLabel>
+          <div className="mb-16 max-w-2xl mx-auto text-center">
+            <SectionLabel align="center">04 · Onde Operamos</SectionLabel>
             <h2 className="font-heading text-3xl md:text-[48px] text-white mb-4 leading-tight">
-              Cobertura ativa em <span className="text-yellow">{CITIES.length}+ cidades</span> de São Paulo
+              Cobertura ativa em <span className="text-yellow">{CITIES.length}+ cidades</span>, para
+              todo tipo de operação
             </h2>
             <p className="text-lg text-white/70 leading-relaxed">
-              Da sede própria em Americana, supervisionamos {categoryLabel.toLowerCase()} em
-              condomínios, empresas e indústrias por toda a Região Metropolitana de Campinas e o
-              interior de São Paulo. Escolha sua cidade e veja a cobertura na prática.
+              Da sede própria em Americana, aplicamos {categoryLabel.toLowerCase()} com o mesmo
+              padrão de supervisão em indústrias, empresas, instituições de ensino e de saúde, e
+              canteiros de obra por toda a Região Metropolitana de Campinas e o interior de São
+              Paulo.
             </p>
           </div>
         </GsapReveal>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5">
+        {/* Tipos de operação: esteira de medalhões em zigue-zague, ligados por uma linha
+            tracejada — deliberadamente diferente do grid de cards das cidades abaixo. */}
+        <GsapReveal>
+          <p className="mb-10 text-center font-mono text-xs uppercase tracking-[0.2em] text-yellow/60">
+            Tipos de operação atendidos
+          </p>
+          <div className="relative mb-20 md:mb-24">
+            <div
+              className="pointer-events-none absolute inset-x-8 top-8 hidden border-t border-dashed border-yellow/25 md:block"
+              aria-hidden="true"
+            />
+            <div className="relative flex flex-wrap justify-center gap-x-8 gap-y-12 md:flex-nowrap md:justify-between">
+              {OPERATING_PLACES.map((place, i) => {
+                const Icon = place.icon;
+                return (
+                  <div
+                    key={place.label}
+                    className={clsx(
+                      "flex w-[150px] flex-col items-center text-center",
+                      i % 2 === 1 && "md:translate-y-8"
+                    )}
+                  >
+                    <div className="relative z-10 mb-4 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-yellow/30 bg-navy-deep shadow-[0_0_0_6px_rgba(7,19,56,1)]">
+                      <Icon size={26} className="text-yellow" />
+                    </div>
+                    <p className="font-heading text-sm font-semibold text-white leading-snug">
+                      {place.label}
+                    </p>
+                    <p className="mt-1.5 text-xs leading-relaxed text-white/50">
+                      {place.copy(categoryLabel)}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </GsapReveal>
+
+        {/* Cidades atendidas: ficha/diretório em lista numerada, não cards. */}
+        <p className="mb-6 text-center font-mono text-xs uppercase tracking-[0.2em] text-yellow/60">
+          Cidades com cobertura ativa
+        </p>
+        <div className="mx-auto max-w-3xl grid grid-cols-1 gap-x-12 sm:grid-cols-2">
           {FEATURED_CITIES.map((city, i) => (
-            <GsapReveal key={city.slug} delayMs={i * 60}>
+            <GsapReveal key={city.slug} delayMs={i * 40}>
               <Link
                 href={buildCategoryNestedPath(category, city)}
-                className="group flex h-full flex-col rounded-[20px] border border-white/10 bg-white/5 p-5 transition-colors hover:border-yellow/40 hover:bg-white/10"
+                className="group flex items-center justify-between gap-4 border-b border-white/10 py-4 transition-colors hover:border-yellow/30"
               >
-                <MapPin size={20} className="text-yellow mb-3" />
-                <p className="font-heading text-yellow font-semibold text-base leading-snug">
-                  {city.name}
-                </p>
-                <p className="text-white/45 text-xs mt-1 mb-4 line-clamp-1">{city.region}</p>
-                <span className="mt-auto inline-flex items-center gap-1 text-white/70 text-[11px] font-mono uppercase tracking-wide transition-colors group-hover:text-yellow">
-                  Ver cobertura
-                  <ArrowRight size={12} className="transition-transform group-hover:translate-x-0.5" />
-                </span>
+                <div className="flex items-center gap-4">
+                  <span className="font-mono text-xs text-yellow/70">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <p className="font-heading text-base font-semibold text-white transition-colors group-hover:text-yellow">
+                      {city.name}
+                    </p>
+                    <p className="text-xs text-white/40">{city.region}</p>
+                  </div>
+                </div>
+                <ArrowRight
+                  size={16}
+                  className="shrink-0 text-white/30 transition-all group-hover:translate-x-1 group-hover:text-yellow"
+                />
               </Link>
             </GsapReveal>
           ))}
         </div>
 
         <GsapReveal delayMs={200}>
-          <div className="mt-10 flex flex-col items-center justify-between gap-6 rounded-[24px] border border-yellow/20 bg-white/5 backdrop-blur-sm px-8 py-7 md:flex-row">
+          <div className="mt-12 flex flex-col items-center justify-between gap-6 rounded-[24px] border border-yellow/20 bg-white/5 backdrop-blur-sm px-8 py-7 md:flex-row">
             <p className="text-center text-sm text-white/80 md:text-left md:text-base">
               Atendemos mais de <strong className="text-yellow">{CITIES.length} municípios</strong> na
               Região Metropolitana de Campinas e interior de São Paulo. Não encontrou sua cidade na

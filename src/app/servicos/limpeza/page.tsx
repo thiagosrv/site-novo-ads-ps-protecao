@@ -232,7 +232,7 @@ export default function ServicoLimpezaPage() {
           <GsapReveal className="md:col-span-6 order-2 md:order-1">
             <div className="flex flex-col gap-6 text-center md:text-left">
               <SectionLabel color="navy" align="center" className="md:justify-start">
-                Quem Somos
+                01 · Quem Somos
               </SectionLabel>
               <h2 className="font-heading text-3xl md:text-[42px] text-navy leading-[1.15]">
                 Uma empresa com sede própria, não só um número de telefone
@@ -281,16 +281,26 @@ export default function ServicoLimpezaPage() {
       </section>
 
       {/* Apresentação */}
-      <section className="py-24 md:py-[var(--spacing-section)] bg-gradient-to-b from-white to-surface overflow-hidden">
-        <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-x-16 items-center">
+      <section className="relative py-24 md:py-[var(--spacing-section)] bg-gradient-to-b from-navy to-navy-deep overflow-hidden">
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none opacity-20 z-0"
+          viewBox="0 0 1440 600"
+          aria-hidden="true"
+        >
+          <line className="stroke-yellow" strokeDasharray="4 4" strokeWidth="0.5" x1="80" x2="80" y1="0" y2="600" />
+          <line className="stroke-yellow" strokeDasharray="4 4" strokeWidth="0.5" x1="1360" x2="1360" y1="0" y2="600" />
+          <circle className="fill-yellow" cx="80" cy="300" r="4" />
+          <circle className="fill-yellow" cx="1360" cy="180" r="4" />
+        </svg>
+
+        <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-x-16 items-center">
           <GsapReveal className="md:col-span-6">
             <div className="flex flex-col gap-6 text-center md:text-left">
-              <SectionLabel color="navy">Gestão completa da limpeza</SectionLabel>
-              <h2 className="font-heading text-3xl md:text-[42px] text-navy leading-[1.15]">
-                A limpeza sai da sua{" "}
-                <span className="text-yellow-dark">rotina interna</span>
+              <SectionLabel>02 · Gestão Completa da Limpeza</SectionLabel>
+              <h2 className="font-heading text-3xl md:text-[42px] text-white leading-[1.15]">
+                A limpeza sai da sua <span className="text-yellow">rotina interna</span>
               </h2>
-              <div className="text-graphite/70 leading-relaxed flex flex-col gap-4 max-w-[62ch] mx-auto md:mx-0">
+              <div className="text-white/70 leading-relaxed flex flex-col gap-4 max-w-[62ch] mx-auto md:mx-0">
                 <p>
                   Terceirizar a limpeza remove da sua empresa a gestão de EPIs, produtos químicos
                   e escala de equipe, deixando isso sob nossa responsabilidade contratual.
@@ -298,7 +308,7 @@ export default function ServicoLimpezaPage() {
                 <p>
                   Você recebe relatórios periódicos, sem precisar administrar folha de pagamento
                   ou processo seletivo — apenas o{" "}
-                  <strong className="text-navy">resultado combinado</strong>, todos os dias.
+                  <strong className="text-white">resultado combinado</strong>, todos os dias.
                 </p>
               </div>
               <ul className="flex flex-col gap-3 max-w-[62ch] mx-auto md:mx-0">
@@ -307,8 +317,8 @@ export default function ServicoLimpezaPage() {
                   "Escala dimensionada por m² e fluxo de circulação",
                   "Relatórios periódicos de execução e auditoria",
                 ].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-graphite/70 text-sm md:text-base">
-                    <CheckCircle2 size={18} className="text-yellow-dark shrink-0 mt-0.5" />
+                  <li key={item} className="flex items-start gap-3 text-white/70 text-sm md:text-base">
+                    <CheckCircle2 size={18} className="text-yellow shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -328,7 +338,7 @@ export default function ServicoLimpezaPage() {
           </GsapReveal>
 
           <GsapReveal delayMs={100} className="md:col-span-6">
-            <div className="rounded-[24px] overflow-hidden border border-navy/10 bg-surface shadow-[0_25px_55px_-25px_rgba(0,15,105,0.35)] max-w-md mx-auto md:max-w-none">
+            <div className="rounded-[24px] overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm shadow-[0_25px_55px_-25px_rgba(0,0,0,0.45)] max-w-md mx-auto md:max-w-none">
               <div className="relative aspect-[16/9]">
                 <Image
                   src="/assets/limpeza.webp"
@@ -338,9 +348,9 @@ export default function ServicoLimpezaPage() {
                   className="object-cover"
                 />
               </div>
-              <div className="flex items-start gap-3 px-6 py-5 border-t border-navy/10 bg-white">
-                <SprayCan size={20} className="text-yellow-dark shrink-0 mt-0.5" />
-                <p className="font-heading text-navy text-sm leading-snug">
+              <div className="flex items-start gap-3 px-6 py-5 border-t border-white/10 bg-navy-deep">
+                <SprayCan size={20} className="text-yellow shrink-0 mt-0.5" />
+                <p className="font-heading text-white text-sm leading-snug">
                   Equipe uniformizada e supervisão em 100% dos contratos
                 </p>
               </div>
@@ -350,15 +360,17 @@ export default function ServicoLimpezaPage() {
       </section>
 
       {/* Pilares */}
-      <section className="py-24 md:py-[var(--spacing-section)] bg-gradient-to-b from-navy-deep to-navy">
+      <section className="py-24 md:py-[var(--spacing-section)] bg-white">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
           <GsapReveal>
             <div className="mb-14 max-w-2xl mx-auto text-center md:mx-0 md:text-left">
-              <SectionLabel align="center">Como funciona</SectionLabel>
-              <h2 className="font-heading text-3xl md:text-[48px] text-white mb-4 leading-tight">
+              <SectionLabel color="navy" align="center">
+                03 · Como Funciona
+              </SectionLabel>
+              <h2 className="font-heading text-3xl md:text-[48px] text-navy mb-4 leading-tight">
                 Da proposta à operação no seu local
               </h2>
-              <p className="text-lg text-white/70 leading-relaxed">
+              <p className="text-lg text-graphite/70 leading-relaxed">
                 Quatro pilares sustentam a limpeza terceirizada da PS Proteção, do primeiro
                 diagnóstico à auditoria de qualidade contínua.
               </p>
@@ -374,6 +386,7 @@ export default function ServicoLimpezaPage() {
                   title={pillar.title}
                   text={pillar.text}
                   accent={pillar.accent}
+                  light
                 />
               </GsapReveal>
             ))}
@@ -388,7 +401,9 @@ export default function ServicoLimpezaPage() {
         <div className="max-w-3xl mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
           <GsapReveal>
             <div className="mb-12 text-center">
-              <SectionLabel align="center">Perguntas frequentes</SectionLabel>
+              <SectionLabel color="navy" align="center">
+                05 · Perguntas Frequentes
+              </SectionLabel>
               <h2 className="font-heading text-3xl md:text-[42px] text-navy leading-tight">
                 Dúvidas comuns sobre limpeza terceirizada
               </h2>
