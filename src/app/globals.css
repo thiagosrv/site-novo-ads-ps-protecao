@@ -132,6 +132,17 @@ body {
   animation: step-fade-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 
+.chat-bubble {
+  opacity: 0;
+  transform: translateY(4px) scale(0.95);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chat-bubble.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 @keyframes step-fade-in {
   from {
     opacity: 0;
@@ -141,6 +152,19 @@ body {
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+@keyframes tech-progress-fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.tech-progress-fill {
+  animation: tech-progress-fill 6s linear forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -153,12 +177,14 @@ body {
 
   .modal-backdrop,
   .modal-panel,
-  .popover-panel {
+  .popover-panel,
+  .chat-bubble {
     transition: none;
   }
 
   .modal-panel,
-  .popover-panel {
+  .popover-panel,
+  .chat-bubble {
     transform: none;
   }
 
@@ -182,12 +208,27 @@ body {
   background-size: 9px 9px;
 }
 
+.texture-dots-navy {
+  background-image: radial-gradient(rgba(0, 15, 106, 0.12) 1px, transparent 1.4px);
+  background-size: 22px 22px;
+}
+
 .gradient-border {
   background: linear-gradient(
     155deg,
     rgba(252, 191, 7, 0.6) 0%,
     rgba(65, 147, 255, 0.4) 45%,
     rgba(252, 191, 7, 0.15) 100%
+  );
+}
+
+.gradient-border-yellow {
+  background: linear-gradient(
+    155deg,
+    rgba(255, 224, 130, 0.9) 0%,
+    rgba(252, 191, 7, 0.9) 40%,
+    rgba(229, 172, 6, 0.9) 70%,
+    rgba(255, 224, 130, 0.6) 100%
   );
 }
 

@@ -9,6 +9,8 @@ import Reveal from "./Reveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const AUTOPLAY_MS = 6000;
+
 const TECH_ITEMS = [
   {
     key: "acesso",
@@ -50,7 +52,7 @@ const TECH_ITEMS = [
     key: "presenca",
     icon: BellRing,
     label: 'Dispositivo "Sempre Alerta"',
-    tag: "Vigilância sempre ativa",
+    tag: "Monitoramento sempre ativo",
     title: 'Dispositivo "Sempre Alerta"',
     text: "Dispositivo embarcado no equipamento do vigia ou porteiro que emite disparos sonoros e vibratórios em intervalos aleatórios ao longo do turno, exigindo confirmação de que o profissional está acordado e no posto. Cada resposta é registrada com horário, tempo de reação e localização no momento da confirmação. Se o alerta não for desativado dentro do prazo, a central de monitoramento recebe um aviso automático de ausência ou falha de resposta — permitindo intervenção imediata antes que o posto fique desguarnecido.",
     image: "/assets/sempre-alerta.webp",
@@ -66,6 +68,19 @@ export default function TechSolutions({
   const activeItem = TECH_ITEMS.find((item) => item.key === active) ?? TECH_ITEMS[0];
   const ActiveIcon = activeItem.icon;
   const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const timer = setTimeout(() => {
+      setActive((current) => {
+        const idx = TECH_ITEMS.findIndex((item) => item.key === current);
+        return TECH_ITEMS[(idx + 1) % TECH_ITEMS.length].key;
+      });
+    }, AUTOPLAY_MS);
+
+    return () => clearTimeout(timer);
+  }, [active]);
 
   useEffect(() => {
     if (!scrollTransition) return;
@@ -99,7 +114,7 @@ export default function TechSolutions({
     }, section);
 
     return () => ctx.revert();
-  }, [scrollTransition]);
+  }, [scrollTransition, active]);
 
   return (
     <section
@@ -125,13 +140,10 @@ export default function TechSolutions({
               </span>
             </div>
             <h2 className="ts-heading font-heading text-3xl md:text-[48px] text-white mb-4 leading-tight">
-              Tecnologias{" "}
-              <span className="bg-gradient-to-r from-yellow to-tech-blue bg-clip-text text-transparent">
-                Aplicadas a Serviços
-              </span>
+              Assim a Tecnologia Protege a <span className="text-yellow">SUA Operação</span>
             </h2>
             <p className="ts-desc text-lg text-white/70 leading-relaxed">
-              Ferramentas e processos que já operam nos postos de serviço da PS Proteção.
+              É isso que vai rodar no posto da sua empresa a partir do primeiro dia de contrato.
               Selecione um item para ver como funciona na prática.
             </p>
           </div>
@@ -140,7 +152,7 @@ export default function TechSolutions({
         <Reveal className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-stretch">
           <div
             role="tablist"
-            aria-label="Tecnologias Aplicadas a Serviços"
+            aria-label="Assim a Tecnologia Protege a Sua Operação"
             className="md:col-span-5 flex flex-col gap-3"
           >
             {TECH_ITEMS.map((item) => {
@@ -160,7 +172,7 @@ export default function TechSolutions({
                   }`}
                 >
                   <div
-                    className={`ts-tab-inner flex items-center gap-4 rounded-[14px] px-5 py-5 transition-colors duration-300 ${
+                    className={`ts-tab-inner relative flex items-center gap-4 rounded-[14px] px-5 py-5 overflow-hidden transition-colors duration-300 ${
                       isActive ? "bg-navy-deep" : "bg-navy-deep/50 group-hover:bg-navy-deep/80"
                     }`}
                   >
@@ -184,6 +196,13 @@ export default function TechSolutions({
                         isActive ? "text-tech-blue translate-x-1" : "ts-tab-chevron-inactive text-white/25"
                       }`}
                     />
+                    {isActive && (
+                      <span
+                        key={item.key}
+                        className="tech-progress-fill absolute bottom-0 left-0 h-[2px] bg-yellow"
+                        aria-hidden="true"
+                      />
+                    )}
                   </div>
                 </button>
               );
@@ -212,10 +231,12 @@ export default function TechSolutions({
               <path d="M0 27h21a6 6 0 0 0 6-6V0" stroke="currentColor" strokeWidth="2" />
             </svg>
             <div className="relative gradient-border rounded-3xl p-[1.5px] h-full">
-              <div className="relative rounded-[22px] overflow-hidden bg-white h-full flex flex-col">
+              <div
+                key={activeItem.key}
+                className="step-fade relative rounded-[22px] overflow-hidden bg-white h-full flex flex-col"
+              >
                 <div className="relative h-64 md:h-80 bg-navy/5">
                   <Image
-                    key={activeItem.image}
                     src={activeItem.image}
                     alt={activeItem.title}
                     fill

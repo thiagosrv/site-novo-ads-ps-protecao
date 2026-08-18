@@ -1,8 +1,9 @@
 "use client";
 
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, Siren, Users, Building2, Briefcase } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Reveal from "./Reveal";
+import WhatsAppCta from "./WhatsAppCta";
 
 declare global {
   interface Window {
@@ -16,30 +17,35 @@ const CHANNELS = [
     phone: "(19) 3478-7799",
     email: "adm@psprotecao.com.br",
     whatsapp: null,
+    icon: Phone,
   },
   {
     label: "Telefone Emergencial",
     phone: "(19) 99781-8615",
     email: "operacional@psprotecao.com.br",
     whatsapp: "5519997818615",
+    icon: Siren,
   },
   {
     label: "RH e Ouvidoria",
     phone: "(19) 97821-1077",
     email: "rh@psprotecao.com.br",
     whatsapp: "5519978211077",
+    icon: Users,
   },
   {
     label: "Compras e Empresas",
     phone: "(19) 97821-0246",
     email: "empresas@psprotecao.com.br",
     whatsapp: "5519978210246",
+    icon: Building2,
   },
   {
     label: "Comercial",
     phone: "(19) 98289-2037",
     email: "comercial@psprotecao.com.br",
     whatsapp: "5519982892037",
+    icon: Briefcase,
   },
 ];
 
@@ -58,29 +64,45 @@ export default function ContactSection() {
   return (
     <section
       id="contato"
-      className="py-20 md:py-[var(--spacing-section)] px-6 md:px-[var(--spacing-grid-margin)] max-w-[var(--container-max)] mx-auto"
+      className="relative py-20 md:py-[var(--spacing-section)] px-6 md:px-[var(--spacing-grid-margin)] max-w-[var(--container-max)] mx-auto"
     >
-      <Reveal>
-        <div className="gradient-border rounded-[2.5rem] md:rounded-[3rem] p-[1.5px] shadow-[0_30px_70px_rgba(0,15,106,0.12)]">
-        <div className="bg-white/70 backdrop-blur-md rounded-[calc(2.5rem-1.5px)] md:rounded-[calc(3rem-1.5px)] relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-navy/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-yellow/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+      <div
+        className="absolute inset-0 overflow-hidden rounded-[2.5rem] md:rounded-[3rem] pointer-events-none"
+        aria-hidden="true"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-navy/[0.04] via-transparent to-yellow/[0.06]" />
+        <div
+          className="absolute inset-0 texture-dots-navy opacity-70"
+          style={{ maskImage: "radial-gradient(ellipse 65% 55% at 50% 40%, black 0%, transparent 75%)" }}
+        />
+        <div className="absolute -top-16 -left-16 w-72 h-72 bg-tech-blue/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-yellow/15 rounded-full blur-3xl" />
+      </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start relative z-10 p-8 md:p-16">
+      <Reveal>
+        <div className="relative gradient-border rounded-[2.5rem] md:rounded-[3rem] p-[1.5px] shadow-[0_18px_40px_-12px_rgba(0,0,0,0.2)]">
+        <div className="bg-white rounded-[calc(2.5rem-1.5px)] md:rounded-[calc(3rem-1.5px)]">
+
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start p-8 md:p-16">
             <div className="md:col-span-5 pt-0 md:pt-8 text-center md:text-left">
               <h2 className="font-heading text-3xl md:text-[48px] text-navy mb-6 leading-tight">
                 Pronto para elevar o padrão da sua operação?
               </h2>
-              <p className="text-lg text-graphite/70 mb-10">
+              <p className="text-lg text-graphite/70 mb-8">
                 Nossos especialistas estão prontos para realizar um diagnóstico operacional
                 gratuito da sua estrutura atual.
               </p>
+
+              <WhatsAppCta
+                label="Solicitar orçamento pelo WhatsApp"
+                className="w-full md:w-auto px-8 py-4 mb-10"
+              />
 
               <div className="space-y-6 text-left">
                 {CHANNELS.map((channel) => (
                   <div key={channel.label} className="flex items-start gap-5 justify-center md:justify-start">
                     <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm border border-navy/5 shrink-0">
-                      <Phone className="text-navy" size={20} />
+                      <channel.icon className="text-navy" size={20} />
                     </div>
                     <div>
                       <div className="font-mono text-xs tracking-widest text-graphite/60 uppercase mb-1">

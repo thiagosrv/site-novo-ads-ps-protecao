@@ -21,25 +21,21 @@ const BENTO = [
     icon: PackageCheck,
     title: "Implantação Estruturada",
     text: "Setup operacional rigoroso nos primeiros 30 dias para garantir o alinhamento total.",
-    variant: "light" as const,
   },
   {
     icon: GraduationCap,
     title: "Treinamento Contínuo",
     text: "Capacitação técnica in-loco e reciclagens periódicas em nossa academia interna.",
-    variant: "navy" as const,
   },
   {
     icon: CalendarX,
     title: "Cobertura de Faltas",
     text: "Reserva técnica mobilizada em minutos. Seu posto nunca fica descoberto.",
-    variant: "light" as const,
   },
   {
     icon: ScanLine,
     title: "Tecnologia Embarcada",
     text: "Checkpoints digitais, relatórios em tempo real e monitoramento via App.",
-    variant: "muted" as const,
   },
 ];
 
@@ -88,31 +84,29 @@ export default function Differentiators() {
         <div className="md:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6 mt-12 md:mt-0">
           {BENTO.map((item, i) => {
             const Icon = item.icon;
-            const isNavy = item.variant === "navy";
-            const isMuted = item.variant === "muted";
             return (
               <Reveal
                 key={item.title}
                 delayMs={i * 80}
-                className={`p-8 md:p-10 rounded-3xl border border-navy/10 hover:border-yellow/50 transition-all duration-300 relative overflow-hidden ${
-                  isNavy
-                    ? "bg-navy text-white shadow-xl sm:translate-y-8"
-                    : isMuted
-                      ? "bg-white/60 sm:translate-y-8"
-                      : "bg-white"
+                className={`group gradient-border-yellow rounded-3xl p-[1.5px] shadow-[0_10px_25px_-10px_rgba(0,0,0,0.2)] transition-shadow duration-500 hover:shadow-[0_22px_45px_-12px_rgba(0,0,0,0.3)] ${
+                  i % 2 === 1 ? "sm:translate-y-8" : ""
                 }`}
               >
-                <div
-                  className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 border ${
-                    isNavy ? "bg-white/10 border-white/20" : "bg-white shadow-sm border-navy/5"
-                  }`}
-                >
-                  <Icon className={isNavy ? "text-yellow" : "text-navy"} size={26} />
+                <div className="relative h-full rounded-[calc(1.5rem-1.5px)] bg-gradient-to-br from-navy via-navy to-navy-deep overflow-hidden p-8 md:p-10">
+                  <div
+                    className="absolute -top-10 -right-10 w-40 h-40 bg-tech-blue/25 rounded-full blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    aria-hidden="true"
+                  />
+                  <div className="relative">
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 border bg-white/10 border-white/20">
+                      <Icon className="text-yellow" size={26} />
+                    </div>
+                    <h3 className="font-heading text-xl mb-4 text-yellow transition-all duration-300 group-hover:drop-shadow-[0_0_14px_rgba(252,191,7,0.55)]">
+                      {item.title}
+                    </h3>
+                    <p className="text-white/80 transition-colors duration-300 group-hover:text-white">{item.text}</p>
+                  </div>
                 </div>
-                <h3 className={`font-heading text-xl mb-4 ${isNavy ? "text-white" : "text-navy"}`}>
-                  {item.title}
-                </h3>
-                <p className={isNavy ? "text-white/80" : "text-graphite/70"}>{item.text}</p>
               </Reveal>
             );
           })}
