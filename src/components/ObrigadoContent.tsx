@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { MessageCircle } from "lucide-react";
-import { buildWhatsAppUrl, readAndClearQuotePayload } from "@/lib/quote";
+import { usePathname } from "next/navigation";
+import { MessageCircle, X } from "lucide-react";
+import { buildWhatsAppUrl, readAndClearQuotePayload, QUOTE_WHATSAPP_NUMBER } from "@/lib/quote";
 import { getStoredGclid } from "@/lib/gclid";
 
-const REDIRECT_DELAY_MS = 6000;
+const REDIRECT_DELAY_MS = 4000;
 
 declare global {
   interface Window {
@@ -15,10 +16,14 @@ declare global {
 }
 
 export default function ObrigadoContent() {
+  const pathname = usePathname();
   const [name, setName] = useState("");
   const [waUrl, setWaUrl] = useState(() => buildWhatsAppUrl());
   const [secondsLeft, setSecondsLeft] = useState(Math.ceil(REDIRECT_DELAY_MS / 1000));
+  const [autoRedirectCancelled, setAutoRedirectCancelled] = useState(false);
   const redirectedRef = useRef(false);
+  const waUrlRef = useRef(waUrl);
+  waUrlRef.current = waUrl;
 
   useEffect(() => {
     const payload = readAndClearQuotePayload();
@@ -28,12 +33,8 @@ export default function ObrigadoContent() {
     setWaUrl(url);
     if (payload?.name) setName(payload.name);
 
-    function redirect() {
-      if (redirectedRef.current) return;
-      redirectedRef.current = true;
-      window.location.href = url;
-    }
-
+    // Evento legado, já configurado como trigger de conversão no GTM — mantido
+    // para não quebrar o rastreamento existente no Google Ads.
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: "conversion_whatsapp",
@@ -41,21 +42,49 @@ export default function ObrigadoContent() {
       currency: "BRL",
       gclid: getStoredGclid() ?? undefined,
     });
-
-    const redirectTimer = setTimeout(redirect, REDIRECT_DELAY_MS);
-    return () => clearTimeout(redirectTimer);
   }, []);
 
   useEffect(() => {
+    if (autoRedirectCancelled) return;
+
+    function redirect() {
+      if (redirectedRef.current) return;
+      redirectedRef.current = true;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "clique_whatsapp",
+        numero: QUOTE_WHATSAPP_NUMBER,
+        origem_pagina: pathname,
+      });
+      window.location.href = waUrlRef.current;
+    }
+
+    const redirectTimer = setTimeout(redirect, REDIRECT_DELAY_MS);
+    return () => clearTimeout(redirectTimer);
+  }, [autoRedirectCancelled, pathname]);
+
+  useEffect(() => {
+    if (autoRedirectCancelled) return;
     const tick = setInterval(() => {
       setSecondsLeft((s) => Math.max(0, s - 1));
     }, 1000);
     return () => clearInterval(tick);
-  }, []);
+  }, [autoRedirectCancelled]);
 
   function handleManualRedirect() {
+    if (redirectedRef.current) return;
     redirectedRef.current = true;
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "clique_whatsapp",
+      numero: QUOTE_WHATSAPP_NUMBER,
+      origem_pagina: pathname,
+    });
     window.location.href = waUrl;
+  }
+
+  function handleCancelRedirect() {
+    setAutoRedirectCancelled(true);
   }
 
   return (
@@ -77,24 +106,41 @@ export default function ObrigadoContent() {
             Solicitação recebida
           </span>
           <h1 className="font-heading text-3xl md:text-[44px] text-white leading-tight mb-4">
-            {name ? `Obrigado, ${name}!` : "Obrigado pela sua solicitação!"}
+            {name ? `Recebemos sua solicitação, ${name}!` : "Recebemos sua solicitação!"}
           </h1>
           <p className="text-white/70 text-lg leading-relaxed mb-8 max-w-md mx-auto md:mx-0">
-            Você será redirecionado ao WhatsApp para falar diretamente com nossa equipe comercial
-            em {secondsLeft}s.
+            Nossa equipe entra em contato em até 24h úteis. Se preferir, fale agora mesmo com a
+            gente pelo WhatsApp.
           </p>
 
-          <div className="w-full max-w-md mx-auto md:mx-0 h-1.5 rounded-full bg-white/10 overflow-hidden mb-8">
-            <div
-              className="h-full bg-gradient-to-r from-yellow to-yellow-dark transition-[width] duration-1000 ease-linear"
-              style={{
-                width: `${Math.max(
-                  0,
-                  100 - (secondsLeft / Math.ceil(REDIRECT_DELAY_MS / 1000)) * 100
-                )}%`,
-              }}
-            />
-          </div>
+          {!autoRedirectCancelled && (
+            <div className="w-full max-w-md mx-auto md:mx-0 mb-8">
+              <div className="flex items-center justify-between gap-3 mb-2">
+                <p className="text-white/50 text-sm">
+                  Abrindo o WhatsApp em {secondsLeft}s...
+                </p>
+                <button
+                  type="button"
+                  onClick={handleCancelRedirect}
+                  className="inline-flex items-center gap-1 text-white/50 hover:text-white/80 text-sm underline underline-offset-2 transition-colors shrink-0"
+                >
+                  <X size={14} />
+                  Cancelar
+                </button>
+              </div>
+              <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-yellow to-yellow-dark transition-[width] duration-1000 ease-linear"
+                  style={{
+                    width: `${Math.max(
+                      0,
+                      100 - (secondsLeft / Math.ceil(REDIRECT_DELAY_MS / 1000)) * 100
+                    )}%`,
+                  }}
+                />
+              </div>
+            </div>
+          )}
 
           <button
             type="button"
@@ -102,20 +148,8 @@ export default function ObrigadoContent() {
             className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-yellow to-yellow-dark text-navy font-heading font-semibold px-7 py-3.5 hover:opacity-90 transition-opacity"
           >
             <MessageCircle size={18} />
-            Ir para o WhatsApp agora
+            Falar agora no WhatsApp
           </button>
-
-          <p className="text-white/40 text-sm mt-4">
-            O redirecionamento não aconteceu?{" "}
-            <button
-              type="button"
-              onClick={handleManualRedirect}
-              className="underline underline-offset-2 hover:text-white/70 transition-colors"
-            >
-              Clique aqui
-            </button>
-            .
-          </p>
         </div>
       </div>
     </section>

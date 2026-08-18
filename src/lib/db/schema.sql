@@ -39,3 +39,19 @@ alter table posts add column if not exists author_name text;
 alter table posts add column if not exists author_bio text;
 alter table posts add column if not exists secondary_keywords text;
 alter table posts add column if not exists video_embed_url text;
+
+-- Leads do formulário de cotação (site institucional). Usado para permitir
+-- importação futura de conversões offline no Google Ads via gclid.
+create table if not exists leads (
+  id                uuid primary key default gen_random_uuid(),
+  name              text not null,
+  phone             text not null,
+  city              text not null,
+  city_other        text,
+  service           text not null,
+  gclid             text,
+  origem_pagina     text,
+  created_at        timestamptz not null default now()
+);
+
+create index if not exists leads_created_at_idx on leads (created_at desc);

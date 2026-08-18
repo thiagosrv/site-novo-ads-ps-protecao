@@ -1,5 +1,14 @@
+"use client";
+
 import { Mail, Phone } from "lucide-react";
+import { usePathname } from "next/navigation";
 import Reveal from "./Reveal";
+
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+  }
+}
 
 const CHANNELS = [
   {
@@ -35,6 +44,17 @@ const CHANNELS = [
 ];
 
 export default function ContactSection() {
+  const pathname = usePathname();
+
+  function handleWhatsAppClick(numero: string) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "clique_whatsapp",
+      numero,
+      origem_pagina: pathname,
+    });
+  }
+
   return (
     <section
       id="contato"
@@ -71,6 +91,7 @@ export default function ContactSection() {
                           href={`https://wa.me/${channel.whatsapp}`}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() => handleWhatsAppClick(channel.whatsapp as string)}
                           className="font-heading text-lg text-navy leading-snug hover:text-[#25D366] transition-colors inline-block"
                         >
                           {channel.phone}
