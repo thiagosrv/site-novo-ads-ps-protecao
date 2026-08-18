@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ServiceCategoryCityPage from "@/components/ServiceCategoryCityPage";
-import { CORE_CITIES, getCityBySlug } from "@/lib/cities";
+import { PRIORITY_CITIES, getCityBySlug } from "@/lib/cities";
 import { CATEGORY_LABEL } from "@/lib/services";
 import { CATEGORY_ORDER } from "@/lib/programmatic";
 import { getCategoryBySlug, SEGMENT_CATEGORY_SLUG } from "@/lib/segments";
 
-// See [filho]/page.tsx: capped to the 60 core cities to keep the Vercel
-// build's static output (and per-page segment prefetch caches) within disk
-// limits. The other 40 cities still resolve via dynamicParams fallback.
+// See [filho]/page.tsx: capped to PRIORITY_CITIES to keep the Cloudflare
+// Workers build's static output (and per-page segment prefetch caches)
+// within its disk budget. Every other city still resolves via dynamicParams
+// fallback (default true) on first request, then cache.
 export function generateStaticParams() {
-  return CORE_CITIES.flatMap((city) =>
+  return PRIORITY_CITIES.flatMap((city) =>
     CATEGORY_ORDER.map((category) => ({
       slug: city.slug,
       categoria: SEGMENT_CATEGORY_SLUG[category],

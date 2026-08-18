@@ -1,4 +1,4 @@
-import { CITIES, CORE_CITIES, type City } from "./cities";
+import { CITIES, PRIORITY_CITIES, type City } from "./cities";
 import {
   SERVICES,
   CATEGORY_REPRESENTATIVE_SLUG,
@@ -134,17 +134,15 @@ export function getProgrammaticPage(slug: string): ProgrammaticPage | undefined 
   return PAGE_MAP.get(slug);
 }
 
-// Eagerly pre-rendered only for the 60 core cities, mirroring the same cap
-// already applied to the nested [categoria]/[filho] routes -- building combo
-// pages for all 100 cities here too was the largest single contributor to
-// Vercel's Build CPU Minutes. The other 40 cities still resolve every one of
+// Eagerly pre-rendered only for PRIORITY_CITIES -- see the comment there for
+// why this list stays short. Every other city still resolves every one of
 // these URLs via dynamicParams (default true) on first request, then cache
 // -- no page is removed, just no longer built eagerly.
-const coreCitySlugSet = new Set(CORE_CITIES.map((city) => city.slug));
+const priorityCitySlugSet = new Set(PRIORITY_CITIES.map((city) => city.slug));
 
-export function getCoreProgrammaticSlugs(): string[] {
+export function getPriorityProgrammaticSlugs(): string[] {
   return [...PAGE_MAP.entries()]
-    .filter(([, page]) => coreCitySlugSet.has(page.city.slug))
+    .filter(([, page]) => priorityCitySlugSet.has(page.city.slug))
     .map(([slug]) => slug);
 }
 

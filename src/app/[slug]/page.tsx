@@ -5,14 +5,14 @@ import CityServicesHubPage from "@/components/CityServicesHubPage";
 import ServiceSegmentCityPage from "@/components/ServiceSegmentCityPage";
 import ServiceCategoryCityPage from "@/components/ServiceCategoryCityPage";
 import CityPage from "@/components/CityPage";
-import { getCoreProgrammaticSlugs, getProgrammaticPage } from "@/lib/programmatic";
+import { getPriorityProgrammaticSlugs, getProgrammaticPage } from "@/lib/programmatic";
 import { SEGMENT_CATEGORY_LABEL } from "@/lib/segments";
 import { CATEGORY_LABEL } from "@/lib/services";
 import { getCityBySlug, FALLBACK_CITY_SLUGS } from "@/lib/cities";
 
 export function generateStaticParams() {
   return [
-    ...getCoreProgrammaticSlugs().map((slug) => ({ slug })),
+    ...getPriorityProgrammaticSlugs().map((slug) => ({ slug })),
     ...FALLBACK_CITY_SLUGS.map((slug) => ({ slug })),
   ];
 }

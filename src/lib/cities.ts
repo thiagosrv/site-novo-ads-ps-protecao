@@ -66,12 +66,31 @@ export const FALLBACK_CITY_SLUGS = [
   "bauru",
 ];
 
-// Core service-area cities (have a dedicated static folder under src/app/).
-// Used to cap eager generateStaticParams() on the deepest nested routes so
-// the Vercel build doesn't run out of disk space creating per-page prefetch
-// segment caches for all 100 cities x every nested combination. The
-// FALLBACK_CITY_SLUGS cities still get every URL via dynamicParams fallback
-// (rendered on first request, then cached) -- no page is removed.
-export const CORE_CITIES: City[] = CITIES.filter(
-  (city) => !FALLBACK_CITY_SLUGS.includes(city.slug)
-);
+// Cities eagerly pre-rendered for every programmatic combo (service, segment,
+// and category-flat pages, plus the nested /[categoria] and /[categoria]/[filho]
+// routes) at build time. Cloudflare Workers Builds has a hard disk budget
+// (~5GB usable) for staging OpenNext's per-page cache assets during the
+// build, and every city added here multiplies across every route family --
+// so this stays a short, deliberate list of the highest commercial priority
+// cities. Every other city still resolves the exact same URLs via
+// dynamicParams (default true) on first request, then is served from the
+// R2-backed incremental cache -- no page is removed, just no longer built
+// eagerly.
+const PRIORITY_CITY_SLUGS = [
+  "americana",
+  "santa-barbara-d-oeste",
+  "piracicaba",
+  "campinas",
+  "nova-odessa",
+  "sumare",
+  "valinhos",
+  "vinhedo",
+  "limeira",
+  "indaiatuba",
+];
+
+export const PRIORITY_CITIES: City[] = PRIORITY_CITY_SLUGS.map((slug) => {
+  const city = CITIES.find((c) => c.slug === slug);
+  if (!city) throw new Error(`PRIORITY_CITIES: no city found for slug "${slug}"`);
+  return city;
+});
