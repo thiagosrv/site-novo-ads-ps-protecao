@@ -1,37 +1,52 @@
-import Image from "next/image";
 import { Star } from "lucide-react";
 import Reveal from "./Reveal";
 
 const TESTIMONIALS = [
   {
-    text: "A PS Proteção transformou completamente a gestão de portaria da nossa planta industrial. Os profissionais são bem treinados, pontuais e seguem os procedimentos à risca. A supervisão periódica nos dá total segurança sobre a operação.",
-    name: "Carlos Silva",
-    role: "Diretor de Operações · Indústria Metalúrgica, Americana/SP",
-    avatar: "/assets/carlos.webp",
+    text: "Empresa extremamente competente e confiável. Profissionais qualificados, atendimento de qualidade e ótimo suporte. A PS Proteção se destaca pelo comprometimento e pela excelência nos serviços de portaria e segurança. Recomendo!",
+    name: "Nathane Silva",
+    reviewCount: "3 avaliações no Google",
+    initial: "N",
+    rating: 5,
     featured: false,
   },
   {
-    text: "Trabalhamos com a PS Proteção há mais de 5 anos em nosso grupo educacional. A equipe de limpeza mantém todas as unidades impecáveis e o suporte de recepção representa muito bem nossa instituição. Parceria de altíssima qualidade.",
-    name: "Ana Paula Rodrigues",
-    role: "Gestora de RH · Grupo Educacional, Campinas/SP",
-    avatar: "/assets/ana.webp",
+    text: "Ótimo atendimento e excelente prestação de serviços. Equipe profissional, responsável e muito competente!",
+    name: "Rodolfo Pina",
+    reviewCount: "3 avaliações no Google",
+    initial: "R",
+    rating: 5,
     featured: true,
   },
   {
-    text: "Nosso centro de distribuição exige rigor operacional 24h. A PS Proteção entrega com excelência: relatórios pontuais, supervisão constante e equipe sempre pronta para reposição em caso de ausências. Recomendo sem hesitação.",
-    name: "Roberto Mendes",
-    role: "Gerente Administrativo · Centro de Distribuição, Sumaré/SP",
-    avatar: "/assets/roberto.webp",
+    text: "Ótima experiência com a PS Proteção! Atendimento excelente, equipe prestativa e serviço de qualidade. Empresa séria, confiável e comprometida com seus clientes. Recomendo!",
+    name: "Karla Karina",
+    reviewCount: "1 avaliação no Google",
+    initial: "K",
+    rating: 5,
     featured: false,
   },
 ];
 
-function Stars() {
+function Stars({ count = 5 }: { count?: number }) {
   return (
     <div className="flex items-center gap-1 text-yellow-dark mb-5">
-      {Array.from({ length: 5 }).map((_, i) => (
+      {Array.from({ length: count }).map((_, i) => (
         <Star key={i} size={16} fill="currentColor" strokeWidth={0} />
       ))}
+    </div>
+  );
+}
+
+function InitialAvatar({ initial, featured }: { initial: string; featured: boolean }) {
+  return (
+    <div
+      aria-hidden="true"
+      className={`w-12 h-12 rounded-full shrink-0 flex items-center justify-center font-heading font-semibold text-lg ${
+        featured ? "bg-white/15 text-white" : "bg-navy/10 text-navy"
+      }`}
+    >
+      {initial}
     </div>
   );
 }
@@ -69,7 +84,7 @@ export default function Testimonials() {
                   : "bg-white border-navy/10"
               }`}
             >
-              <Stars />
+              <Stars count={t.rating} />
               <blockquote
                 className={`leading-relaxed mb-8 flex-1 ${
                   t.featured ? "text-white/85" : "text-graphite/70"
@@ -78,13 +93,7 @@ export default function Testimonials() {
                 &ldquo;{t.text}&rdquo;
               </blockquote>
               <div className="flex items-center gap-3">
-                <Image
-                  src={t.avatar}
-                  alt={t.name}
-                  width={48}
-                  height={48}
-                  className="w-12 h-12 rounded-full object-cover shrink-0"
-                />
+                <InitialAvatar initial={t.initial} featured={t.featured} />
                 <div>
                   <strong
                     className={`block font-heading text-base ${
@@ -98,7 +107,7 @@ export default function Testimonials() {
                       t.featured ? "text-white/60" : "text-graphite/60"
                     }`}
                   >
-                    {t.role}
+                    {t.reviewCount}
                   </span>
                 </div>
               </div>
