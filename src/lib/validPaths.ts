@@ -26,6 +26,7 @@ const STATIC_PATHS = [
   "/servicos/limpeza",
   "/sobre",
   "/sobre/recrutamento-e-triagem",
+  "/sobre/seguranca-do-trabalho",
   "/tecnologia",
   "/duvidas",
   "/contato",

@@ -27,6 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/blog", priority: 0.7, changeFrequency: "weekly" as const },
     { path: "/sobre", priority: 0.6, changeFrequency: "monthly" as const },
     { path: "/sobre/recrutamento-e-triagem", priority: 0.5, changeFrequency: "monthly" as const },
+    { path: "/sobre/seguranca-do-trabalho", priority: 0.5, changeFrequency: "monthly" as const },
     { path: "/servicos/padrao-operacional-e-supervisao", priority: 0.5, changeFrequency: "monthly" as const },
     { path: "/servicos/portaria", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/servicos/limpeza", priority: 0.7, changeFrequency: "monthly" as const },

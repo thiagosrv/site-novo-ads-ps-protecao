@@ -15,6 +15,7 @@ const NAV_LINKS = [
     children: [
       { label: "Quem Somos", href: "/sobre" },
       { label: "Recrutamento e Triagem", href: "/sobre/recrutamento-e-triagem" },
+      { label: "Segurança do Trabalho", href: "/sobre/seguranca-do-trabalho" },
     ],
   },
   {

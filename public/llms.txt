@@ -1,0 +1,28 @@
+# PS Proteção
+
+> Terceirização de alta performance em portaria, limpeza, zeladoria, recepção e facilities, com supervisão ativa 24h e tecnologia embarcada. Atuação em Americana, Piracicaba, Nova Odessa, Limeira, Santa Bárbara d'Oeste e região.
+
+PS Proteção é uma empresa de terceirização de serviços de facilities e portaria. Não presta serviços de segurança eletrônica (câmeras, alarmes, cercas elétricas) — apenas serviços físicos/humanos: portaria, controle de acesso, rondas patrimoniais, zeladoria, recepção e limpeza terceirizada, para empresas, condomínios, indústrias e instituições.
+
+## Serviços
+
+- [Portaria](https://psprotecao.com.br/servicos/portaria): Portaria terceirizada com supervisão ativa e padrão operacional.
+- [Limpeza](https://psprotecao.com.br/servicos/limpeza): Limpeza e conservação terceirizada.
+- [Padrão Operacional e Supervisão](https://psprotecao.com.br/servicos/padrao-operacional-e-supervisao): Metodologia de supervisão e controle de qualidade dos postos.
+
+## Institucional
+
+- [Sobre](https://psprotecao.com.br/sobre): História, missão e diferenciais da PS Proteção.
+- [Recrutamento e Triagem](https://psprotecao.com.br/sobre/recrutamento-e-triagem): Processo de seleção de colaboradores.
+- [Segurança do Trabalho](https://psprotecao.com.br/sobre/seguranca-do-trabalho): Gestão de riscos ocupacionais (NR-1) e estrutura de CIPA integradas à operação.
+- [Tecnologia](https://psprotecao.com.br/tecnologia): Tecnologia embarcada na operação.
+- [Dúvidas](https://psprotecao.com.br/duvidas): Perguntas frequentes.
+- [Contato](https://psprotecao.com.br/contato): Canais de contato e solicitação de proposta.
+
+## Blog
+
+- [Blog](https://psprotecao.com.br/blog): Artigos sobre terceirização, portaria, facilities e gestão de postos.
+
+## Optional
+
+- [Sitemap](https://psprotecao.com.br/sitemap.xml): Mapa completo de páginas do site, incluindo páginas por cidade e serviço.
