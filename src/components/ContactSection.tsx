@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Phone, Siren, Users, Building2, Briefcase } from "lucide-react";
+import { Phone, Siren, Users, Building2, Briefcase } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Reveal from "./Reveal";
 import WhatsAppCta from "./WhatsAppCta";
@@ -49,6 +49,8 @@ const CHANNELS = [
   },
 ];
 
+const EMERGENCY_LABEL = "Telefone Emergencial";
+
 export default function ContactSection() {
   const pathname = usePathname();
 
@@ -64,84 +66,82 @@ export default function ContactSection() {
   return (
     <section
       id="contato"
-      className="relative py-20 md:py-[var(--spacing-section)] px-6 md:px-[var(--spacing-grid-margin)] max-w-[var(--container-max)] mx-auto"
+      className="relative py-20 md:py-[var(--spacing-section)] overflow-hidden bg-gradient-to-b from-navy to-navy-deep"
     >
       <div
-        className="absolute inset-0 overflow-hidden rounded-[2.5rem] md:rounded-[3rem] pointer-events-none"
+        className="absolute inset-0 texture-grid opacity-60 pointer-events-none"
+        style={{ maskImage: "radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 75%)" }}
         aria-hidden="true"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-navy/[0.04] via-transparent to-yellow/[0.06]" />
-        <div
-          className="absolute inset-0 texture-dots-navy opacity-70"
-          style={{ maskImage: "radial-gradient(ellipse 65% 55% at 50% 40%, black 0%, transparent 75%)" }}
-        />
-        <div className="absolute -top-16 -left-16 w-72 h-72 bg-tech-blue/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-yellow/15 rounded-full blur-3xl" />
-      </div>
+      />
 
-      <Reveal>
-        <div className="relative gradient-border rounded-[2.5rem] md:rounded-[3rem] p-[1.5px] shadow-[0_18px_40px_-12px_rgba(0,0,0,0.2)]">
-        <div className="bg-white rounded-[calc(2.5rem-1.5px)] md:rounded-[calc(3rem-1.5px)]">
+      <div className="relative max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
+        <Reveal>
+          <div className="max-w-2xl mx-auto text-center mb-16">
+            <h2 className="font-heading text-3xl md:text-[48px] text-white mb-6 leading-tight">
+              Pronto para elevar o padrão da sua operação?
+            </h2>
+            <p className="text-lg text-white/70 mb-8 leading-relaxed">
+              Nossos especialistas estão prontos para realizar um diagnóstico operacional
+              gratuito da sua estrutura atual.
+            </p>
+            <WhatsAppCta label="Solicitar orçamento pelo WhatsApp" className="px-8 py-4" />
+          </div>
+        </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start p-8 md:p-16">
-            <div className="md:col-span-5 pt-0 md:pt-8 text-center md:text-left">
-              <h2 className="font-heading text-3xl md:text-[48px] text-navy mb-6 leading-tight">
-                Pronto para elevar o padrão da sua operação?
-              </h2>
-              <p className="text-lg text-graphite/70 mb-8">
-                Nossos especialistas estão prontos para realizar um diagnóstico operacional
-                gratuito da sua estrutura atual.
-              </p>
-
-              <WhatsAppCta
-                label="Solicitar orçamento pelo WhatsApp"
-                className="w-full md:w-auto px-8 py-4 mb-10"
-              />
-
-              <div className="space-y-6 text-left">
-                {CHANNELS.map((channel) => (
-                  <div key={channel.label} className="flex items-start gap-5 justify-center md:justify-start">
-                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm border border-navy/5 shrink-0">
-                      <channel.icon className="text-navy" size={20} />
-                    </div>
-                    <div>
-                      <div className="font-mono text-xs tracking-widest text-graphite/60 uppercase mb-1">
-                        {channel.label}
-                      </div>
-                      {channel.whatsapp ? (
-                        <a
-                          href={`https://wa.me/${channel.whatsapp}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={() => handleWhatsAppClick(channel.whatsapp as string)}
-                          className="font-heading text-lg text-navy leading-snug hover:text-[#25D366] transition-colors inline-block"
-                        >
-                          {channel.phone}
-                        </a>
-                      ) : (
-                        <a
-                          href={`tel:+55${channel.phone.replace(/\D/g, "")}`}
-                          className="font-heading text-lg text-navy leading-snug hover:text-navy-deep transition-colors inline-block"
-                        >
-                          {channel.phone}
-                        </a>
-                      )}
-                      <div className="flex items-center gap-1.5 text-graphite/70 text-sm mt-0.5">
-                        <Mail size={14} />
-                        <a
-                          href={`mailto:${channel.email}`}
-                          className="hover:text-navy transition-colors"
-                        >
-                          {channel.email}
-                        </a>
-                      </div>
-                    </div>
+        <Reveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-6 items-stretch">
+          {CHANNELS.map((channel) => {
+            const isEmergency = channel.label === EMERGENCY_LABEL;
+            return (
+              <div key={channel.label} className="gradient-border-yellow rounded-2xl p-px h-full">
+                <div className="bg-white rounded-[calc(1rem-1px)] h-full p-6 flex flex-col">
+                  <div
+                    className={`w-11 h-11 rounded-full flex items-center justify-center mb-5 shrink-0 ${
+                      isEmergency ? "bg-red-500/10" : "bg-yellow/10"
+                    }`}
+                  >
+                    <channel.icon className={isEmergency ? "text-red-600" : "text-yellow-dark"} size={18} />
                   </div>
-                ))}
+                  <div className="font-mono text-xs tracking-widest text-graphite/60 uppercase mb-2">
+                    {channel.label}
+                  </div>
+                  {channel.whatsapp ? (
+                    <a
+                      href={`https://wa.me/${channel.whatsapp}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => handleWhatsAppClick(channel.whatsapp as string)}
+                      className="font-heading text-[17px] font-bold text-navy leading-snug whitespace-nowrap hover:text-[#25D366] transition-colors inline-block"
+                    >
+                      {channel.phone}
+                    </a>
+                  ) : (
+                    <a
+                      href={`tel:+55${channel.phone.replace(/\D/g, "")}`}
+                      className="font-heading text-[17px] font-bold text-navy leading-snug whitespace-nowrap hover:text-navy-deep transition-colors inline-block"
+                    >
+                      {channel.phone}
+                    </a>
+                  )}
+                  <div className="flex flex-col items-center text-center gap-1 mt-auto pt-4">
+                    <span className="font-mono text-xs tracking-widest uppercase text-graphite/40">
+                      Email
+                    </span>
+                    <a
+                      href={`mailto:${channel.email}`}
+                      className="text-graphite/70 text-sm hover:text-navy transition-colors break-all"
+                    >
+                      {channel.email}
+                    </a>
+                  </div>
+                </div>
               </div>
-            </div>
+            );
+          })}
+        </Reveal>
 
-            <div className="md:col-span-7 rounded-[2rem] md:rounded-[2.5rem] shadow-xl border border-navy/10 overflow-hidden h-[420px] md:h-full min-h-[420px]">
+        <Reveal delayMs={120}>
+          <div className="relative gradient-border rounded-[2rem] md:rounded-[2.5rem] p-[1.5px]">
+            <div className="rounded-[calc(2rem-1.5px)] md:rounded-[calc(2.5rem-1.5px)] overflow-hidden h-[360px] md:h-[420px]">
               <iframe
                 title="Localização PS Proteção no Google Maps"
                 src="https://www.google.com/maps?q=-22.7301816,-47.30249&z=16&output=embed"
@@ -151,9 +151,8 @@ export default function ContactSection() {
               />
             </div>
           </div>
-        </div>
-        </div>
-      </Reveal>
+        </Reveal>
+      </div>
     </section>
   );
 }
