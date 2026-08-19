@@ -22,7 +22,7 @@ export default function OurPresence() {
               Presença consolidada na RMC e Piracicaba, expandindo por São Paulo
             </h2>
             <p className="text-lg text-graphite/70 leading-relaxed text-center md:text-left">
-              Da sede própria em Americana, sustentamos operação ativa em mais de 60 municípios da
+              Da sede própria em Americana, sustentamos operação ativa em mais de 30 municípios da
               Região Metropolitana de Campinas, do Circuito das Águas e da região de Piracicaba e
               Limeira. É uma presença física real — não apenas um raio de entrega no mapa — que
               segue em expansão para novas regiões do Estado de São Paulo, sempre com a mesma

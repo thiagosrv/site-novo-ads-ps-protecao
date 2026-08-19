@@ -14,7 +14,7 @@ import CoverageArea from "@/components/CoverageArea";
 export const metadata: Metadata = {
   title: "PS Proteção | Terceirização de Portaria, Limpeza e Facilities em Americana e Região",
   description:
-    "Terceirização com controle, supervisão e padrão operacional. Portaria, limpeza, zeladoria, recepção e facilities com supervisão ativa 24h e tecnologia embarcada, em Americana e em toda a Região Metropolitana de Campinas.",
+    "Terceirização de portaria e limpeza para empresas, condomínios e indústrias, com supervisão ativa, processos padronizados e gestão operacional.",
   alternates: {
     canonical: "/",
   },

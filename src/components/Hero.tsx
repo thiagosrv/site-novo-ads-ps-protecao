@@ -45,22 +45,21 @@ export default function Hero() {
           <Reveal>
             <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 text-white px-5 py-2 rounded-full mb-8 backdrop-blur-md">
               <span className="w-2.5 h-2.5 rounded-full bg-yellow animate-pulse" />
-              <span className="font-mono text-[0.6rem] uppercase tracking-widest text-white/90">
+              <span className="font-mono text-xs uppercase tracking-widest text-white/90">
                 Serviços Terceirizados em Americana e Região
               </span>
             </div>
           </Reveal>
 
           <Reveal delayMs={100}>
-            <h1 className="text-white font-heading text-4xl md:text-6xl font-bold leading-[1.1] mb-8">
-              Serviços Terceirizados de{" "}
-              <span className="text-yellow">Portaria e Limpeza</span> com{" "}
-              <span className="text-yellow">Padrão Operacional</span> e Supervisão.
+            <h1 className="text-white font-heading text-4xl md:text-6xl xl:text-[61px] font-bold leading-[1.1] mb-8">
+              <span className="text-yellow">Portaria e Limpeza Terceirizada</span> com{" "}
+              <span className="text-yellow">Supervisão</span>
             </h1>
           </Reveal>
 
           <Reveal delayMs={200}>
-            <p className="text-white/80 text-[16px] md:text-lg mb-10 max-w-xl mx-auto md:mx-0 leading-relaxed">
+            <p className="text-white/80 text-[16px] md:text-lg xl:text-[17px] mb-10 max-w-xl xl:max-w-2xl mx-auto md:mx-0 leading-relaxed">
               Elevamos o nível de segurança e gestão do seu patrimônio com processos rigorosos e
               tecnologia de ponta integrada à supervisão humana especializada.
             </p>
@@ -70,7 +69,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 items-center md:items-start">
               <WhatsAppCta
                 href="https://wa.me/5519982892037"
-                className="px-7 py-3.5 text-[15px] hover:scale-[1.03] shadow-[0_8px_24px_rgba(252,191,7,0.25)]"
+                className="px-7 py-3.5 text-[15px] xl:px-[27px] xl:py-[14px] xl:text-[14px] hover:scale-[1.03] shadow-[0_8px_24px_rgba(252,191,7,0.25)]"
                 label={
                   <>
                     Solicitar diagnóstico operacional
@@ -80,7 +79,7 @@ export default function Hero() {
               />
               <Link
                 href="/servicos"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 backdrop-blur-sm px-7 py-3.5 text-[15px] font-heading font-semibold tracking-wide text-white text-center transition-all duration-300 hover:bg-white/15 hover:border-white/40 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 backdrop-blur-sm px-7 py-3.5 text-[15px] xl:px-[27px] xl:py-[14px] xl:text-[14px] font-heading font-semibold tracking-wide text-white text-center transition-all duration-300 hover:bg-white/15 hover:border-white/40 hover:-translate-y-0.5"
               >
                 Conhecer nossas soluções
               </Link>
