@@ -5,7 +5,7 @@ import Reveal from "./Reveal";
 const STATS = [
   { value: "+28", label: "ANOS DE MERCADO" },
   { value: "150+", label: "OPERAÇÕES ATIVAS" },
-  { value: "+3.000", label: "COLABORADORES" },
+  { value: "+3.000", label: "COLABORADORES TREINADOS POR NÓS" },
   { value: "+30", label: "MUNICÍPIOS COM COBERTURA ATIVA" },
 ];
 
