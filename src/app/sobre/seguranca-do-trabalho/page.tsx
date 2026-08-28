@@ -212,7 +212,7 @@ export default function SegurancaDoTrabalhoPage() {
                 <div className="relative w-28 h-28 md:w-32 md:h-32 shrink-0 rounded-full overflow-hidden">
                   <div className="absolute inset-0 rounded-full bg-yellow/10 blur-2xl" aria-hidden="true" />
                   <Image
-                    src="/assets/CIPA.png"
+                    src="/assets/CIPA.webp"
                     alt="Selo CIPA — Comissão Interna de Prevenção de Acidentes e de Assédio da PS Proteção"
                     fill
                     className="relative object-cover scale-[1.18]"

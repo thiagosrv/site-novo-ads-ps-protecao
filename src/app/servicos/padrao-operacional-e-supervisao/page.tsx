@@ -12,7 +12,7 @@ import {
   ArrowRight,
   CheckCircle2,
 } from "lucide-react";
-import GsapReveal from "@/components/GsapReveal";
+import Reveal from "@/components/Reveal";
 import WhatsAppCta from "@/components/WhatsAppCta";
 import SectionLabel from "@/components/SectionLabel";
 import ProcessCard from "@/components/ProcessCard";
@@ -94,17 +94,17 @@ export default function PadraoOperacionalPage() {
         <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-y-14 md:gap-x-12 items-center">
             <div className="md:col-span-7 text-center md:text-left">
-              <GsapReveal>
+              <Reveal>
                 <SectionLabel align="center" className="md:justify-start">
                   Serviços · Operação 360°
                 </SectionLabel>
-              </GsapReveal>
-              <GsapReveal delayMs={100}>
+              </Reveal>
+              <Reveal delayMs={100}>
                 <h1 className="text-white font-heading text-4xl md:text-[3.4rem] font-bold leading-[1.1] mb-6">
                   Padrão Operacional e Supervisão Ativa
                 </h1>
-              </GsapReveal>
-              <GsapReveal delayMs={200}>
+              </Reveal>
+              <Reveal delayMs={200}>
                 <p className="text-white/80 text-lg max-w-2xl mx-auto md:mx-0 leading-relaxed mb-8">
                   A excelência de uma operação de Portaria e Facilities se comprova na rotina —
                   na postura, no preparo e na infraestrutura de apoio. Unimos presença visual
@@ -121,10 +121,10 @@ export default function PadraoOperacionalPage() {
                   }
                   className="px-7 py-3.5 text-[15px]"
                 />
-              </GsapReveal>
+              </Reveal>
             </div>
 
-            <GsapReveal delayMs={150} className="md:col-span-5">
+            <Reveal delayMs={150} className="md:col-span-5">
               <div className="relative bg-white/5 border border-white/10 rounded-[24px] p-6 md:p-7 backdrop-blur-md">
                 <div className="flex items-center gap-2 mb-6">
                   <Lock size={16} className="text-yellow" />
@@ -147,7 +147,7 @@ export default function PadraoOperacionalPage() {
                   ))}
                 </ul>
               </div>
-            </GsapReveal>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -157,7 +157,7 @@ export default function PadraoOperacionalPage() {
       {/* Impacto visual */}
       <section className="py-24 md:py-[var(--spacing-section)] bg-gradient-to-b from-white to-surface overflow-hidden">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-x-16 items-center">
-          <GsapReveal className="md:col-span-6">
+          <Reveal className="md:col-span-6">
             <div className="flex flex-col gap-6 text-center md:text-left">
               <SectionLabel color="navy">Apresentação ostensiva</SectionLabel>
               <h2 className="font-heading text-3xl md:text-[42px] text-navy leading-[1.15]">
@@ -177,9 +177,9 @@ export default function PadraoOperacionalPage() {
                 </p>
               </div>
             </div>
-          </GsapReveal>
+          </Reveal>
 
-          <GsapReveal delayMs={100} className="md:col-span-6">
+          <Reveal delayMs={100} className="md:col-span-6">
             <div className="rounded-[24px] overflow-hidden border border-navy/10 bg-surface shadow-[0_25px_55px_-25px_rgba(0,15,105,0.35)] max-w-md mx-auto md:max-w-none">
               <div className="relative aspect-[16/9]">
                 <Image
@@ -197,14 +197,14 @@ export default function PadraoOperacionalPage() {
                 </p>
               </div>
             </div>
-          </GsapReveal>
+          </Reveal>
         </div>
       </section>
 
       {/* Engenharia operacional */}
       <section className="py-24 md:py-[var(--spacing-section)] bg-gradient-to-b from-navy-deep to-navy">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
-          <GsapReveal>
+          <Reveal>
             <div className="mb-14 max-w-2xl mx-auto text-center md:mx-0 md:text-left">
               <SectionLabel align="center">Engenharia operacional</SectionLabel>
               <h2 className="font-heading text-3xl md:text-[48px] text-white mb-4 leading-tight">
@@ -215,11 +215,11 @@ export default function PadraoOperacionalPage() {
                 sustentado todos os dias, sem exceções.
               </p>
             </div>
-          </GsapReveal>
+          </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
             {PILLARS.map((pillar, i) => (
-              <GsapReveal key={pillar.n} delayMs={i * 100}>
+              <Reveal key={pillar.n} delayMs={i * 100}>
                 <ProcessCard
                   number={pillar.n}
                   icon={pillar.icon}
@@ -227,11 +227,11 @@ export default function PadraoOperacionalPage() {
                   text={pillar.text}
                   accent={pillar.accent}
                 />
-              </GsapReveal>
+              </Reveal>
             ))}
           </div>
 
-          <GsapReveal delayMs={400} className="mt-6 md:mt-8">
+          <Reveal delayMs={400} className="mt-6 md:mt-8">
             <div className="rounded-[24px] overflow-hidden border border-white/10 bg-white/5">
               <div className="relative aspect-[16/9] md:aspect-[21/9]">
                 <Image
@@ -250,14 +250,14 @@ export default function PadraoOperacionalPage() {
                 </span>
               </div>
             </div>
-          </GsapReveal>
+          </Reveal>
         </div>
       </section>
 
       {/* Controle e respaldo */}
       <section className="py-24 md:py-[var(--spacing-section)] bg-gradient-to-b from-surface to-white overflow-hidden">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-12 gap-y-14 md:gap-x-16 items-center">
-          <GsapReveal className="md:col-span-5 order-2 md:order-1">
+          <Reveal className="md:col-span-5 order-2 md:order-1">
             <div className="rounded-[24px] overflow-hidden border border-navy/10 bg-white shadow-[0_20px_50px_-25px_rgba(0,15,105,0.3)] max-w-md mx-auto md:max-w-none">
               <div className="relative aspect-[4/3]">
                 <Image
@@ -274,9 +274,9 @@ export default function PadraoOperacionalPage() {
                 </span>
               </div>
             </div>
-          </GsapReveal>
+          </Reveal>
 
-          <GsapReveal delayMs={100} className="md:col-span-7 order-1 md:order-2">
+          <Reveal delayMs={100} className="md:col-span-7 order-1 md:order-2">
             <SectionLabel color="navy">Controle e respaldo</SectionLabel>
             <p className="text-graphite/70 text-lg leading-relaxed max-w-[65ch] mx-auto md:mx-0 text-center md:text-left mb-8">
               Não deixamos nossa equipe operando sem suporte. Nossos inspetores avaliam
@@ -295,14 +295,14 @@ export default function PadraoOperacionalPage() {
                 </div>
               ))}
             </div>
-          </GsapReveal>
+          </Reveal>
         </div>
       </section>
 
       {/* CTA */}
       <section className="bg-gradient-to-br from-navy to-navy-deep py-20 md:py-28 relative overflow-hidden">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] relative z-10 grid grid-cols-1 md:grid-cols-12 gap-y-10 md:gap-x-12 items-center">
-          <GsapReveal className="md:col-span-7 text-center md:text-left">
+          <Reveal className="md:col-span-7 text-center md:text-left">
             <h2 className="font-heading text-3xl md:text-4xl text-white mb-4">
               Quer conhecer nosso padrão operacional de perto?
             </h2>
@@ -310,8 +310,8 @@ export default function PadraoOperacionalPage() {
               Fale com nossa equipe e entenda como a supervisão ativa da PS Proteção garante que
               o combinado em contrato é cumprido todos os dias.
             </p>
-          </GsapReveal>
-          <GsapReveal delayMs={100} className="md:col-span-5">
+          </Reveal>
+          <Reveal delayMs={100} className="md:col-span-5">
             <div className="flex flex-col gap-4 max-w-sm mx-auto md:mx-0 md:max-w-none">
               <WhatsAppCta
                 href="https://wa.me/5519982892037"
@@ -331,7 +331,7 @@ export default function PadraoOperacionalPage() {
                 Ver Todos os Serviços
               </Link>
             </div>
-          </GsapReveal>
+          </Reveal>
         </div>
       </section>
     </>

@@ -13,7 +13,7 @@ import {
   Lock,
   Building2,
 } from "lucide-react";
-import GsapReveal from "@/components/GsapReveal";
+import Reveal from "@/components/Reveal";
 import WhatsAppCta from "@/components/WhatsAppCta";
 import SectionLabel from "@/components/SectionLabel";
 import ProcessCard from "@/components/ProcessCard";
@@ -162,25 +162,25 @@ export default function ServicoLimpezaPage() {
         </svg>
 
         <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
-          <GsapReveal>
+          <Reveal>
             <div className="mb-8">
               <Breadcrumbs items={breadcrumbItems} dark />
             </div>
-          </GsapReveal>
+          </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-y-14 md:gap-x-12 items-center">
             <div className="md:col-span-7 text-center md:text-left">
-              <GsapReveal>
+              <Reveal>
                 <SectionLabel align="center" className="md:justify-start">
                   Serviços · Limpeza Terceirizada
                 </SectionLabel>
-              </GsapReveal>
-              <GsapReveal delayMs={100}>
+              </Reveal>
+              <Reveal delayMs={100}>
                 <h1 className="text-white font-heading text-4xl md:text-[3.4rem] font-bold leading-[1.1] mb-6">
                   Limpeza Terceirizada para Empresas e Condomínios
                 </h1>
-              </GsapReveal>
-              <GsapReveal delayMs={200}>
+              </Reveal>
+              <Reveal delayMs={200}>
                 <p className="text-white/80 text-lg max-w-2xl mx-auto md:mx-0 leading-relaxed mb-8">
                   Assumimos a limpeza do seu ambiente com equipe própria em CLT, contratação
                   mínima de 44h semanais e auditoria periódica de qualidade. Solicite uma proposta
@@ -196,10 +196,10 @@ export default function ServicoLimpezaPage() {
                   }
                   className="px-7 py-3.5 text-[15px]"
                 />
-              </GsapReveal>
+              </Reveal>
             </div>
 
-            <GsapReveal delayMs={150} className="md:col-span-5">
+            <Reveal delayMs={150} className="md:col-span-5">
               <div className="relative bg-white/5 border border-white/10 rounded-[24px] p-6 md:p-7 backdrop-blur-md">
                 <div className="flex items-center gap-2 mb-6">
                   <Lock size={16} className="text-yellow" />
@@ -219,7 +219,7 @@ export default function ServicoLimpezaPage() {
                   ))}
                 </ul>
               </div>
-            </GsapReveal>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -229,7 +229,7 @@ export default function ServicoLimpezaPage() {
       {/* Quem somos */}
       <section className="py-24 md:py-[var(--spacing-section)] bg-surface overflow-hidden">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-12 gap-y-14 md:gap-x-16 items-center">
-          <GsapReveal className="md:col-span-6 order-2 md:order-1">
+          <Reveal className="md:col-span-6 order-2 md:order-1">
             <div className="flex flex-col gap-6 text-center md:text-left">
               <SectionLabel color="navy" align="center" className="md:justify-start">
                 01 · Quem Somos
@@ -256,9 +256,9 @@ export default function ServicoLimpezaPage() {
                 </p>
               </div>
             </div>
-          </GsapReveal>
+          </Reveal>
 
-          <GsapReveal delayMs={100} className="md:col-span-6 order-1 md:order-2">
+          <Reveal delayMs={100} className="md:col-span-6 order-1 md:order-2">
             <div className="relative rounded-[24px] overflow-hidden aspect-[4/3] md:aspect-[5/4] shadow-[0_25px_55px_-25px_rgba(0,15,105,0.35)]">
               <Image
                 src="/assets/fachada.webp"
@@ -276,7 +276,7 @@ export default function ServicoLimpezaPage() {
                 </div>
               </div>
             </div>
-          </GsapReveal>
+          </Reveal>
         </div>
       </section>
 
@@ -294,7 +294,7 @@ export default function ServicoLimpezaPage() {
         </svg>
 
         <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-x-16 items-center">
-          <GsapReveal className="md:col-span-6">
+          <Reveal className="md:col-span-6">
             <div className="flex flex-col gap-6 text-center md:text-left">
               <SectionLabel>02 · Gestão Completa da Limpeza</SectionLabel>
               <h2 className="font-heading text-3xl md:text-[42px] text-white leading-[1.15]">
@@ -335,9 +335,9 @@ export default function ServicoLimpezaPage() {
                 />
               </div>
             </div>
-          </GsapReveal>
+          </Reveal>
 
-          <GsapReveal delayMs={100} className="md:col-span-6">
+          <Reveal delayMs={100} className="md:col-span-6">
             <div className="rounded-[24px] overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm shadow-[0_25px_55px_-25px_rgba(0,0,0,0.45)] max-w-md mx-auto md:max-w-none">
               <div className="relative aspect-[16/9]">
                 <Image
@@ -355,14 +355,14 @@ export default function ServicoLimpezaPage() {
                 </p>
               </div>
             </div>
-          </GsapReveal>
+          </Reveal>
         </div>
       </section>
 
       {/* Pilares */}
       <section className="py-24 md:py-[var(--spacing-section)] bg-white">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
-          <GsapReveal>
+          <Reveal>
             <div className="mb-14 max-w-2xl mx-auto text-center md:mx-0 md:text-left">
               <SectionLabel color="navy" align="center">
                 03 · Como Funciona
@@ -375,11 +375,11 @@ export default function ServicoLimpezaPage() {
                 diagnóstico à auditoria de qualidade contínua.
               </p>
             </div>
-          </GsapReveal>
+          </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
             {PILLARS.map((pillar, i) => (
-              <GsapReveal key={pillar.n} delayMs={i * 100}>
+              <Reveal key={pillar.n} delayMs={i * 100}>
                 <ProcessCard
                   number={pillar.n}
                   icon={pillar.icon}
@@ -388,7 +388,7 @@ export default function ServicoLimpezaPage() {
                   accent={pillar.accent}
                   light
                 />
-              </GsapReveal>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -399,7 +399,7 @@ export default function ServicoLimpezaPage() {
       {/* FAQ */}
       <section className="py-24 md:py-[var(--spacing-section)] bg-surface">
         <div className="max-w-3xl mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
-          <GsapReveal>
+          <Reveal>
             <div className="mb-12 text-center">
               <SectionLabel color="navy" align="center">
                 05 · Perguntas Frequentes
@@ -408,9 +408,9 @@ export default function ServicoLimpezaPage() {
                 Dúvidas comuns sobre limpeza terceirizada
               </h2>
             </div>
-          </GsapReveal>
+          </Reveal>
           <FaqAccordion items={FAQ_ITEMS} />
-          <GsapReveal delayMs={150}>
+          <Reveal delayMs={150}>
             <div className="mt-10 flex flex-col items-center gap-4 text-center">
               <p className="text-graphite/70 text-sm md:text-base">
                 Não encontrou sua dúvida aqui? Fale direto com nossa equipe.
@@ -425,14 +425,14 @@ export default function ServicoLimpezaPage() {
                 className="px-6 py-3 text-sm"
               />
             </div>
-          </GsapReveal>
+          </Reveal>
         </div>
       </section>
 
       {/* CTA */}
       <section className="bg-gradient-to-br from-navy to-navy-deep py-20 md:py-28 relative overflow-hidden">
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] relative z-10 grid grid-cols-1 md:grid-cols-12 gap-y-10 md:gap-x-12 items-center">
-          <GsapReveal className="md:col-span-7 text-center md:text-left">
+          <Reveal className="md:col-span-7 text-center md:text-left">
             <h2 className="font-heading text-3xl md:text-4xl text-white mb-4">
               Pronto para terceirizar sua limpeza?
             </h2>
@@ -440,8 +440,8 @@ export default function ServicoLimpezaPage() {
               Fale com nossa equipe agora e receba uma proposta personalizada, sem compromisso,
               para o seu condomínio, empresa ou indústria.
             </p>
-          </GsapReveal>
-          <GsapReveal delayMs={100} className="md:col-span-5">
+          </Reveal>
+          <Reveal delayMs={100} className="md:col-span-5">
             <div className="flex flex-col gap-4 max-w-sm mx-auto md:mx-0 md:max-w-none">
               <WhatsAppCta
                 href="https://wa.me/5519982892037"
@@ -461,7 +461,7 @@ export default function ServicoLimpezaPage() {
                 Conhecer Portaria Terceirizada
               </Link>
             </div>
-          </GsapReveal>
+          </Reveal>
         </div>
       </section>
     </>

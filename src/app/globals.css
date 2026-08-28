@@ -251,6 +251,31 @@ body {
   }
 }
 
+@keyframes scroll-cue-pulse {
+  0% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translateY(8px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+}
+
+.scroll-cue {
+  animation: scroll-cue-pulse 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue {
+    animation: none;
+  }
+}
+
 /*
   Shared rich-text styling for blog post bodies — used both by the Tiptap
   editor's content area (.ProseMirror) and the public /blog/[slug] render,

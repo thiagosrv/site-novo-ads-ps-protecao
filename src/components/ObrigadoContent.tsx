@@ -92,7 +92,7 @@ export default function ObrigadoContent() {
       <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
         <div className="relative order-2 md:order-1 aspect-[4/5] max-h-[480px] rounded-[2rem] overflow-hidden bg-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
           <Image
-            src="/loading/loading3.png"
+            src="/loading/loading3.webp"
             alt="Profissional de segurança da PS Proteção treinado e capacitado"
             fill
             priority

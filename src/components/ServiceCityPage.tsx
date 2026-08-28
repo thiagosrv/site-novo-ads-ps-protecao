@@ -175,7 +175,7 @@ export default function ServiceCityPage({
             />
           )}
           <Image
-            src={isPortariaHero ? "/assets/uniforme-psprotecao.webp" : "/brand/guarda-fachada.png"}
+            src={isPortariaHero ? "/assets/uniforme-psprotecao.webp" : "/brand/guarda-fachada.webp"}
             alt={`Profissional de segurança da PS Proteção em ${service.name.toLowerCase()} em ${city.name}`}
             fill
             priority

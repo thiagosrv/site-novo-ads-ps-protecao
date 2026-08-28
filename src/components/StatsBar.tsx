@@ -20,15 +20,18 @@ export default function StatsBar() {
                 href="https://share.google/hnbDKKadI4SNmQKKm"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-graphite/80 hover:text-navy transition-colors"
+                className="inline-flex flex-col items-center gap-1 text-graphite/80 hover:text-navy transition-colors"
               >
-                <span className="flex items-center gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={16} className="fill-yellow text-yellow" />
-                  ))}
+                <span className="flex items-center gap-1.5">
+                  <strong className="font-mono text-sm text-navy">4.8</strong>
+                  <span className="flex items-center gap-0.5">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star key={i} size={16} className="fill-yellow text-yellow" />
+                    ))}
+                  </span>
                 </span>
                 <span className="font-mono text-[11px] xl:text-xs tracking-widest">
-                  <strong className="text-navy">4.8</strong> · 70 AVALIAÇÕES NO GOOGLE
+                  70 AVALIAÇÕES NO GOOGLE
                 </span>
               </Link>
             </div>

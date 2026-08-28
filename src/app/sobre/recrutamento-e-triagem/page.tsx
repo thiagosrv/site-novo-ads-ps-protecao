@@ -210,7 +210,7 @@ export default function RecrutamentoTriagemPage() {
               <div className="relative rounded-[24px] overflow-hidden border border-white/10 bg-white">
                 <div className="relative aspect-[4/5]">
                   <Image
-                    src="/assets/certificado-antecedentes-criminais.png"
+                    src="/assets/certificado-antecedentes-criminais.webp"
                     alt="Certificado de antecedentes criminais — checagem obrigatória PS Proteção"
                     fill
                     className="object-contain"
@@ -250,7 +250,7 @@ export default function RecrutamentoTriagemPage() {
           <Reveal className="md:col-span-5 order-2 md:order-1">
             <div className="rounded-[24px] overflow-hidden border border-navy/10 bg-white shadow-[0_20px_50px_-25px_rgba(0,15,105,0.3)] max-w-md mx-auto md:max-w-none">
               <Image
-                src="/assets/empresa-de-portaria-regularizada.png"
+                src="/assets/empresa-de-portaria-regularizada.webp"
                 alt="Painel de gestão PS Proteção — operação regularizada"
                 width={700}
                 height={470}

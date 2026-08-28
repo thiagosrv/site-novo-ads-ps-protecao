@@ -9,7 +9,7 @@ import {
   MessageCircle,
   type LucideIcon,
 } from "lucide-react";
-import GsapReveal from "@/components/GsapReveal";
+import Reveal from "@/components/Reveal";
 import SectionLabel from "@/components/SectionLabel";
 import WhatsAppCta from "@/components/WhatsAppCta";
 import { CITIES, getCityBySlug, type City } from "@/lib/cities";
@@ -120,7 +120,7 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
       </svg>
 
       <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
-        <GsapReveal>
+        <Reveal>
           <div className="mb-16 max-w-2xl mx-auto text-center">
             <SectionLabel align="center">04 · Onde Operamos</SectionLabel>
             <h2 className="font-heading text-3xl md:text-[48px] text-white mb-4 leading-tight">
@@ -134,7 +134,7 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
               Paulo.
             </p>
           </div>
-        </GsapReveal>
+        </Reveal>
 
         {/* Tipos de operação: linha do tempo com nó central por item. Desktop usa uma
             grade de 3 linhas (texto / ícone / texto) para que o ícone fique sempre
@@ -142,7 +142,7 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
             Mobile usa uma linha do tempo vertical dedicada, não um reflow do layout
             desktop — leitura sequencial de cima para baixo, sem quebra de linha de
             texto disputando espaço com os ícones. */}
-        <GsapReveal>
+        <Reveal>
           <p className="mb-10 text-center font-mono text-xs uppercase tracking-[0.2em] text-yellow/60">
             Tipos de operação atendidos
           </p>
@@ -214,7 +214,7 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
               ))}
             </div>
           </div>
-        </GsapReveal>
+        </Reveal>
 
         {/* Cidades atendidas: ficha/diretório em lista numerada, não cards. */}
         <p className="mb-6 text-center font-mono text-xs uppercase tracking-[0.2em] text-yellow/60">
@@ -222,7 +222,7 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
         </p>
         <div className="mx-auto max-w-3xl grid grid-cols-1 gap-x-12 sm:grid-cols-2">
           {FEATURED_CITIES.map((city, i) => (
-            <GsapReveal key={city.slug} delayMs={i * 40}>
+            <Reveal key={city.slug} delayMs={i * 40}>
               <Link
                 href={buildCategoryNestedPath(category, city)}
                 className="group flex items-center justify-between gap-4 border-b border-white/10 py-4 transition-colors hover:border-yellow/30"
@@ -243,11 +243,11 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
                   className="shrink-0 text-white/30 transition-all group-hover:translate-x-1 group-hover:text-yellow"
                 />
               </Link>
-            </GsapReveal>
+            </Reveal>
           ))}
         </div>
 
-        <GsapReveal delayMs={200}>
+        <Reveal delayMs={200}>
           <div className="mt-12 flex flex-col items-center justify-between gap-6 rounded-[24px] border border-yellow/20 bg-white/5 backdrop-blur-sm px-8 py-7 md:flex-row">
             <p className="text-center text-sm text-white/80 md:text-left md:text-base">
               Atendemos mais de <strong className="text-yellow">{CITIES.length} municípios</strong> na
@@ -264,7 +264,7 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
               className="shrink-0 whitespace-nowrap px-6 py-3 text-sm"
             />
           </div>
-        </GsapReveal>
+        </Reveal>
       </div>
     </section>
   );

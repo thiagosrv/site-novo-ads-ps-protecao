@@ -17,7 +17,7 @@ export default function CityHero({ city }: { city: City }) {
           className="object-cover object-[75%_center] md:hidden"
         />
         <Image
-          src="/brand/guarda-fachada.png"
+          src="/brand/guarda-fachada.webp"
           alt={`Profissional de segurança da PS Proteção em portaria monitorada em ${city.name}`}
           fill
           priority

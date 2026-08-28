@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import {
   EyeOff,
   ShieldOff,
@@ -70,47 +71,71 @@ export default function CanalDeEticaPage() {
         tag="Compromisso com a integridade"
         title="Canal de Ética"
         description="Um espaço seguro e 100% anônimo para reportar condutas que vão contra nossos valores. Sua voz é fundamental para mantermos um ambiente íntegro e transparente."
+        showScrollCue
       />
 
       <section className="py-20 md:py-[var(--spacing-section)] bg-surface">
-        <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          <div>
-            <Reveal>
-              <h2 className="font-heading text-3xl md:text-4xl text-navy mb-6 leading-tight">
-                Nosso compromisso com a ética e a transparência
-              </h2>
-            </Reveal>
-            <Reveal delayMs={80}>
-              <p className="text-graphite/70 text-lg leading-relaxed mb-10">
-                A PS Proteção mantém este canal para que colaboradores, clientes, fornecedores e
-                demais parceiros possam relatar, com segurança e sem se identificar, condutas que
-                violem nossos princípios éticos e de conduta. Todo relato é tratado com sigilo e
-                seriedade, e faz parte do nosso compromisso contínuo com a integridade da nossa
-                operação.
-              </p>
-            </Reveal>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {FEATURES.map((feature, i) => {
-                const Icon = feature.icon;
-                return (
-                  <Reveal key={feature.title} delayMs={120 + i * 60}>
-                    <div className="bg-white rounded-2xl shadow-sm border border-navy/5 p-6 h-full">
-                      <div className="w-11 h-11 rounded-full bg-navy flex items-center justify-center mb-4">
-                        <Icon className="text-yellow" size={20} />
-                      </div>
-                      <h3 className="font-heading text-navy text-base mb-1.5">{feature.title}</h3>
-                      <p className="text-graphite/70 text-sm leading-relaxed">{feature.text}</p>
-                    </div>
-                  </Reveal>
-                );
-              })}
+        <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
+          <Reveal>
+            <div className="relative rounded-[24px] overflow-hidden aspect-[16/9] shadow-[0_25px_55px_-25px_rgba(0,15,105,0.35)] mb-14 md:mb-16">
+              <Image
+                src="/assets/etica.webp"
+                alt="Colaboradora da PS Proteção consultando o celular durante o trabalho"
+                fill
+                quality={90}
+                className="object-cover"
+                sizes="(min-width: 1024px) 1152px, 100vw"
+              />
+              <div className="absolute inset-x-4 bottom-4 md:inset-x-6 md:bottom-6">
+                <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md rounded-full px-4 py-2">
+                  <ShieldOff size={16} className="text-yellow-dark" />
+                  <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-navy">
+                    Também para quem está na linha de frente, todos os dias
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
-
-          <Reveal delayMs={100}>
-            <EthicsReportForm />
           </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            <div>
+              <Reveal>
+                <h2 className="font-heading text-3xl md:text-4xl text-navy mb-6 leading-tight">
+                  Nosso compromisso com a ética e a transparência
+                </h2>
+              </Reveal>
+              <Reveal delayMs={80}>
+                <p className="text-graphite/70 text-lg leading-relaxed mb-10">
+                  A PS Proteção mantém este canal para que colaboradores, clientes, fornecedores e
+                  demais parceiros possam relatar, com segurança e sem se identificar, condutas que
+                  violem nossos princípios éticos e de conduta. Todo relato é tratado com sigilo e
+                  seriedade, e faz parte do nosso compromisso contínuo com a integridade da nossa
+                  operação.
+                </p>
+              </Reveal>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {FEATURES.map((feature, i) => {
+                  const Icon = feature.icon;
+                  return (
+                    <Reveal key={feature.title} delayMs={120 + i * 60}>
+                      <div className="bg-white rounded-2xl shadow-sm border border-navy/5 p-6 h-full">
+                        <div className="w-11 h-11 rounded-full bg-navy flex items-center justify-center mb-4">
+                          <Icon className="text-yellow" size={20} />
+                        </div>
+                        <h3 className="font-heading text-navy text-base mb-1.5">{feature.title}</h3>
+                        <p className="text-graphite/70 text-sm leading-relaxed">{feature.text}</p>
+                      </div>
+                    </Reveal>
+                  );
+                })}
+              </div>
+            </div>
+
+            <Reveal delayMs={100}>
+              <EthicsReportForm />
+            </Reveal>
+          </div>
         </div>
       </section>
 

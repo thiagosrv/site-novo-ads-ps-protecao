@@ -73,7 +73,7 @@ export default function Differentiators() {
                   >
                     <span className="font-mono text-xs text-navy font-bold">{step.n}</span>
                   </div>
-                  <h4 className="font-heading text-xl text-navy mb-3">{step.title}</h4>
+                  <h3 className="font-heading text-xl text-navy mb-3">{step.title}</h3>
                   <p className="text-graphite/70 leading-relaxed">{step.text}</p>
                 </Reveal>
               ))}

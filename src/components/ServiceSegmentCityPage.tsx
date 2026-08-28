@@ -201,7 +201,7 @@ export default function ServiceSegmentCityPage({
             />
           )}
           <Image
-            src={isPortariaHero ? "/assets/uniforme-psprotecao.webp" : "/brand/guarda-fachada.png"}
+            src={isPortariaHero ? "/assets/uniforme-psprotecao.webp" : "/brand/guarda-fachada.webp"}
             alt={`Profissional da PS Proteção prestando ${categoryLabel.toLowerCase()} para ${segment.name.toLowerCase()} em ${city.name}`}
             fill
             priority

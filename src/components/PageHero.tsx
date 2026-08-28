@@ -1,13 +1,16 @@
+import { ChevronDown } from "lucide-react";
 import Reveal from "./Reveal";
 
 export default function PageHero({
   tag,
   title,
   description,
+  showScrollCue,
 }: {
   tag: string;
   title: string;
   description: string;
+  showScrollCue?: boolean;
 }) {
   return (
     <section className="relative bg-gradient-to-b from-navy to-navy-deep pt-36 pb-48 md:pt-44 md:pb-56 overflow-hidden">
@@ -39,6 +42,11 @@ export default function PageHero({
         <Reveal delayMs={200}>
           <p className="text-white/80 text-lg max-w-2xl mx-auto leading-relaxed">{description}</p>
         </Reveal>
+        {showScrollCue && (
+          <Reveal delayMs={320}>
+            <ChevronDown size={28} className="scroll-cue mx-auto mt-10 text-white/50" aria-hidden="true" />
+          </Reveal>
+        )}
       </div>
     </section>
   );

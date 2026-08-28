@@ -1,10 +1,12 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
+const DURATION_MS = 1600;
+
+function easeOutPower2(t: number) {
+  return 1 - (1 - t) * (1 - t);
+}
 
 export default function StatCounter({
   value,
@@ -15,7 +17,7 @@ export default function StatCounter({
 }) {
   const ref = useRef<HTMLSpanElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
@@ -26,24 +28,43 @@ export default function StatCounter({
     const target = parseInt(numStr, 10);
     el.textContent = `${prefix}0${suffix}`;
 
-    const counter = { val: 0 };
-    const ctx = gsap.context(() => {
-      gsap.to(counter, {
-        val: target,
-        duration: 1.6,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 85%",
-          once: true,
-        },
-        onUpdate: () => {
-          el.textContent = `${prefix}${Math.round(counter.val)}${suffix}`;
-        },
-      });
-    }, el);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.textContent = `${prefix}${target}${suffix}`;
+      return;
+    }
 
-    return () => ctx.revert();
+    let rafId: number;
+
+    const animate = () => {
+      const start = performance.now();
+      const tick = (now: number) => {
+        const progress = Math.min((now - start) / DURATION_MS, 1);
+        const current = Math.round(target * easeOutPower2(progress));
+        el.textContent = `${prefix}${current}${suffix}`;
+        if (progress < 1) {
+          rafId = requestAnimationFrame(tick);
+        }
+      };
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0, rootMargin: "0px 0px -15% 0px" }
+    );
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [value]);
 
   return (
