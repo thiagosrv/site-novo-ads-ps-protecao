@@ -9,7 +9,7 @@ const SERVICES = [
     title: "Portaria e Controle de Acesso",
     image: "/assets/porteiro.webp",
     alt: "Porteiro da PS Proteção em posto de controle de acesso",
-    bullets: ["Rondas e controle de acesso desarmados", "Triagem técnica de visitantes"],
+    bullets: ["Controle de acesso ajustado à sua operação", "Triagem técnica de visitantes"],
   },
   {
     tag: "FACILITIES",
