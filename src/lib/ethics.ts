@@ -52,7 +52,7 @@ export const ETHICS_PROCESS_STEPS = [
   },
   {
     title: "Conclusão e retorno",
-    text: "Definimos as medidas cabíveis e, se você deixou um e-mail, retornamos com um posicionamento sobre a apuração em até 15 dias úteis.",
+    text: "Definimos as medidas cabíveis e, se você deixou um WhatsApp, retornamos com um posicionamento sobre a apuração em até 15 dias úteis.",
   },
 ] as const;
 
@@ -60,7 +60,7 @@ export const ETHICS_FAQ = [
   {
     question: "Preciso me identificar para registrar um relato?",
     answer:
-      "Não. O formulário não pede seu nome em nenhum momento. Você pode, se quiser, deixar um e-mail apenas para receber um retorno sobre a apuração — isso é totalmente opcional e não compromete o anonimato do restante do relato.",
+      "Não. O formulário não pede seu nome em nenhum momento. Você pode, se quiser, deixar um WhatsApp apenas para receber um retorno sobre a apuração — isso é totalmente opcional e não compromete o anonimato do restante do relato.",
   },
   {
     question: "Quem tem acesso ao meu relato?",
@@ -82,7 +82,7 @@ export const ETHICS_FAQ = [
 export type EthicsReportData = {
   reportType: string;
   description: string;
-  email: string;
+  whatsapp: string;
 };
 
 export type EthicsSubmitResult = { ok: true } | { ok: false; error: string };
@@ -112,7 +112,7 @@ export async function submitEthicsReport(data: EthicsReportData): Promise<Ethics
         from_name: "Canal de Ética (site)",
         "Tipo de relato": data.reportType,
         Descrição: data.description,
-        "E-mail para retorno": data.email.trim() || "Não informado (relato anônimo)",
+        "WhatsApp para retorno": data.whatsapp.trim() || "Não informado (relato anônimo)",
         botcheck: "",
       }),
     });

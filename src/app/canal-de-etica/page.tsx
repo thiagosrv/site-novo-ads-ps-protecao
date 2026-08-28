@@ -48,7 +48,7 @@ const FEATURES = [
   {
     icon: Clock,
     title: "Resposta em até 15 dias úteis",
-    text: "Caso informe um e-mail para retorno, você receberá um feedback sobre o andamento da investigação em até 15 dias úteis.",
+    text: "Caso informe um WhatsApp para retorno, você receberá um feedback sobre o andamento da investigação em até 15 dias úteis.",
   },
 ];
 
@@ -90,7 +90,7 @@ export default function CanalDeEticaPage() {
                 <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md rounded-full px-4 py-2">
                   <ShieldOff size={16} className="text-yellow-dark" />
                   <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-navy">
-                    Também para quem está na linha de frente, todos os dias
+                    Cuidando com quem cuida da nossa operação, todos os dias.
                   </span>
                 </div>
               </div>

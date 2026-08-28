@@ -4,16 +4,34 @@ import { useState, type ReactNode } from "react";
 import { Send, ShieldOff, CheckCircle2, AlertTriangle, Loader2 } from "lucide-react";
 import { ETHICS_REPORT_TYPES, submitEthicsReport } from "@/lib/ethics";
 
-const EMPTY_FORM = { reportType: "", description: "", email: "" };
+const EMPTY_FORM = { reportType: "", description: "", whatsapp: "" };
 
 const inputClass =
   "w-full rounded-xl border border-navy/10 bg-surface px-4 py-2.5 text-graphite placeholder:text-graphite/40 focus:outline-none focus:ring-2 focus:ring-yellow/50 transition-shadow";
 
-function Field({ label, required, children }: { label: string; required?: boolean; children: ReactNode }) {
+function formatWhatsApp(raw: string) {
+  const digits = raw.replace(/\D/g, "").slice(0, 11);
+  if (digits.length <= 2) return digits.length ? `(${digits}` : "";
+  if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+}
+
+function Field({
+  label,
+  required,
+  optional,
+  children,
+}: {
+  label: string;
+  required?: boolean;
+  optional?: boolean;
+  children: ReactNode;
+}) {
   return (
     <label className="block">
       <span className="block text-xs font-mono tracking-wide text-graphite/60 uppercase mb-1.5">
         {label} {required && <span className="text-yellow-dark">*</span>}
+        {optional && <span className="text-red-600 font-semibold"> (opcional)</span>}
       </span>
       {children}
     </label>
@@ -56,7 +74,7 @@ export default function EthicsReportForm() {
         <h2 className="font-heading text-2xl text-navy mb-2">Relato enviado</h2>
         <p className="text-graphite/70 text-sm leading-relaxed max-w-sm mb-7">
           Seu relato foi recebido com sucesso e será apurado com sigilo. Nenhuma informação de
-          identificação foi coletada, a menos que você tenha optado por deixar um e-mail para
+          identificação foi coletada, a menos que você tenha optado por deixar um WhatsApp para
           retorno.
         </p>
         <button
@@ -81,8 +99,8 @@ export default function EthicsReportForm() {
         <ShieldOff className="text-navy shrink-0 mt-0.5" size={18} />
         <p className="text-graphite/70 text-sm leading-relaxed">
           <span className="font-semibold text-navy">Este formulário é 100% anônimo.</span> Não
-          pedimos e não coletamos seu nome em nenhum momento. O campo de e-mail é opcional e serve
-          apenas para você receber um retorno sobre a apuração, caso queira.
+          pedimos e não coletamos seu nome em nenhum momento. O campo de WhatsApp é opcional e
+          serve apenas para você receber um retorno sobre a apuração, caso queira.
         </p>
       </div>
 
@@ -112,13 +130,14 @@ export default function EthicsReportForm() {
           />
         </Field>
 
-        <Field label="E-mail para retorno (opcional)">
+        <Field label="WhatsApp para retorno" optional>
           <input
-            type="email"
-            value={form.email}
-            onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+            type="tel"
+            inputMode="numeric"
+            value={form.whatsapp}
+            onChange={(e) => setForm((f) => ({ ...f, whatsapp: formatWhatsApp(e.target.value) }))}
             className={inputClass}
-            placeholder="Deixe em branco para manter o anonimato total"
+            placeholder="(ddd) 99999-9999"
           />
         </Field>
 
