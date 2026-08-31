@@ -23,7 +23,7 @@ const INSTITUTIONAL_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-navy w-full pt-20 md:pt-[var(--spacing-section)] pb-8 border-t border-white/5 relative overflow-hidden mt-16">
+    <footer className="bg-navy w-full pt-20 md:pt-[var(--spacing-section)] border-t border-white/5 relative overflow-hidden mt-16">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-6 px-6 md:px-[var(--spacing-grid-margin)] max-w-[var(--container-max)] mx-auto relative z-10">
         <div className="md:col-span-1 text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
@@ -140,21 +140,64 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-16 pt-8 border-t border-white/5 px-6 md:px-[var(--spacing-grid-margin)] max-w-[var(--container-max)] mx-auto flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
-        <p className="text-white/40 font-mono text-[11px] tracking-widest uppercase">
-          © {new Date().getFullYear()} PS PROTEÇÃO. CNPJ 47.425.584/0001-00. Todos os direitos
-          reservados.
-        </p>
-        <div className="flex items-center gap-4">
-          <Link
-            href="/privacidade"
-            className="text-white/40 font-mono text-[11px] tracking-widest uppercase hover:text-yellow transition-colors"
-          >
-            Política de Privacidade
-          </Link>
-          <p className="text-white/40 font-mono text-[11px] tracking-widest uppercase">
-            Americana · Campinas · RMC
+      <div className="mt-16 bg-white relative z-10">
+        <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] py-6 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-navy font-mono text-[11px] tracking-widest uppercase text-center md:text-left">
+            © {new Date().getFullYear()} PS PROTEÇÃO. CNPJ{" "}
+            <a
+              href="https://www.econodata.com.br/consulta-empresa/47425584000100-ps-protecao-servicos-de-portaria-e-limpeza-ltda"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-navy/30 underline-offset-2 hover:text-navy-deep hover:decoration-navy-deep transition-colors"
+            >
+              47.425.584/0001-00
+            </a>
+            . Todos os direitos reservados.
           </p>
+
+          <div className="flex items-center gap-4 shrink-0">
+            <a
+              href="https://regional.ciesp.com.br/americana/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="CIESP Americana"
+            >
+              <Image
+                src="/assets/Selo_Parceiro_sem_fundo.png"
+                alt="Selo Parceiro CIESP 2026"
+                width={104}
+                height={104}
+                className="h-12 w-12 object-contain"
+              />
+            </a>
+            <div className="w-px h-8 bg-navy/10" />
+            <a
+              href="https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR05atualizada2023.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Norma Regulamentadora NR-5 — CIPA"
+            >
+              <Image
+                src="/assets/CIPA.webp"
+                alt="Selo CIPA Segurança"
+                width={104}
+                height={104}
+                className="h-12 w-12 object-contain"
+              />
+            </a>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <Link
+              href="/privacidade"
+              className="text-navy font-mono text-[11px] tracking-widest uppercase hover:text-navy-deep transition-colors"
+            >
+              Política de Privacidade
+            </Link>
+            <p className="text-navy font-mono text-[11px] tracking-widest uppercase">
+              Americana · Campinas · RMC
+            </p>
+          </div>
         </div>
       </div>
     </footer>
