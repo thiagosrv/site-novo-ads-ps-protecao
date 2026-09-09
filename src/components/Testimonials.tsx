@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Star } from "lucide-react";
 import Reveal from "./Reveal";
 
@@ -7,6 +8,7 @@ const TESTIMONIALS = [
     name: "Nathane Silva",
     reviewCount: "3 avaliações no Google",
     initial: "N",
+    photo: "/assets/depoimento-nathane.png",
     rating: 5,
     featured: false,
   },
@@ -15,6 +17,7 @@ const TESTIMONIALS = [
     name: "Rodolfo Pina",
     reviewCount: "3 avaliações no Google",
     initial: "R",
+    photo: "/assets/depoimento-rodolfo.png",
     rating: 5,
     featured: true,
   },
@@ -23,6 +26,7 @@ const TESTIMONIALS = [
     name: "Karla Karina",
     reviewCount: "1 avaliação no Google",
     initial: "K",
+    photo: "/assets/depoimento-karla.png",
     rating: 5,
     featured: false,
   },
@@ -38,7 +42,31 @@ function Stars({ count = 5 }: { count?: number }) {
   );
 }
 
-function InitialAvatar({ initial, featured }: { initial: string; featured: boolean }) {
+function InitialAvatar({
+  initial,
+  photo,
+  name,
+  featured,
+}: {
+  initial: string;
+  photo?: string;
+  name: string;
+  featured: boolean;
+}) {
+  if (photo) {
+    return (
+      <Image
+        src={photo}
+        alt={name}
+        width={48}
+        height={48}
+        className={`w-12 h-12 rounded-full shrink-0 object-cover ring-2 ${
+          featured ? "ring-white/20" : "ring-navy/10"
+        }`}
+      />
+    );
+  }
+
   return (
     <div
       aria-hidden="true"
@@ -93,7 +121,7 @@ export default function Testimonials() {
                 &ldquo;{t.text}&rdquo;
               </blockquote>
               <div className="flex items-center gap-3">
-                <InitialAvatar initial={t.initial} featured={t.featured} />
+                <InitialAvatar initial={t.initial} photo={t.photo} name={t.name} featured={t.featured} />
                 <div>
                   <strong
                     className={`block font-heading text-base ${
