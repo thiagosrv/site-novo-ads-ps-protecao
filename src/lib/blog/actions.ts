@@ -212,6 +212,7 @@ export async function savePost(input: SavePostInput): Promise<SavePostResult> {
 
   revalidatePath("/blog");
   revalidatePath(`/blog/${slug}`);
+  revalidatePath("/sitemap.xml");
 
   return { ok: true, id: id!, slug };
 }
@@ -238,6 +239,7 @@ export async function setPostStatus(
 
   revalidatePath("/blog");
   revalidatePath(`/blog/${updated.slug}`);
+  revalidatePath("/sitemap.xml");
 
   return { ok: true };
 }
@@ -253,6 +255,7 @@ export async function deletePost(id: string): Promise<{ ok: true } | { ok: false
 
   revalidatePath("/blog");
   revalidatePath(`/blog/${deleted.slug}`);
+  revalidatePath("/sitemap.xml");
 
   try {
     const key = keyFromPublicUrl(deleted.cover_image_url);
