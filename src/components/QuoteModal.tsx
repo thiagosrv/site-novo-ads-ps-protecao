@@ -5,8 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { X, Loader2, AlertCircle } from "lucide-react";
 import {
   SERVICE_OPTIONS,
-  QUOTE_CITY_OPTIONS,
-  QUOTE_OTHER_CITY_VALUE,
+  QUOTE_CITY_NAMES,
   buildQuoteMessage,
   saveQuotePayload,
   maskPhone,
@@ -25,7 +24,6 @@ type FormState = {
   name: string;
   phone: string;
   city: string;
-  cityOther: string;
   service: string;
   honeypot: string;
 };
@@ -34,7 +32,6 @@ const EMPTY_FORM: FormState = {
   name: "",
   phone: "",
   city: "",
-  cityOther: "",
   service: "",
   honeypot: "",
 };
@@ -43,7 +40,6 @@ type TouchedState = {
   name: boolean;
   phone: boolean;
   city: boolean;
-  cityOther: boolean;
   service: boolean;
 };
 
@@ -51,7 +47,6 @@ const EMPTY_TOUCHED: TouchedState = {
   name: false,
   phone: false,
   city: false,
-  cityOther: false,
   service: false,
 };
 
@@ -78,12 +73,132 @@ function errorsFor(form: FormState): Partial<Record<keyof TouchedState, string>>
   const errors: Partial<Record<keyof TouchedState, string>> = {};
   if (form.name.trim().length < 2) errors.name = "Informe seu nome completo.";
   if (!isValidPhone(form.phone)) errors.phone = "Informe um WhatsApp válido com DDD.";
-  if (!form.city) errors.city = "Selecione sua cidade.";
-  if (form.city === QUOTE_OTHER_CITY_VALUE && form.cityOther.trim().length < 2) {
-    errors.cityOther = "Informe o nome da sua cidade.";
-  }
+  if (form.city.trim().length < 2) errors.city = "Informe sua cidade.";
   if (!form.service) errors.service = "Selecione o serviço desejado.";
   return errors;
+}
+
+function normalizeForSearch(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function CityCombobox({
+  value,
+  onChange,
+  onBlur,
+  invalid,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  onBlur: () => void;
+  invalid: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const normalizedQuery = normalizeForSearch(value);
+  const suggestions = (
+    normalizedQuery
+      ? QUOTE_CITY_NAMES.filter((name) => normalizeForSearch(name).includes(normalizedQuery))
+      : QUOTE_CITY_NAMES
+  ).slice(0, 8);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  function selectCity(name: string) {
+    onChange(name);
+    setOpen(false);
+    setActiveIndex(-1);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!open) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") setOpen(true);
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.min(i + 1, suggestions.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.max(i - 1, 0));
+    } else if (e.key === "Enter") {
+      if (activeIndex >= 0 && suggestions[activeIndex]) {
+        e.preventDefault();
+        selectCity(suggestions[activeIndex]);
+      }
+    } else if (e.key === "Escape") {
+      setOpen(false);
+    }
+  }
+
+  return (
+    <div ref={wrapperRef} className="relative">
+      <input
+        id="quote-city"
+        name="city"
+        role="combobox"
+        aria-expanded={open}
+        aria-autocomplete="list"
+        aria-controls="quote-city-listbox"
+        autoComplete="off"
+        value={value}
+        onChange={(e) => {
+          onChange(e.target.value);
+          setOpen(true);
+          setActiveIndex(-1);
+        }}
+        onFocus={() => setOpen(true)}
+        onBlur={() => {
+          // Atraso para o clique na sugestão (onMouseDown) registrar antes do fechamento.
+          setTimeout(() => setOpen(false), 120);
+          onBlur();
+        }}
+        onKeyDown={handleKeyDown}
+        aria-invalid={invalid}
+        aria-describedby={invalid ? "quote-city-error" : undefined}
+        className={`${inputClass} ${invalid ? inputErrorClass : ""}`}
+        placeholder="Digite sua cidade"
+      />
+      {open && suggestions.length > 0 && (
+        <ul
+          id="quote-city-listbox"
+          role="listbox"
+          className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-xl border border-navy/10 bg-white shadow-lg"
+        >
+          {suggestions.map((name, index) => (
+            <li
+              key={name}
+              role="option"
+              aria-selected={index === activeIndex}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                selectCity(name);
+              }}
+              className={`px-4 py-2 text-sm cursor-pointer ${
+                index === activeIndex ? "bg-yellow/20 text-navy" : "text-graphite hover:bg-navy/5"
+              }`}
+            >
+              {name}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
 
 function Field({
@@ -217,7 +332,7 @@ export default function QuoteModal({
     e.preventDefault();
     if (submitting) return;
 
-    setTouched({ name: true, phone: true, city: true, cityOther: true, service: true });
+    setTouched({ name: true, phone: true, city: true, service: true });
     const validationErrors = errorsFor(form);
     if (Object.keys(validationErrors).length > 0) return;
 
@@ -229,8 +344,8 @@ export default function QuoteModal({
     const result = await submitLead({
       name: form.name.trim(),
       phone: form.phone.replace(/\D/g, ""),
-      city: form.city,
-      cityOther: form.cityOther.trim(),
+      city: form.city.trim(),
+      cityOther: "",
       service: form.service,
       gclid,
       origemPagina: pathname,
@@ -348,48 +463,13 @@ export default function QuoteModal({
             </Field>
 
             <Field label="Cidade" htmlFor="quote-city" error={touched.city ? errors.city : undefined}>
-              <select
-                id="quote-city"
-                name="city"
+              <CityCombobox
                 value={form.city}
-                onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
+                onChange={(city) => setForm((f) => ({ ...f, city }))}
                 onBlur={() => handleBlur("city")}
-                aria-invalid={touched.city && !!errors.city}
-                aria-describedby={touched.city && errors.city ? "quote-city-error" : undefined}
-                className={`${inputClass} ${touched.city && errors.city ? inputErrorClass : ""}`}
-              >
-                <option value="" disabled>
-                  Selecione sua cidade
-                </option>
-                {QUOTE_CITY_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+                invalid={touched.city && !!errors.city}
+              />
             </Field>
-
-            {form.city === QUOTE_OTHER_CITY_VALUE && (
-              <Field
-                label="Qual cidade?"
-                htmlFor="quote-city-other"
-                error={touched.cityOther ? errors.cityOther : undefined}
-              >
-                <input
-                  id="quote-city-other"
-                  name="cityOther"
-                  value={form.cityOther}
-                  onChange={(e) => setForm((f) => ({ ...f, cityOther: e.target.value }))}
-                  onBlur={() => handleBlur("cityOther")}
-                  aria-invalid={touched.cityOther && !!errors.cityOther}
-                  aria-describedby={
-                    touched.cityOther && errors.cityOther ? "quote-city-other-error" : undefined
-                  }
-                  className={`${inputClass} ${touched.cityOther && errors.cityOther ? inputErrorClass : ""}`}
-                  placeholder="Nome da sua cidade"
-                />
-              </Field>
-            )}
 
             <Field label="Serviço" htmlFor="quote-service" error={touched.service ? errors.service : undefined}>
               <select

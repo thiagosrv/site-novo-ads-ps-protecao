@@ -1,4 +1,4 @@
-import { PRIORITY_CITIES } from "@/lib/cities";
+import { CITIES } from "@/lib/cities";
 
 export const QUOTE_WHATSAPP_NUMBER = "5519982892037";
 
@@ -6,9 +6,11 @@ export const QUOTE_WHATSAPP_NUMBER = "5519982892037";
 // do dataLayer (campo `servico`), então mudar o `value` aqui também muda o
 // que chega no GTM.
 export const SERVICE_OPTIONS = [
-  { value: "portaria", label: "Portaria" },
-  { value: "limpeza", label: "Limpeza" },
-  { value: "facilities", label: "Ambos (Portaria + Limpeza)" },
+  { value: "portaria", label: "Portaria e Controle de Acesso" },
+  { value: "limpeza", label: "Limpeza e Conservação" },
+  { value: "facilities", label: "Portaria + Limpeza" },
+  { value: "recepcao", label: "Recepcionista" },
+  { value: "administrativo", label: "Auxiliar Administrativo" },
   { value: "outros", label: "Outro" },
 ] as const;
 
@@ -18,34 +20,23 @@ export function serviceLabelFor(value: string): string {
   return SERVICE_OPTIONS.find((option) => option.value === value)?.label ?? value;
 }
 
-export const QUOTE_OTHER_CITY_VALUE = "outra";
-
-// Slugs das cidades no <select>, reaproveitando a mesma lista curada de
-// PRIORITY_CITIES usada em outras partes do site — o valor enviado ao
-// dataLayer (`cidade`) é sempre um slug estável.
-export const QUOTE_CITY_OPTIONS = [
-  ...PRIORITY_CITIES.map((city) => ({ value: city.slug, label: city.name })),
-  { value: QUOTE_OTHER_CITY_VALUE, label: "Outra cidade" },
-];
-
-export function cityLabelFor(slug: string): string {
-  return QUOTE_CITY_OPTIONS.find((option) => option.value === slug)?.label ?? slug;
-}
+// Nomes de todas as cidades atendidas (mesma lista usada nas páginas
+// programáticas por cidade), ordenados para o autopreenchimento do campo
+// "Cidade" — digitável em vez de uma lista fixa curta, para não travar
+// orçamentos de cidades fora do pequeno recorte anterior.
+export const QUOTE_CITY_NAMES = [...CITIES].map((city) => city.name).sort((a, b) => a.localeCompare(b, "pt-BR"));
 
 export type QuoteFormData = {
   name: string;
   phone: string;
   city: string;
-  cityOther: string;
   service: string;
 };
 
 export function buildQuoteMessage(data: QuoteFormData): string {
-  const cityName =
-    data.city === QUOTE_OTHER_CITY_VALUE ? data.cityOther.trim() : cityLabelFor(data.city);
   return `Olá, me chamo ${data.name} e preciso de uma cotação de ${serviceLabelFor(
     data.service
-  )} em ${cityName}. Obrigado(a)!`;
+  )} em ${data.city.trim()}. Obrigado(a)!`;
 }
 
 export function buildWhatsAppUrl(message?: string): string {
