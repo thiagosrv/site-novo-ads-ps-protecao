@@ -183,7 +183,7 @@ export const SEGMENTS: Segment[] = [
       "Triagem e encaminhamento conforme especialidade",
       "Postura alinhada à comunicação visual da clínica",
     ],
-    relevantCategories: ["portaria", "recepcao"],
+    relevantCategories: ["portaria", "recepcao", "limpeza"],
   },
   {
     slug: "escolas",
@@ -209,7 +209,7 @@ export const SEGMENTS: Segment[] = [
       "Escala compatível com turnos diurno, noturno e EAD presencial",
       "Registro de ocorrências para a coordenação acadêmica",
     ],
-    relevantCategories: ["portaria", "recepcao"],
+    relevantCategories: ["portaria", "recepcao", "limpeza"],
   },
   {
     slug: "supermercados",
@@ -288,6 +288,149 @@ export const SEGMENTS: Segment[] = [
       "Escala compatível com a operação hoteleira 24 horas",
     ],
     relevantCategories: ["portaria", "limpeza", "recepcao"],
+  },
+  {
+    slug: "academias",
+    name: "Academias",
+    intro:
+      "Academias operam em horário estendido, muitas vezes das 6h à meia-noite, com alto fluxo de alunos revezando equipamentos e vestiários, o que exige limpeza contínua ao longo do dia e uma recepção capaz de controlar o acesso por plano de matrícula sem gerar fila na catraca.",
+    painPoints: [
+      "Limpeza contínua de vestiários, equipamentos e áreas de treino",
+      "Controle de acesso por plano/matrícula sem fila na entrada",
+      "Recepção para orientação de alunos e visitantes experimentais",
+      "Escala compatível com horário estendido de funcionamento",
+    ],
+    relevantCategories: ["limpeza", "recepcao", "portaria"],
+  },
+  {
+    slug: "restaurantes-e-redes-de-alimentacao",
+    name: "Restaurantes e Redes de Alimentação",
+    intro:
+      "Restaurantes e redes de alimentação precisam de limpeza rigorosa na cozinha, no salão e nas áreas de manipulação de alimentos, seguindo normas sanitárias, além de controle de acesso de fornecedores e prestadores fora do horário de atendimento ao público.",
+    painPoints: [
+      "Limpeza de cozinha, salão e áreas de manipulação seguindo normas sanitárias",
+      "Controle de acesso de fornecedores em horários de recebimento",
+      "Zeladoria da fachada e área externa para a experiência do cliente",
+      "Escala compatível com o horário de pico de almoço e jantar",
+    ],
+    relevantCategories: ["limpeza", "portaria"],
+  },
+  {
+    slug: "bancos-e-agencias-bancarias",
+    name: "Bancos e Agências Bancárias",
+    intro:
+      "Agências bancárias exigem controle de acesso rigoroso e discreto, com triagem de clientes e prestadores compatível com os protocolos de segurança do setor financeiro, além de limpeza que preserve a imagem institucional da agência.",
+    painPoints: [
+      "Controle de acesso compatível com protocolos de segurança do setor financeiro",
+      "Triagem de clientes e prestadores sem gerar constrangimento",
+      "Limpeza que preserva a imagem institucional da agência",
+      "Registro de ocorrências para a gestão de segurança da agência",
+    ],
+    relevantCategories: ["vigilancia", "portaria", "limpeza"],
+  },
+  {
+    slug: "escritorios-de-advocacia-e-contabilidade",
+    name: "Escritórios de Advocacia e Contabilidade",
+    intro:
+      "Escritórios de advocacia e contabilidade recebem clientes em reuniões confidenciais e lidam com documentação sensível, exigindo recepção discreta e bem treinada, além de limpeza que mantenha salas de reunião e arquivos sempre apresentáveis.",
+    painPoints: [
+      "Recepção discreta para atendimento de clientes em reuniões confidenciais",
+      "Controle de acesso a salas de reunião e áreas de arquivo",
+      "Limpeza que mantém o escritório sempre apresentável para clientes",
+      "Escala compatível com o horário comercial estendido",
+    ],
+    relevantCategories: ["recepcao", "limpeza", "portaria"],
+  },
+  {
+    slug: "coworkings-e-centros-empresariais",
+    name: "Coworkings e Centros Empresariais",
+    intro:
+      "Coworkings recebem dezenas de empresas e profissionais autônomos compartilhando o mesmo espaço, com entrada e saída constante ao longo do dia, exigindo controle de acesso por plano de assinatura e limpeza contínua das áreas compartilhadas.",
+    painPoints: [
+      "Controle de acesso por plano de assinatura, sem fricção na entrada",
+      "Limpeza contínua de salas de reunião, copa e áreas compartilhadas",
+      "Recepção para orientar visitantes e novos membros",
+      "Escala compatível com o fluxo intenso de entrada e saída",
+    ],
+    relevantCategories: ["limpeza", "recepcao", "portaria"],
+  },
+  {
+    slug: "postos-de-combustivel-e-conveniencias",
+    name: "Postos de Combustível e Conveniências",
+    intro:
+      "Postos de combustível com loja de conveniência muitas vezes operam 24 horas, exigindo limpeza constante das áreas de abastecimento, banheiros e loja, além de controle de acesso e rondas que reduzam o risco de furto durante a madrugada.",
+    painPoints: [
+      "Limpeza constante de pista, banheiros e loja de conveniência",
+      "Rondas noturnas para reduzir risco de furto e ocorrências",
+      "Controle de acesso à área de estoque e ao caixa",
+      "Escala compatível com operação 24 horas",
+    ],
+    relevantCategories: ["limpeza", "vigilancia"],
+  },
+  {
+    slug: "igrejas-e-templos",
+    name: "Igrejas e Templos",
+    intro:
+      "Igrejas e templos recebem grande público em cultos e eventos concentrados em poucos horários da semana, exigindo limpeza intensiva entre os eventos e portaria de apoio à organização e segurança do público.",
+    painPoints: [
+      "Limpeza intensiva do salão principal entre cultos e eventos",
+      "Portaria de apoio à organização de fluxo em dias de pico",
+      "Controle de acesso a áreas administrativas e de convivência",
+      "Escala compatível com a agenda semanal de cultos e eventos",
+    ],
+    relevantCategories: ["limpeza", "portaria"],
+  },
+  {
+    slug: "saloes-de-beleza-e-clinicas-de-estetica",
+    name: "Salões de Beleza e Clínicas de Estética",
+    intro:
+      "Salões de beleza e clínicas de estética dependem de ambientes impecavelmente limpos para transmitir confiança ao cliente, com recepção organizada para controle de agenda e uma limpeza que atenda aos protocolos de higiene entre atendimentos.",
+    painPoints: [
+      "Limpeza entre atendimentos seguindo protocolos de higiene",
+      "Recepção com controle de agenda e fluxo de clientes",
+      "Ambiente impecável que reforça a percepção de qualidade do serviço",
+      "Escala compatível com horário estendido, incluindo sábados",
+    ],
+    relevantCategories: ["limpeza", "recepcao"],
+  },
+  {
+    slug: "concessionarias-e-revendas-de-veiculos",
+    name: "Concessionárias e Revendas de Veículos",
+    intro:
+      "Concessionárias combinam showroom, oficina e pátio de veículos em um só endereço, exigindo limpeza diferenciada para cada área, controle de acesso de clientes e fornecedores de peças, e rondas no pátio para reduzir risco de furto e avarias.",
+    painPoints: [
+      "Limpeza diferenciada para showroom, oficina e áreas administrativas",
+      "Rondas no pátio de veículos para reduzir risco de furto e avarias",
+      "Controle de acesso de clientes e fornecedores de peças",
+      "Recepção para orientar clientes entre vendas e pós-venda",
+    ],
+    relevantCategories: ["limpeza", "vigilancia", "recepcao"],
+  },
+  {
+    slug: "creches-e-bercarios",
+    name: "Creches e Berçários",
+    intro:
+      "Creches e berçários exigem o nível mais rigoroso de controle de acesso do segmento educacional, com liberação criteriosa de responsáveis e limpeza reforçada compatível com a rotina de crianças pequenas, incluindo trocadores e áreas de alimentação.",
+    painPoints: [
+      "Liberação criteriosa e cadastrada de responsáveis e acompanhantes",
+      "Limpeza reforçada de trocadores, berçário e áreas de alimentação",
+      "Controle de acesso com o mais alto rigor do segmento educacional",
+      "Registro de ocorrências para a coordenação pedagógica",
+    ],
+    relevantCategories: ["portaria", "limpeza"],
+  },
+  {
+    slug: "laboratorios-de-analises-clinicas",
+    name: "Laboratórios de Análises Clínicas",
+    intro:
+      "Laboratórios de análises clínicas lidam com coleta de amostras e materiais biológicos, exigindo limpeza sob protocolos de biossegurança e uma recepção organizada para gerenciar o fluxo de pacientes em jejum nos horários de pico da manhã.",
+    painPoints: [
+      "Limpeza sob protocolos de biossegurança para descarte de material biológico",
+      "Recepção organizada para o pico de atendimento no início da manhã",
+      "Controle de acesso a áreas de coleta e ao laboratório interno",
+      "Escala compatível com o horário de funcionamento estendido para coleta",
+    ],
+    relevantCategories: ["limpeza", "recepcao"],
   },
 ];
 
