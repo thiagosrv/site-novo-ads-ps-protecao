@@ -122,7 +122,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   );
 
-  const posts = await listPublishedPosts();
+  // Falls back to no post routes instead of failing the whole sitemap (and,
+  // since this route prerenders at build time, the whole build) if the DB
+  // isn't reachable yet — e.g. DATABASE_URL not set in the build environment.
+  // Real post URLs reappear once revalidate (1h) or a publish/edit/delete
+  // triggers a fresh render with DB access.
+  const posts = await listPublishedPosts().catch((error) => {
+    console.error("sitemap: failed to load published posts", error);
+    return [];
+  });
   const postRoutes = posts.map((post) => ({
     url: `${SITE_URL}/blog/${post.slug}`,
     lastModified: post.updatedAt,
