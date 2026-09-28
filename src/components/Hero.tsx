@@ -72,7 +72,7 @@ export default function Hero() {
                 className="px-7 py-3.5 text-[15px] xl:px-[27px] xl:py-[14px] xl:text-[14px] hover:scale-[1.03] shadow-[0_8px_24px_rgba(252,191,7,0.25)]"
                 label={
                   <>
-                    Solicitar diagnóstico operacional
+                    Fale Conosco
                     <ArrowRight size={18} />
                   </>
                 }
