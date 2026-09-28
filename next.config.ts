@@ -21,6 +21,18 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "10mb",
     },
   },
+  async rewrites() {
+    return [
+      // app/sitemap.ts reserves the literal /sitemap.xml path for its own
+      // generateSitemaps-based metadata route (which actually serves
+      // /sitemap/[id].xml), so the hand-rolled sitemap index lives at
+      // /sitemap-index.xml and is rewritten to the public /sitemap.xml URL.
+      {
+        source: "/sitemap.xml",
+        destination: "/sitemap-index.xml",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
