@@ -69,7 +69,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 items-center md:items-start">
               <WhatsAppCta
                 href="https://wa.me/5519982892037"
-                className="px-7 py-3.5 text-[15px] xl:px-[27px] xl:py-[14px] xl:text-[14px] hover:scale-[1.03] shadow-[0_8px_24px_rgba(252,191,7,0.25)]"
+                className="box-border w-[264px] max-w-full h-[52px] px-4 text-[15px] xl:text-[14px] hover:scale-[1.03] shadow-[0_8px_24px_rgba(252,191,7,0.25)]"
                 label={
                   <>
                     Fale Conosco
@@ -79,7 +79,7 @@ export default function Hero() {
               />
               <Link
                 href="/servicos"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 backdrop-blur-sm px-7 py-3.5 text-[15px] xl:px-[27px] xl:py-[14px] xl:text-[14px] font-heading font-semibold tracking-wide text-white text-center transition-all duration-300 hover:bg-white/15 hover:border-white/40 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 backdrop-blur-sm box-border w-[264px] max-w-full h-[52px] px-4 text-[15px] xl:text-[14px] font-heading font-semibold tracking-wide text-white text-center transition-all duration-300 hover:bg-white/15 hover:border-white/40 hover:-translate-y-0.5"
               >
                 Conhecer nossas soluções
               </Link>

@@ -33,10 +33,12 @@ export type QuoteFormData = {
   service: string;
 };
 
-export function buildQuoteMessage(data: QuoteFormData): string {
-  return `Olá, me chamo ${data.name} e preciso de uma cotação de ${serviceLabelFor(
+export function buildQuoteMessage(data: QuoteFormData, protocol?: string | null): string {
+  const base = `Olá, me chamo ${data.name} e preciso de uma cotação de ${serviceLabelFor(
     data.service
   )} em ${data.city.trim()}. Obrigado(a)!`;
+  // O protocolo liga a conversa do WhatsApp ao lead que já está no CRM.
+  return protocol ? `${base} (Protocolo ${protocol})` : base;
 }
 
 export function buildWhatsAppUrl(message?: string): string {

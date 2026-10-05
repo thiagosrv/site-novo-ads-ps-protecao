@@ -13,6 +13,7 @@ import {
 } from "@/lib/quote";
 import { getStoredGclid } from "@/lib/gclid";
 import { submitLead } from "@/lib/leads";
+import { CONSENT_TEXT, registerLeadInCrm } from "@/lib/crm";
 
 declare global {
   interface Window {
@@ -369,7 +370,17 @@ export default function QuoteModal({
       gclid: gclid || null,
     });
 
-    saveQuotePayload({ message: buildQuoteMessage(form), name: form.name.trim() });
+    // O lead já está salvo no banco do site; agora avisa o CRM (máx. 3 s, sem travar:
+    // se falhar, o cliente segue para o WhatsApp sem protocolo).
+    const protocol = await registerLeadInCrm({
+      name: form.name.trim(),
+      phone: form.phone.replace(/\D/g, ""),
+      gclid,
+      pagina: pathname,
+      honeypot: form.honeypot,
+    });
+
+    saveQuotePayload({ message: buildQuoteMessage(form, protocol), name: form.name.trim() });
 
     // Dá tempo do GTM processar o evento antes da navegação SPA destruir a página.
     await new Promise((resolve) => setTimeout(resolve, 300));
@@ -522,9 +533,7 @@ export default function QuoteModal({
               "Solicitar cotação"
             )}
           </button>
-          <p className="text-graphite/50 text-xs text-center mt-3">
-            Seus dados são usados apenas para este contato.
-          </p>
+          <p className="text-graphite/50 text-xs text-center mt-3">{CONSENT_TEXT}</p>
         </form>
       </div>
     </div>
