@@ -415,9 +415,9 @@ export default function QuoteModal({
         </button>
 
         <h2 id="quote-modal-title" className="font-heading text-2xl text-navy mb-1">
-          Solicitar cotação
+          Formulário de Contato
         </h2>
-        <p className="text-graphite/60 text-sm mb-6">Retornamos em até 24h úteis. Sem compromisso.</p>
+        <p className="text-graphite/60 text-sm mb-6">Retornamos em até 2h úteis. Sem compromisso.</p>
 
         {submitError && (
           <div
