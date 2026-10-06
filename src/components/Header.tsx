@@ -7,6 +7,9 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import WhatsAppCta from "./WhatsAppCta";
 
+// A URL informada era http://; o domínio redireciona para https, então já vai direto.
+const JOBS_URL = "https://protecaotalentos.online/";
+
 const NAV_LINKS = [
   { label: "Início", href: "/" },
   {
@@ -72,7 +75,7 @@ export default function Header() {
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8">
           {NAV_LINKS.map((link) => {
             const isActive =
               pathname === link.href ||
@@ -84,7 +87,7 @@ export default function Header() {
                   <Link
                     href={link.href}
                     className={
-                      "inline-flex items-center gap-1 font-mono text-xs font-medium tracking-wide " +
+                      "inline-flex items-center gap-1 font-mono text-xs font-semibold tracking-wide " +
                       (isActive
                         ? "text-yellow-dark border-b-2 border-yellow pb-1"
                         : "text-graphite/80 hover:text-navy transition-colors")
@@ -100,7 +103,7 @@ export default function Header() {
                           key={child.href}
                           href={child.href}
                           className={
-                            "block px-5 py-2.5 font-mono text-xs tracking-wide whitespace-nowrap transition-colors " +
+                            "block px-5 py-2.5 font-mono text-xs font-medium tracking-wide whitespace-nowrap transition-colors " +
                             (pathname === child.href
                               ? "text-yellow-dark bg-yellow/5"
                               : "text-graphite/70 hover:text-navy hover:bg-navy/5")
@@ -109,6 +112,17 @@ export default function Header() {
                           {child.label}
                         </Link>
                       ))}
+                      {link.href === "/contato" && (
+                        // Entre lg e xl não cabe o botão no cabeçalho; o link vai aqui.
+                        <a
+                          href={JOBS_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="xl:hidden block px-5 py-2.5 font-mono text-xs font-medium tracking-wide whitespace-nowrap text-graphite/70 hover:text-navy hover:bg-navy/5 transition-colors"
+                        >
+                          Vagas e Oportunidades
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -121,8 +135,8 @@ export default function Header() {
                 href={link.href}
                 className={
                   isActive
-                    ? "text-yellow-dark border-b-2 border-yellow pb-1 font-mono text-xs font-medium tracking-wide"
-                    : "text-graphite/80 hover:text-navy transition-colors font-mono text-xs font-medium tracking-wide"
+                    ? "text-yellow-dark border-b-2 border-yellow pb-1 font-mono text-xs font-semibold tracking-wide"
+                    : "text-graphite/80 hover:text-navy transition-colors font-mono text-xs font-semibold tracking-wide"
                 }
               >
                 {link.label}
@@ -131,7 +145,15 @@ export default function Header() {
           })}
         </div>
 
-        <div className="flex items-center gap-2 md:gap-4 shrink-0">
+        <div className="flex items-center gap-2 md:gap-3 shrink-0">
+          <a
+            href={JOBS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden xl:inline-flex items-center justify-center rounded-full border border-navy/25 px-5 py-2.5 text-[13px] font-heading font-semibold tracking-wide text-navy whitespace-nowrap transition-all duration-300 hover:bg-navy hover:text-white hover:border-navy hover:-translate-y-0.5"
+          >
+            Vagas e Oportunidades
+          </a>
           <WhatsAppCta
             href="https://wa.me/5519982892037"
             label="Solicitar proposta"
@@ -141,7 +163,7 @@ export default function Header() {
           <button
             type="button"
             aria-label={open ? "Fechar menu" : "Abrir menu"}
-            className="press-feedback md:hidden text-navy shrink-0"
+            className="press-feedback lg:hidden text-navy shrink-0"
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <X size={22} /> : <Menu size={22} />}
@@ -150,7 +172,7 @@ export default function Header() {
       </nav>
 
       <div
-        className={`mobile-menu-panel md:hidden grid transition-all duration-300 ease-out ${
+        className={`mobile-menu-panel lg:hidden grid transition-all duration-300 ease-out ${
           open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         }`}
       >
@@ -215,6 +237,15 @@ export default function Header() {
               onClick={() => setOpen(false)}
               className="px-6 py-3 text-sm"
             />
+            <a
+              href={JOBS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="inline-flex items-center justify-center rounded-full border border-navy/25 px-6 py-3 text-sm font-heading font-semibold tracking-wide text-navy"
+            >
+              Vagas e Oportunidades
+            </a>
           </div>
         </div>
       </div>

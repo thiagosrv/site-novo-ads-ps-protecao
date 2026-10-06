@@ -55,3 +55,8 @@ create table if not exists leads (
 );
 
 create index if not exists leads_created_at_idx on leads (created_at desc);
+
+-- CNPJ informado no formulário (opcional; 14 caracteres sem máscara, aceita o
+-- formato alfanumérico) e a razão social retornada pela consulta à Receita.
+alter table leads add column if not exists cnpj text;
+alter table leads add column if not exists razao_social text;

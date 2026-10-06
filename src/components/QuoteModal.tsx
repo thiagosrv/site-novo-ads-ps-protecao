@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { X, Loader2, AlertCircle } from "lucide-react";
+import { X, Loader2, AlertCircle, Check } from "lucide-react";
 import {
   SERVICE_OPTIONS,
   QUOTE_CITY_NAMES,
@@ -13,6 +13,7 @@ import {
 } from "@/lib/quote";
 import { getStoredGclid } from "@/lib/gclid";
 import { submitLead } from "@/lib/leads";
+import { cleanCnpj, isValidCnpj, lookupCnpj, maskCnpj, type CnpjLookup } from "@/lib/cnpj";
 import { CONSENT_TEXT, registerLeadInCrm } from "@/lib/crm";
 
 declare global {
@@ -26,6 +27,7 @@ type FormState = {
   phone: string;
   city: string;
   service: string;
+  cnpj: string;
   honeypot: string;
 };
 
@@ -34,6 +36,7 @@ const EMPTY_FORM: FormState = {
   phone: "",
   city: "",
   service: "",
+  cnpj: "",
   honeypot: "",
 };
 
@@ -42,6 +45,7 @@ type TouchedState = {
   phone: boolean;
   city: boolean;
   service: boolean;
+  cnpj: boolean;
 };
 
 const EMPTY_TOUCHED: TouchedState = {
@@ -49,6 +53,7 @@ const EMPTY_TOUCHED: TouchedState = {
   phone: false,
   city: false,
   service: false,
+  cnpj: false,
 };
 
 // Escondido de forma visual (não display:none) para que o honeypot continue
@@ -76,6 +81,10 @@ function errorsFor(form: FormState): Partial<Record<keyof TouchedState, string>>
   if (!isValidPhone(form.phone)) errors.phone = "Informe um WhatsApp válido com DDD.";
   if (form.city.trim().length < 2) errors.city = "Informe sua cidade.";
   if (!form.service) errors.service = "Selecione o serviço desejado.";
+  // CNPJ obrigatório (barra currículos/contatos de pessoa física por este canal)
+  // e precisa fechar nos dígitos verificadores.
+  if (!form.cnpj.trim()) errors.cnpj = "Informe o CNPJ da empresa.";
+  else if (!isValidCnpj(form.cnpj)) errors.cnpj = "CNPJ inválido. Confira os números.";
   return errors;
 }
 
@@ -248,8 +257,21 @@ export default function QuoteModal({
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  // Resultado da consulta amarrado ao CNPJ consultado: se o campo mudar, o
+  // resultado antigo deixa de valer sem precisar de reset dentro de effect.
+  const [cnpjLookup, setCnpjLookup] = useState<{ cnpj: string; result: CnpjLookup } | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!isValidCnpj(form.cnpj)) return;
+    const cnpj = cleanCnpj(form.cnpj);
+    const controller = new AbortController();
+    lookupCnpj(cnpj, controller.signal).then((result) => {
+      if (!controller.signal.aborted) setCnpjLookup({ cnpj, result });
+    });
+    return () => controller.abort();
+  }, [form.cnpj]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -301,6 +323,12 @@ export default function QuoteModal({
 
   const errors = errorsFor(form);
 
+  const cnpjValid = isValidCnpj(form.cnpj);
+  const lookupDone =
+    cnpjValid && cnpjLookup?.cnpj === cleanCnpj(form.cnpj) ? cnpjLookup.result : null;
+  const lookupLoading = cnpjValid && !lookupDone;
+  const showCnpjError = !!errors.cnpj && (touched.cnpj || cleanCnpj(form.cnpj).length === 14);
+
   function handleBlur(field: keyof TouchedState) {
     setTouched((t) => ({ ...t, [field]: true }));
   }
@@ -333,7 +361,7 @@ export default function QuoteModal({
     e.preventDefault();
     if (submitting) return;
 
-    setTouched({ name: true, phone: true, city: true, service: true });
+    setTouched({ name: true, phone: true, city: true, service: true, cnpj: true });
     const validationErrors = errorsFor(form);
     if (Object.keys(validationErrors).length > 0) return;
 
@@ -351,6 +379,8 @@ export default function QuoteModal({
       gclid,
       origemPagina: pathname,
       honeypot: form.honeypot,
+      cnpj: cleanCnpj(form.cnpj),
+      razaoSocial: lookupDone?.status === "found" ? lookupDone.razaoSocial : undefined,
     });
 
     if (!result.ok) {
@@ -502,6 +532,56 @@ export default function QuoteModal({
                   </option>
                 ))}
               </select>
+            </Field>
+
+            <Field
+              label="CNPJ da empresa"
+              htmlFor="quote-cnpj"
+              error={showCnpjError ? errors.cnpj : undefined}
+            >
+              <input
+                id="quote-cnpj"
+                name="cnpj"
+                autoComplete="off"
+                autoCapitalize="characters"
+                spellCheck={false}
+                maxLength={18}
+                value={form.cnpj}
+                onChange={(e) => setForm((f) => ({ ...f, cnpj: maskCnpj(e.target.value) }))}
+                onBlur={() => handleBlur("cnpj")}
+                aria-invalid={showCnpjError}
+                aria-describedby={
+                  showCnpjError ? "quote-cnpj-error" : cnpjValid ? "quote-cnpj-status" : undefined
+                }
+                className={`${inputClass} ${showCnpjError ? inputErrorClass : ""}`}
+                placeholder="00.000.000/0000-00"
+              />
+              <div id="quote-cnpj-status" aria-live="polite" className="text-sm mt-1.5 empty:hidden">
+                {lookupLoading && (
+                  <p className="flex items-center gap-1.5 text-graphite/60">
+                    <Loader2 size={14} className="animate-spin" />
+                    Consultando CNPJ na Receita Federal...
+                  </p>
+                )}
+                {lookupDone?.status === "found" && (
+                  <>
+                    <p className="flex items-start gap-1.5 text-emerald-700">
+                      <Check size={16} className="shrink-0 mt-0.5" />
+                      <span>{lookupDone.razaoSocial}</span>
+                    </p>
+                    {lookupDone.situacao && lookupDone.situacao.toUpperCase() !== "ATIVA" && (
+                      <p className="text-amber-700 mt-0.5">
+                        Situação cadastral: {lookupDone.situacao.toLowerCase()}. Confira se o CNPJ está correto.
+                      </p>
+                    )}
+                  </>
+                )}
+                {lookupDone?.status === "not_found" && (
+                  <p className="text-graphite/60">
+                    Não encontramos esse CNPJ na base da Receita, mas você pode enviar normalmente.
+                  </p>
+                )}
+              </div>
             </Field>
           </div>
 
