@@ -556,7 +556,7 @@ export default function QuoteModal({
                 className={`${inputClass} ${showCnpjError ? inputErrorClass : ""}`}
                 placeholder="00.000.000/0000-00"
               />
-              <div id="quote-cnpj-status" aria-live="polite" className="text-sm mt-1.5 empty:hidden">
+              <div id="quote-cnpj-status" aria-live="polite" className="text-xs mt-1.5 empty:hidden">
                 {lookupLoading && (
                   <p className="flex items-center gap-1.5 text-graphite/60">
                     <Loader2 size={14} className="animate-spin" />
@@ -565,8 +565,8 @@ export default function QuoteModal({
                 )}
                 {lookupDone?.status === "found" && (
                   <>
-                    <p className="flex items-start gap-1.5 text-emerald-700">
-                      <Check size={16} className="shrink-0 mt-0.5" />
+                    <p className="flex items-start gap-1.5 text-emerald-700 font-medium">
+                      <Check size={12} className="shrink-0 mt-[3px]" />
                       <span>{lookupDone.razaoSocial}</span>
                     </p>
                     {lookupDone.situacao && lookupDone.situacao.toUpperCase() !== "ATIVA" && (
