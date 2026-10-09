@@ -168,7 +168,7 @@ export default function ObrigadoContent() {
                         alt="Álvaro, atendimento comercial da PS Proteção"
                         width={56}
                         height={56}
-                        className="h-full w-full object-cover object-[45%_30%]"
+                        className="h-full w-full object-cover"
                         onError={() => setAvatarFailed(true)}
                       />
                     )}
