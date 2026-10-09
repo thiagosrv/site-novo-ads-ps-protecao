@@ -576,6 +576,11 @@ export default function QuoteModal({
                     )}
                   </>
                 )}
+                {lookupDone?.status === "error" && (
+                  <p className="text-graphite/60">
+                    Não conseguimos consultar a Receita agora, mas você pode enviar normalmente.
+                  </p>
+                )}
                 {lookupDone?.status === "not_found" && (
                   <p className="text-graphite/60">
                     Não encontramos esse CNPJ na base da Receita, mas você pode enviar normalmente.
@@ -613,7 +618,10 @@ export default function QuoteModal({
               "Solicitar cotação"
             )}
           </button>
-          <p className="text-graphite/50 text-xs text-center mt-3">{CONSENT_TEXT}</p>
+          <p className="text-red-600 text-xs font-semibold text-center mt-3">
+            Envio apenas para solicitação de orçamentos
+          </p>
+          <p className="text-graphite/50 text-xs text-center mt-2">{CONSENT_TEXT}</p>
         </form>
       </div>
     </div>

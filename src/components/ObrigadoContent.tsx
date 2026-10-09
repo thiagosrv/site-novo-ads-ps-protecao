@@ -8,6 +8,7 @@ import { buildWhatsAppUrl, readAndClearQuotePayload, QUOTE_WHATSAPP_NUMBER } fro
 import { getStoredGclid } from "@/lib/gclid";
 
 const REDIRECT_DELAY_MS = 5000;
+const MESSAGE_DELAY_MS = 900;
 
 declare global {
   interface Window {
@@ -23,6 +24,7 @@ export default function ObrigadoContent() {
   const [autoRedirectCancelled, setAutoRedirectCancelled] = useState(false);
   const [barFilling, setBarFilling] = useState(false);
   const [avatarFailed, setAvatarFailed] = useState(false);
+  const [messageIn, setMessageIn] = useState(false);
   const redirectedRef = useRef(false);
   const waUrlRef = useRef(waUrl);
   waUrlRef.current = waUrl;
@@ -77,6 +79,21 @@ export default function ObrigadoContent() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setBarFilling(true);
+  }, []);
+
+  // "Álvaro" manda uma mensagem logo depois que o card abre, com o som de notificação.
+  useEffect(() => {
+    const audio = new Audio("/assets/notificacao.mp3");
+    audio.preload = "auto";
+    const timer = setTimeout(() => {
+      setMessageIn(true);
+      // O navegador pode bloquear o som sem interação prévia; a mensagem aparece mesmo assim.
+      audio.play().catch(() => {});
+    }, MESSAGE_DELAY_MS);
+    return () => {
+      clearTimeout(timer);
+      audio.pause();
+    };
   }, []);
 
   // Quem troca de aba ou fecha por reflexo vê o aviso também no título da aba.
@@ -185,6 +202,18 @@ export default function ObrigadoContent() {
                   Abrindo em{" "}
                   <span className="font-semibold tabular-nums text-[#128C7E]">{secondsLeft}s</span>
                 </p>
+              </div>
+
+              {/* Reserva o espaço desde o início para a barra não pular quando a mensagem chega. */}
+              <div className="mb-4 h-[38px]" aria-live="polite">
+                {messageIn && (
+                  <div className="message-in inline-block rounded-xl rounded-tl-none bg-white px-4 py-2 shadow-[0_1px_2px_rgba(0,0,0,0.18)]">
+                    <p className="text-[15px] leading-snug text-[#111B21]">
+                      Estou online!
+                      <span className="ml-3 align-bottom text-[11px] text-[#667781]">agora</span>
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div

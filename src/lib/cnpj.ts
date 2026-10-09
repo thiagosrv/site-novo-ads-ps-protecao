@@ -54,38 +54,64 @@ export type CnpjLookup =
   | { status: "not_found" }
   | { status: "error" };
 
-const LOOKUP_TIMEOUT_MS = 6000;
+const PROVIDER_TIMEOUT_MS = 4000;
 
-// Consulta pública e gratuita (dados da Receita Federal) via BrasilAPI. É um
-// "extra": qualquer falha/demora devolve `error` e NUNCA deve bloquear o envio.
-export async function lookupCnpj(value: string, signal?: AbortSignal): Promise<CnpjLookup> {
-  const cnpj = cleanCnpj(value);
+type ProviderResult = CnpjLookup | null;
+
+// Cada provedor devolve `null` quando falhou (5xx, 429, timeout, rede): aí tentamos o próximo.
+// 400/404 vira `not_found` porque é a resposta da base, não uma falha do serviço.
+async function fromProvider(
+  url: string,
+  signal: AbortSignal | undefined,
+  parse: (data: unknown) => { razaoSocial?: string; situacao?: string }
+): Promise<ProviderResult> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), LOOKUP_TIMEOUT_MS);
+  const timer = setTimeout(() => controller.abort(), PROVIDER_TIMEOUT_MS);
   const onAbort = () => controller.abort();
   signal?.addEventListener("abort", onAbort);
   try {
-    const res = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, {
-      signal: controller.signal,
-    });
-    // 400/404 = a base não conhece esse CNPJ (typo com DV válido, empresa muito
-    // nova ou CNPJ alfanumérico que a API ainda não indexa).
+    const res = await fetch(url, { signal: controller.signal });
     if (res.status === 404 || res.status === 400) return { status: "not_found" };
-    if (!res.ok) return { status: "error" };
-    const data = (await res.json()) as {
-      razao_social?: string;
-      descricao_situacao_cadastral?: string;
-    };
-    if (!data.razao_social) return { status: "not_found" };
-    return {
-      status: "found",
-      razaoSocial: data.razao_social,
-      situacao: data.descricao_situacao_cadastral ?? "",
-    };
+    if (!res.ok) return null;
+    const { razaoSocial, situacao } = parse(await res.json());
+    if (!razaoSocial) return null;
+    return { status: "found", razaoSocial, situacao: situacao ?? "" };
   } catch {
-    return { status: "error" };
+    return null;
   } finally {
     clearTimeout(timer);
     signal?.removeEventListener("abort", onAbort);
   }
+}
+
+// Consultas públicas e gratuitas (dados da Receita Federal). A BrasilAPI é a principal, mas ela
+// repassa a consulta a serviços de terceiros e devolve 5xx para CNPJs que não tem em cache; por
+// isso há dois provedores de reserva. É um "extra": qualquer falha devolve `error` e NUNCA deve
+// bloquear o envio.
+export async function lookupCnpj(value: string, signal?: AbortSignal): Promise<CnpjLookup> {
+  const cnpj = cleanCnpj(value);
+  const providers: Array<() => Promise<ProviderResult>> = [
+    () =>
+      fromProvider(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, signal, (d) => {
+        const data = d as { razao_social?: string; descricao_situacao_cadastral?: string };
+        return { razaoSocial: data.razao_social, situacao: data.descricao_situacao_cadastral };
+      }),
+    () =>
+      fromProvider(`https://open.cnpja.com/office/${cnpj}`, signal, (d) => {
+        const data = d as { company?: { name?: string }; status?: { text?: string } };
+        return { razaoSocial: data.company?.name, situacao: data.status?.text };
+      }),
+    () =>
+      fromProvider(`https://publica.cnpj.ws/cnpj/${cnpj}`, signal, (d) => {
+        const data = d as { razao_social?: string; estabelecimento?: { situacao_cadastral?: string } };
+        return { razaoSocial: data.razao_social, situacao: data.estabelecimento?.situacao_cadastral };
+      }),
+  ];
+
+  for (const run of providers) {
+    if (signal?.aborted) break;
+    const result = await run();
+    if (result) return result;
+  }
+  return { status: "error" };
 }

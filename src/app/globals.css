@@ -208,6 +208,25 @@ body {
   }
 }
 
+/* Mensagem "chegando" no card de redirecionamento. */
+.message-in {
+  transform-origin: top left;
+  animation: message-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@keyframes message-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.85);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .message-in {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .redirect-bar-fill::after {
     animation: none;
