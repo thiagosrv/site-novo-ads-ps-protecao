@@ -11,13 +11,20 @@ export default function Hero() {
       className="relative flex items-center overflow-hidden pt-28 pb-16 md:pt-20 md:min-h-screen bg-gradient-to-br from-navy via-navy to-navy-deep"
     >
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/brand/guarda-fachada.webp"
-          alt="Profissional de segurança da PS Proteção em frente a uma portaria monitorada"
-          fill
-          priority
-          className="hidden object-cover object-[75%_center] md:block"
-        />
+        {/* Foto ancorada à direita, com borda esquerda esfumada no azul, para o texto não cobrir o guarda. */}
+        <div
+          className="absolute inset-y-0 right-0 top-20 hidden w-[62%] md:block"
+          style={{ maskImage: "linear-gradient(to right, transparent 0%, black 28%)" }}
+        >
+          <Image
+            src="/brand/hero-novo.webp"
+            alt="Profissional de segurança da PS Proteção em frente a uma portaria monitorada"
+            fill
+            priority
+            sizes="62vw"
+            className="object-cover object-[30%_0%]"
+          />
+        </div>
         <div className="absolute inset-0 hero-gradient hidden md:block" />
         <div
           className="texture-halftone absolute inset-0 pointer-events-none opacity-20 hidden md:block"
