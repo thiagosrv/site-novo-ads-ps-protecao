@@ -167,6 +167,54 @@ body {
   animation: tech-progress-fill 6s linear forwards;
 }
 
+/* Barra de redirecionamento da página /obrigado: a duração vem do componente. */
+@keyframes redirect-bar-fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.redirect-bar-fill {
+  animation-name: redirect-bar-fill;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 14px rgba(37, 211, 102, 0.65);
+}
+
+/* Faixa de luz que corre pela barra enquanto ela enche. */
+.redirect-bar-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 45%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  transform: translateX(-120%);
+  animation: redirect-bar-shine 1.4s ease-in-out infinite;
+}
+
+@keyframes redirect-bar-shine {
+  to {
+    transform: translateX(320%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .redirect-bar-fill::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .press-feedback,
   .press-feedback:active,
