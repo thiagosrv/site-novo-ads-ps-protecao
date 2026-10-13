@@ -27,11 +27,11 @@
 
 Copiados de `Testeapp/site-ps-novo` para `public/assets/` (versões `.webp` otimizadas + vídeos de hero):
 - Serviços: `administrativo`, `contabil`, `limpeza`, `porteiro`, `recepcao`, `zelador`
-- Depoimentos: `ana`, `carlos`, `roberto`, `thiago`
-- Institucional: `fachada`, `historia`, `logo-servicos`, `psprotecao`, `blog`
+- Depoimentos: `ana`, `carlos`, `roberto`
+- Institucional: `fachada`, `historia`, `psprotecao`
 - Implantação: `implantacao1` a `implantacao5`
 - Tecnologia/diferenciais: `app-controle-de-acesso`, `pop-sla`, `relatorio`, `sempre-alerta`, `supervisao-bancada`
-- Hero: `hero`, `hero-bg.mp4/webm`, `hero-bg-mobile.mp4/webm`, `hero-bg-poster(.mobile).webp`
+- Hero: removidos (vídeos e posters sem uso); o hero atual usa `brand/hero-novo.webp`
 
 Estas são placeholders — serão substituídas/reorganizadas quando os PNGs/MDs de design definitivos chegarem.
 
