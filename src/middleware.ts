@@ -28,17 +28,20 @@ function goneResponse() {
 // negative-SEO requests for gambling slugs like /betfair, /bet) from costing
 // a function invocation or ISR read.
 //
-// Named middleware.ts (not proxy.ts) and kept on Edge runtime because the
-// Cloudflare Workers adapter (OpenNext) doesn't yet support Next 16's
-// Node-runtime proxy convention — see
-// https://github.com/opennextjs/opennextjs-cloudflare/issues/962.
-// Because of that, this only checks whether the session cookie is present
-// (no HMAC verification here, which needs Node's `crypto` module). Full
-// cryptographic verification of the cookie still happens server-side in
+// Deliberately still middleware.ts (Edge runtime), not Next 16's proxy.ts:
+// `proxy` always runs on Node.js (the `runtime` option isn't accepted there),
+// and this filter sits in front of every page request, so keeping it on Edge
+// avoids a Node function invocation per request. The build prints a
+// deprecation warning for the `middleware` convention; it's cosmetic. Revisit
+// (rename the file and the export to `proxy`) if Next drops `middleware`.
+//
+// Because it runs on Edge, this only checks whether the session cookie is
+// present (no HMAC verification here, which needs Node's `crypto` module).
+// Full cryptographic verification of the cookie still happens server-side in
 // getSession()/requireSession() (src/lib/auth.ts) on every admin page load
-// and every write Server Action — this was already a second, independent
-// check ("defense in depth") before this change, so an invalid or expired
-// cookie is still rejected, just one layer later than before.
+// and every write Server Action — a second, independent check ("defense in
+// depth"), so an invalid or expired cookie is still rejected, just one layer
+// later.
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
