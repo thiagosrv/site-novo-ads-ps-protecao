@@ -5,7 +5,6 @@ import clsx from "clsx";
 import { useQuoteModal } from "./QuoteModalProvider";
 
 export default function WhatsAppCta({
-  href: _href,
   label,
   className,
   city,

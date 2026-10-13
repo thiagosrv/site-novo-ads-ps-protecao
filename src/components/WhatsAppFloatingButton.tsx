@@ -46,6 +46,9 @@ export default function WhatsAppFloatingButton() {
   }, [bubbleVisible, bubbleMounted]);
 
   useEffect(() => {
+    // Fecha o balão assim que o painel abre; a desmontagem fica a cargo do
+    // efeito acima, depois da transição.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (open) setBubbleVisible(false);
   }, [open]);
 

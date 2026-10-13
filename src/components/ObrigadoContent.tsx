@@ -27,7 +27,12 @@ export default function ObrigadoContent() {
   const [messageIn, setMessageIn] = useState(false);
   const redirectedRef = useRef(false);
   const waUrlRef = useRef(waUrl);
-  waUrlRef.current = waUrl;
+
+  // O ref só é lido pelo timer do redirect (5s), então basta atualizá-lo
+  // depois do commit — não durante o render.
+  useEffect(() => {
+    waUrlRef.current = waUrl;
+  }, [waUrl]);
 
   useEffect(() => {
     const payload = readAndClearQuotePayload();

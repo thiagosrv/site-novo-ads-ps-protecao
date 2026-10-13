@@ -51,16 +51,22 @@ const CHANNELS = [
 
 const EMERGENCY_LABEL = "Telefone Emergencial";
 
+// Fora do componente: a regra react-hooks/immutability trata `window` como
+// variável externa e barra a atribuição dentro do corpo do componente.
+function pushWhatsAppClick(numero: string, origemPagina: string) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "clique_whatsapp",
+    numero,
+    origem_pagina: origemPagina,
+  });
+}
+
 export default function ContactSection() {
   const pathname = usePathname();
 
   function handleWhatsAppClick(numero: string) {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "clique_whatsapp",
-      numero,
-      origem_pagina: pathname,
-    });
+    pushWhatsAppClick(numero, pathname);
   }
 
   return (
