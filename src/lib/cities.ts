@@ -68,14 +68,12 @@ export const FALLBACK_CITY_SLUGS = [
 
 // Cities eagerly pre-rendered for every programmatic combo (service, segment,
 // and category-flat pages, plus the nested /[categoria] and /[categoria]/[filho]
-// routes) at build time. Cloudflare Workers Builds has a hard disk budget
-// (~5GB usable) for staging OpenNext's per-page cache assets during the
-// build, and every city added here multiplies across every route family --
-// so this stays a short, deliberate list of the highest commercial priority
-// cities. Every other city still resolves the exact same URLs via
-// dynamicParams (default true) on first request, then is served from the
-// R2-backed incremental cache -- no page is removed, just no longer built
-// eagerly.
+// routes) at build time. Every city added here multiplies across every route
+// family, inflating build time and deployment output -- so this stays a short,
+// deliberate list of the highest commercial priority cities. Every other city
+// still resolves the exact same URLs via dynamicParams (default true) on first
+// request, then is served from the ISR cache -- no page is removed, just no
+// longer built eagerly.
 const PRIORITY_CITY_SLUGS = [
   "americana",
   "santa-barbara-d-oeste",

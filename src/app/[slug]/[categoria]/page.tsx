@@ -6,10 +6,10 @@ import { CATEGORY_LABEL } from "@/lib/services";
 import { CATEGORY_ORDER } from "@/lib/programmatic";
 import { getCategoryBySlug, SEGMENT_CATEGORY_SLUG } from "@/lib/segments";
 
-// See [filho]/page.tsx: capped to PRIORITY_CITIES to keep the Cloudflare
-// Workers build's static output (and per-page segment prefetch caches)
-// within its disk budget. Every other city still resolves via dynamicParams
-// fallback (default true) on first request, then cache.
+// See [filho]/page.tsx: capped to PRIORITY_CITIES to keep build time and
+// static output (and per-page segment prefetch caches) bounded. Every other
+// city still resolves via dynamicParams fallback (default true) on first
+// request, then cache.
 export function generateStaticParams() {
   return PRIORITY_CITIES.flatMap((city) =>
     CATEGORY_ORDER.map((category) => ({

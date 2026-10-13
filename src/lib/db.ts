@@ -1,10 +1,9 @@
 import { neon } from "@neondatabase/serverless";
 
-// Neon's HTTP driver, not the `postgres` package's raw TCP connection: the
-// Cloudflare Workers runtime can't reliably hold a direct TCP socket open to
-// Neon (`postgres` consistently hit `write CONNECT_TIMEOUT` there, both in
-// local `wrangler dev` and on the deployed Worker) — HTTP over fetch is the
-// transport Neon documents for edge runtimes like Workers.
+// Neon's HTTP driver, not the `postgres` package's raw TCP connection: each
+// query is a single fetch, which suits serverless/edge runtimes (Vercel
+// included) where holding a direct TCP socket open per invocation is
+// unreliable and slow to establish.
 //
 // Created lazily (on first query) rather than at module load: routes like
 // sitemap.ts prerender at build time, where DATABASE_URL isn't set (it's

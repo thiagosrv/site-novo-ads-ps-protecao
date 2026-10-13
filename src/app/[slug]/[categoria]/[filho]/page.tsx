@@ -8,10 +8,9 @@ import { SERVICES, getServiceBySlug } from "@/lib/services";
 
 // Eagerly pre-rendered only for PRIORITY_CITIES; every other city renders on
 // first request via dynamicParams (default true) and gets cached after that.
-// Keeps every URL live while capping the Cloudflare Workers build's static
-// output (each pre-rendered page also emits a segment prefetch cache, and
-// building all 100 cities x every combination exhausts the build container's
-// disk budget).
+// Keeps every URL live while capping build time and static output (each
+// pre-rendered page also emits a segment prefetch cache, and building all 100
+// cities x every combination would make the build very large and slow).
 export function generateStaticParams() {
   const segmentParams = PRIORITY_CITIES.flatMap((city) =>
     SEGMENTS.flatMap((segment) =>
