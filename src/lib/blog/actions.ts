@@ -3,8 +3,14 @@
 import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { sql } from "@/lib/db";
+import {
+  clearLoginFailures,
+  clientIpFromHeaders,
+  isLoginBlocked,
+  recordLoginFailure,
+} from "@/lib/loginRateLimit";
 import { putObject, deleteObject, publicUrl, keyFromPublicUrl } from "@/lib/r2";
 import {
   SESSION_COOKIE_NAME,
@@ -27,10 +33,17 @@ export async function loginAction(
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
 
+  const ip = clientIpFromHeaders(await headers());
+  if (isLoginBlocked(ip)) {
+    return { error: "Muitas tentativas. Aguarde alguns minutos e tente novamente." };
+  }
+
   if (!verifyCredentials(email, password)) {
+    recordLoginFailure(ip);
     return { error: "E-mail ou senha inválidos." };
   }
 
+  clearLoginFailures(ip);
   const store = await cookies();
   store.set(SESSION_COOKIE_NAME, createSessionToken(), {
     httpOnly: true,
