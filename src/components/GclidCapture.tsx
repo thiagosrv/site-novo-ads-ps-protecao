@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { captureGclid } from "@/lib/gclid";
+import { captureAttribution, captureGclid } from "@/lib/gclid";
 
 export default function GclidCapture() {
   useEffect(() => {
     captureGclid();
+    captureAttribution();
   }, []);
 
   return null;

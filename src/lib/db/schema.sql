@@ -60,3 +60,28 @@ create index if not exists leads_created_at_idx on leads (created_at desc);
 -- formato alfanumérico) e a razão social retornada pela consulta à Receita.
 alter table leads add column if not exists cnpj text;
 alter table leads add column if not exists razao_social text;
+
+-- Origem da visita (UTMs do anúncio e site de onde veio), capturada na chegada.
+alter table leads add column if not exists utm_source text;
+alter table leads add column if not exists utm_medium text;
+alter table leads add column if not exists utm_campaign text;
+alter table leads add column if not exists referrer text;
+
+-- Entrega do lead ao CRM comercial (feita pelo servidor, src/lib/crm-entrega.ts).
+--   pendente  = ainda não chegou ao CRM (tentativas em andamento ou na fila)
+--   enviado   = o CRM confirmou (crm_protocolo guarda o número)
+--   erro      = as tentativas imediatas falharam; o cron reenvia
+--   rejeitado = o CRM recusou os dados (ex.: telefone inválido); não adianta reenviar
+--   legado    = lead anterior a este controle, já tratado pelo envio antigo
+-- Os leads que já existem entram como 'legado' (nada é reenviado): o default da coluna é
+-- 'legado' só enquanto ela é criada e depois passa a 'pendente' para os leads novos.
+alter table leads add column if not exists crm_status text not null default 'legado';
+alter table leads alter column crm_status set default 'pendente';
+alter table leads add column if not exists crm_tentativas integer not null default 0;
+alter table leads add column if not exists crm_ultima_tentativa timestamptz;
+alter table leads add column if not exists crm_enviado_em timestamptz;
+alter table leads add column if not exists crm_protocolo text;
+alter table leads add column if not exists crm_erro text;
+
+create index if not exists leads_crm_fila_idx on leads (created_at)
+  where crm_status in ('pendente', 'erro');

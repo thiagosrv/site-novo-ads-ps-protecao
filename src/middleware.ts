@@ -49,6 +49,11 @@ export function middleware(request: NextRequest) {
     return goneResponse();
   }
 
+  // Chamado pelo cron da Vercel; a própria rota confere o CRON_SECRET.
+  if (pathname === "/api/cron/reenviar-leads") {
+    return NextResponse.next();
+  }
+
   if (!isValidPath(pathname)) {
     return new NextResponse("Not Found", { status: 404 });
   }

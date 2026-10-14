@@ -11,10 +11,10 @@ import {
   maskPhone,
   isValidPhone,
 } from "@/lib/quote";
-import { getStoredGclid } from "@/lib/gclid";
+import { getStoredAttribution, getStoredGclid } from "@/lib/gclid";
 import { submitLead } from "@/lib/leads";
 import { cleanCnpj, isValidCnpj, lookupCnpj, maskCnpj, type CnpjLookup } from "@/lib/cnpj";
-import { CONSENT_TEXT, registerLeadInCrm } from "@/lib/crm";
+import { CONSENT_TEXT } from "@/lib/crm";
 
 declare global {
   interface Window {
@@ -369,19 +369,32 @@ export default function QuoteModal({
     setSubmitError(null);
 
     const gclid = getStoredGclid();
+    const attribution = getStoredAttribution();
 
-    const result = await submitLead({
-      name: form.name.trim(),
-      phone: form.phone.replace(/\D/g, ""),
-      city: form.city.trim(),
-      cityOther: "",
-      service: form.service,
-      gclid,
-      origemPagina: pathname,
-      honeypot: form.honeypot,
-      cnpj: cleanCnpj(form.cnpj),
-      razaoSocial: lookupDone?.status === "found" ? lookupDone.razaoSocial : undefined,
-    });
+    // O servidor grava o lead, entrega ao CRM (com tentativas, se ele não responder) e
+    // devolve o protocolo. Se a própria chamada ao servidor do site falhar, nada foi
+    // guardado: mostra o erro com "Tentar novamente" em vez de seguir sem registro.
+    let result: Awaited<ReturnType<typeof submitLead>>;
+    try {
+      result = await submitLead({
+        name: form.name.trim(),
+        phone: form.phone.replace(/\D/g, ""),
+        city: form.city.trim(),
+        cityOther: "",
+        service: form.service,
+        gclid,
+        origemPagina: pathname,
+        honeypot: form.honeypot,
+        cnpj: cleanCnpj(form.cnpj),
+        razaoSocial: lookupDone?.status === "found" ? lookupDone.razaoSocial : undefined,
+        utmSource: attribution.utm_source,
+        utmMedium: attribution.utm_medium,
+        utmCampaign: attribution.utm_campaign,
+        referrer: attribution.referrer ?? (document.referrer || undefined),
+      });
+    } catch {
+      result = { ok: false, error: "Não foi possível enviar sua solicitação. Tente novamente." };
+    }
 
     if (!result.ok) {
       setSubmitting(false);
@@ -400,17 +413,9 @@ export default function QuoteModal({
       gclid: gclid || null,
     });
 
-    // O lead já está salvo no banco do site; agora avisa o CRM (máx. 3 s, sem travar:
-    // se falhar, o cliente segue para o WhatsApp sem protocolo).
-    const protocol = await registerLeadInCrm({
-      name: form.name.trim(),
-      phone: form.phone.replace(/\D/g, ""),
-      gclid,
-      pagina: pathname,
-      honeypot: form.honeypot,
-    });
-
-    saveQuotePayload({ message: buildQuoteMessage(form, protocol), name: form.name.trim() });
+    // Sem protocolo (o CRM não respondeu a tempo), o cliente segue para o WhatsApp do
+    // mesmo jeito: o lead já está salvo e o servidor continua tentando entregá-lo.
+    saveQuotePayload({ message: buildQuoteMessage(form, result.protocolo), name: form.name.trim() });
 
     // Dá tempo do GTM processar o evento antes da navegação SPA destruir a página.
     await new Promise((resolve) => setTimeout(resolve, 300));
