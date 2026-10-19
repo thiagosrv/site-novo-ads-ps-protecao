@@ -33,6 +33,7 @@ const STATIC_PATHS = [
   "/privacidade",
   "/obrigado",
   "/canal-de-etica",
+  "/lp-psprotecao",
 ];
 
 function buildAllValidPaths(): string[] {

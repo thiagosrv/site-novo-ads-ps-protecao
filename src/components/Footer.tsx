@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, MessageCircle } from "lucide-react";
 import QuoteTriggerButton from "./QuoteTriggerButton";
+import { SEALS } from "@/lib/seals";
 
 const SERVICE_LINKS = [
   "Portaria e Controle de Acesso",
@@ -155,38 +156,6 @@ export default function Footer() {
             . Todos os direitos reservados.
           </p>
 
-          <div className="flex items-center gap-4 shrink-0">
-            <a
-              href="https://regional.ciesp.com.br/americana/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="CIESP Americana"
-            >
-              <Image
-                src="/assets/Selo_Parceiro_sem_fundo.png"
-                alt="Selo Parceiro CIESP 2026"
-                width={104}
-                height={104}
-                className="h-12 w-12 object-contain"
-              />
-            </a>
-            <div className="w-px h-8 bg-navy/10" />
-            <a
-              href="https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR05atualizada2023.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Norma Regulamentadora NR-5 — CIPA"
-            >
-              <Image
-                src="/assets/CIPA.webp"
-                alt="Selo CIPA Segurança"
-                width={104}
-                height={104}
-                className="h-12 w-12 object-contain"
-              />
-            </a>
-          </div>
-
           <div className="flex items-center gap-4">
             <Link
               href="/privacidade"
@@ -197,6 +166,39 @@ export default function Footer() {
             <p className="text-navy font-mono text-[11px] tracking-widest uppercase">
               Americana · Campinas · RMC
             </p>
+          </div>
+        </div>
+
+        <div className="border-t border-navy/10">
+          <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] py-5 flex flex-col md:flex-row items-center justify-center gap-x-6 gap-y-3">
+            <p className="text-navy/60 font-mono text-[11px] tracking-widest uppercase shrink-0">
+              Padrões e Parcerias :
+            </p>
+            <ul className="flex flex-wrap items-center justify-center gap-x-4 md:gap-x-5 gap-y-3">
+              {SEALS.map((seal) => {
+                const img = (
+                  <Image
+                    src={seal.src}
+                    alt={seal.alt}
+                    width={56}
+                    height={56}
+                    quality={90}
+                    className="h-14 w-14 object-contain"
+                  />
+                );
+                return (
+                  <li key={seal.src}>
+                    {seal.href ? (
+                      <a href={seal.href} target="_blank" rel="noopener noreferrer" aria-label={seal.alt}>
+                        {img}
+                      </a>
+                    ) : (
+                      img
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
       </div>

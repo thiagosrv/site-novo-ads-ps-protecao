@@ -61,8 +61,8 @@ export default function OurPresence() {
           <Reveal className="md:col-span-5">
             <div className="relative rounded-3xl overflow-hidden aspect-[4/3] md:aspect-[5/4]">
               <Image
-                src="/assets/historia.webp"
-                alt="História da PS Proteção desde a fundação em 1998"
+                src="/assets/fundador.webp"
+                alt="Antônio Farias, fundador da PS Proteção, em frente à sede — história desde 1998"
                 fill
                 className="object-cover"
               />

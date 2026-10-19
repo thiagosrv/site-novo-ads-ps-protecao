@@ -194,9 +194,9 @@ export default function SobrePage() {
           <Reveal delayMs={100}>
             <div className="relative rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
               <Image
-                src="/assets/historia.webp"
-                alt="Sede PS Proteção — Rua São Gabriel, Americana SP"
-                width={800}
+                src="/assets/fundador.webp"
+                alt="Antônio Farias, fundador da PS Proteção, em frente à sede — Rua São Gabriel, Americana SP"
+                width={900}
                 height={600}
                 className="w-full h-auto object-cover"
               />

@@ -181,15 +181,21 @@ function esperar(ms: number) {
  * (cron ou oportunista) assume.
  */
 export async function tentarEmSegundoPlano(lead: LeadParaCrm): Promise<void> {
+  let motivo = "desconhecido";
   for (let i = 0; i < ESPERAS_EM_SEGUNDO_PLANO_MS.length; i++) {
     await esperar(ESPERAS_EM_SEGUNDO_PLANO_MS[i]);
     await iniciarTentativa(lead.envioId);
     const resultado = await enviarAoCrm(lead, TIMEOUT_REENVIO_MS);
+    if (!resultado.ok) motivo = resultado.motivo;
     const ultima = i === ESPERAS_EM_SEGUNDO_PLANO_MS.length - 1;
     const status = await registrarResultado(lead.envioId, resultado, ultima);
     if (status === "enviado" || status === "rejeitado") return;
   }
-  console.error("[crm-entrega] lead ainda não entregue ao CRM após as tentativas imediatas", lead.envioId);
+  // O motivo vai no log porque, sem as colunas crm_* no Neon, é o único rastro do porquê.
+  console.error(
+    `[crm-entrega] lead ainda não entregue ao CRM após as tentativas imediatas (${motivo})`,
+    lead.envioId,
+  );
 }
 
 type LinhaPendente = {
