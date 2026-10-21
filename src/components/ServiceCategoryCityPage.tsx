@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { ReactNode } from "react";
 import {
   ShieldCheck,
@@ -25,6 +24,7 @@ import Testimonials from "./Testimonials";
 import Implementation from "./Implementation";
 import TechSolutions from "./TechSolutions";
 import ContactSection from "./ContactSection";
+import { CategoryHeroBackground, CategoryHeroMobileCard, getHeroPhotoKind } from "./CategoryHeroMedia";
 import OurPresence from "./OurPresence";
 import { CITIES, type City } from "@/lib/cities";
 import {
@@ -187,7 +187,11 @@ export default function ServiceCategoryCityPage({
 
   const heroTitleText = HERO_TITLE_TEXT[variant](categoryLabel, city);
   const heroTitleClasses = getHeroTitleClasses(heroTitleText);
-  const isPortariaHero = category === "portaria";
+  const heroPhotoKind = getHeroPhotoKind(category);
+  const heroAlt =
+    heroPhotoKind === "limpeza"
+      ? "Profissional de limpeza PS Proteção uniformizada"
+      : "Profissional de portaria PS Proteção rigorosamente fardado";
 
   const faqPool = buildCategoryFaqPool(categoryLabel, city);
   const faqItems = FAQ_SELECTION[variant].map((i) => faqPool[i]);
@@ -456,32 +460,13 @@ export default function ServiceCategoryCityPage({
 
       <section
         className={`relative flex items-center overflow-hidden pt-[110px] pb-16 md:pt-[130px] md:pb-28 ${
-          isPortariaHero
+          heroPhotoKind
             ? "md:min-h-screen bg-gradient-to-br from-navy via-navy to-navy-deep"
             : "min-h-screen bg-navy"
         }`}
       >
-        {isPortariaHero && (
-          <>
-            <Image
-              src="/assets/uniforme-psprotecao.webp"
-              alt="Profissional de portaria PS Proteção rigorosamente fardado"
-              fill
-              priority
-              quality={90}
-              className="hidden md:block object-cover object-[78%_20%] z-0"
-            />
-            <div className="absolute inset-0 hero-gradient z-0 hidden md:block" aria-hidden="true" />
-            <div
-              className="texture-halftone absolute inset-0 z-0 pointer-events-none opacity-20 hidden md:block"
-              style={{ maskImage: "linear-gradient(to right, transparent 0%, black 58%)" }}
-              aria-hidden="true"
-            />
-            <div
-              className="texture-halftone absolute inset-0 z-0 pointer-events-none opacity-20 md:hidden"
-              aria-hidden="true"
-            />
-          </>
+        {heroPhotoKind && (
+          <CategoryHeroBackground kind={heroPhotoKind} alt={heroAlt} />
         )}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none opacity-20 z-0"
@@ -539,17 +524,9 @@ export default function ServiceCategoryCityPage({
                 </Link>
               </div>
             </Reveal>
-            {isPortariaHero && (
+            {heroPhotoKind && (
               <Reveal delayMs={380}>
-                <div className="md:hidden relative mt-10 w-full aspect-[16/9] rounded-2xl overflow-hidden">
-                  <Image
-                    src="/assets/uniforme-psprotecao.webp"
-                    alt="Profissional de portaria PS Proteção rigorosamente fardado"
-                    fill
-                    quality={90}
-                    className="object-cover object-[78%_20%]"
-                  />
-                </div>
+                <CategoryHeroMobileCard kind={heroPhotoKind} alt={heroAlt} />
               </Reveal>
             )}
           </div>

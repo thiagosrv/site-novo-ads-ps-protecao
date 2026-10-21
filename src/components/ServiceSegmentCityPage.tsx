@@ -23,6 +23,7 @@ import Testimonials from "./Testimonials";
 import Implementation from "./Implementation";
 import TechSolutions from "./TechSolutions";
 import ContactSection from "./ContactSection";
+import { CategoryHeroBackground, CategoryHeroMobileCard, getHeroPhotoKind } from "./CategoryHeroMedia";
 import OurPresence from "./OurPresence";
 import { CITIES, type City } from "@/lib/cities";
 import { CATEGORY_REPRESENTATIVE_SLUG, getServiceBySlug, type ServiceCategory } from "@/lib/services";
@@ -110,7 +111,7 @@ export default function ServiceSegmentCityPage({
   city: City;
 }) {
   const Icon = ICON_BY_CATEGORY[category] ?? ShieldCheck;
-  const isPortariaHero = category === "portaria";
+  const heroPhotoKind = getHeroPhotoKind(category);
   const categoryLabel = SEGMENT_CATEGORY_LABEL[category] ?? category;
   const representativeSlug = CATEGORY_REPRESENTATIVE_SLUG[category];
   const representativeService = getServiceBySlug(representativeSlug);
@@ -185,13 +186,17 @@ export default function ServiceSegmentCityPage({
 
       <section
         className={`relative flex items-center overflow-hidden pt-28 pb-16 md:pt-20 ${
-          isPortariaHero
+          heroPhotoKind
             ? "md:min-h-screen bg-gradient-to-br from-navy via-navy to-navy-deep"
             : "min-h-screen bg-navy"
         }`}
       >
-        <div className="absolute inset-0 z-0">
-          {!isPortariaHero && (
+        {heroPhotoKind ? (
+          <CategoryHeroBackground kind={heroPhotoKind}
+            alt={`Profissional da PS Proteção prestando ${categoryLabel.toLowerCase()} para ${segment.name.toLowerCase()} em ${city.name}`}
+          />
+        ) : (
+          <div className="absolute inset-0 z-0">
             <Image
               src="/assets/background-mobile.webp"
               alt={`Profissional da PS Proteção prestando ${categoryLabel.toLowerCase()} para ${segment.name.toLowerCase()} em ${city.name}`}
@@ -199,30 +204,16 @@ export default function ServiceSegmentCityPage({
               priority
               className="object-cover object-[75%_center] md:hidden"
             />
-          )}
-          <Image
-            src={isPortariaHero ? "/assets/uniforme-psprotecao.webp" : "/brand/guarda-fachada.webp"}
-            alt={`Profissional da PS Proteção prestando ${categoryLabel.toLowerCase()} para ${segment.name.toLowerCase()} em ${city.name}`}
-            fill
-            priority
-            quality={isPortariaHero ? 90 : undefined}
-            className={`hidden object-cover md:block ${isPortariaHero ? "object-[75%_20%]" : "object-[75%_center]"}`}
-          />
-          <div className={`absolute inset-0 hero-gradient ${isPortariaHero ? "hidden md:block" : ""}`} />
-          {isPortariaHero && (
-            <>
-              <div
-                className="texture-halftone absolute inset-0 pointer-events-none opacity-20 hidden md:block"
-                style={{ maskImage: "linear-gradient(to right, transparent 0%, black 58%)" }}
-                aria-hidden="true"
-              />
-              <div
-                className="texture-halftone absolute inset-0 pointer-events-none opacity-20 md:hidden"
-                aria-hidden="true"
-              />
-            </>
-          )}
-        </div>
+            <Image
+              src="/brand/guarda-fachada.webp"
+              alt={`Profissional da PS Proteção prestando ${categoryLabel.toLowerCase()} para ${segment.name.toLowerCase()} em ${city.name}`}
+              fill
+              priority
+              className="hidden object-cover object-[75%_center] md:block"
+            />
+            <div className="absolute inset-0 hero-gradient" />
+          </div>
+        )}
 
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none opacity-20 z-0"
@@ -292,17 +283,11 @@ export default function ServiceSegmentCityPage({
               </div>
             </Reveal>
 
-            {isPortariaHero && (
+            {heroPhotoKind && (
               <Reveal delayMs={380}>
-                <div className="md:hidden relative mt-10 w-full aspect-[16/9] rounded-2xl overflow-hidden">
-                  <Image
-                    src="/assets/uniforme-psprotecao.webp"
-                    alt={`Profissional da PS Proteção prestando ${categoryLabel.toLowerCase()} para ${segment.name.toLowerCase()} em ${city.name}`}
-                    fill
-                    quality={90}
-                    className="object-cover object-[75%_20%]"
-                  />
-                </div>
+                <CategoryHeroMobileCard kind={heroPhotoKind}
+                  alt={`Profissional da PS Proteção prestando ${categoryLabel.toLowerCase()} para ${segment.name.toLowerCase()} em ${city.name}`}
+                />
               </Reveal>
             )}
           </div>
