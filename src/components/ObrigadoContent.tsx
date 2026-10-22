@@ -4,11 +4,36 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { MessageCircle, X } from "lucide-react";
-import { buildWhatsAppUrl, readAndClearQuotePayload, QUOTE_WHATSAPP_NUMBER } from "@/lib/quote";
+import {
+  buildWhatsAppUrl,
+  readAndClearQuotePayload,
+  thankYouKindFor,
+  QUOTE_WHATSAPP_NUMBER,
+  type ThankYouKind,
+} from "@/lib/quote";
 import { getStoredGclid } from "@/lib/gclid";
 
 const REDIRECT_DELAY_MS = 5000;
 const MESSAGE_DELAY_MS = 900;
+
+// Foto e texto mudam conforme o serviço pedido: portaria, limpeza ou os demais (geral).
+const THANK_YOU: Record<ThankYouKind, { image: string; alt: string; text: string }> = {
+  portaria: {
+    image: "/assets/pagina-obrigado-porteiro.webp",
+    alt: "Profissional de portaria da PS Proteção uniformizado, com tablet e rádio, no posto de controle de acesso",
+    text: "Nossa equipe já está analisando o seu pedido de portaria e controle de acesso. A proposta é montada sob medida para a sua operação e segue pelo WhatsApp.",
+  },
+  limpeza: {
+    image: "/assets/pagina-obrigado-limpeza.webp",
+    alt: "Profissional de limpeza da PS Proteção uniformizada, com avental, luvas e óculos de proteção",
+    text: "Nossa equipe já está analisando o seu pedido de limpeza e conservação. A proposta é montada sob medida para o seu ambiente e segue pelo WhatsApp.",
+  },
+  geral: {
+    image: "/assets/pagina-obrigado-geral.webp",
+    alt: "Profissional da PS Proteção cumprimenta um cliente na entrada de uma empresa",
+    text: "Nossa equipe já está analisando o seu pedido. A proposta é montada sob medida para a sua empresa e segue pelo WhatsApp.",
+  },
+};
 
 declare global {
   interface Window {
@@ -19,6 +44,9 @@ declare global {
 export default function ObrigadoContent() {
   const pathname = usePathname();
   const [name, setName] = useState("");
+  // Só se sabe o serviço depois da montagem (vem do sessionStorage); até lá a moldura da foto
+  // fica reservada, sem imagem, para o layout não pular nem aparecer a foto errada.
+  const [kind, setKind] = useState<ThankYouKind | null>(null);
   const [waUrl, setWaUrl] = useState(() => buildWhatsAppUrl());
   const [secondsLeft, setSecondsLeft] = useState(Math.ceil(REDIRECT_DELAY_MS / 1000));
   const [autoRedirectCancelled, setAutoRedirectCancelled] = useState(false);
@@ -36,11 +64,15 @@ export default function ObrigadoContent() {
 
   useEffect(() => {
     const payload = readAndClearQuotePayload();
-    const url = buildWhatsAppUrl(payload?.message);
     // Payload only exists in sessionStorage, only knowable client-side after mount.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setWaUrl(url);
-    if (payload?.name) setName(payload.name);
+    // A leitura apaga o payload: se o efeito rodar de novo (StrictMode em dev), a segunda leitura
+    // vem vazia e não pode sobrescrever o que a primeira já aplicou.
+    if (payload) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setWaUrl(buildWhatsAppUrl(payload.message));
+      if (payload.name) setName(payload.name);
+    }
+    setKind((atual) => atual ?? thankYouKindFor(payload?.service));
 
     // Evento legado, já configurado como trigger de conversão no GTM — mantido
     // para não quebrar o rastreamento existente no Google Ads.
@@ -129,14 +161,18 @@ export default function ObrigadoContent() {
   return (
     <section className="min-h-[calc(100vh-1px)] bg-navy flex items-center py-16 md:py-20">
       <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
-        <div className="relative order-2 md:order-1 aspect-[4/5] max-h-[480px] rounded-[2rem] overflow-hidden bg-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
-          <Image
-            src="/loading/loading3.webp"
-            alt="Profissional de segurança da PS Proteção treinado e capacitado"
-            fill
-            priority
-            className="object-cover"
-          />
+        <div className="relative order-2 md:order-1 mx-auto w-full max-w-[320px] md:max-w-[380px] aspect-[2/3] rounded-[2rem] overflow-hidden bg-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+          {kind && (
+            <Image
+              key={kind}
+              src={THANK_YOU[kind].image}
+              alt={THANK_YOU[kind].alt}
+              fill
+              priority
+              sizes="(min-width: 768px) 380px, 320px"
+              className="message-in object-cover"
+            />
+          )}
         </div>
 
         <div className="order-1 md:order-2 text-center md:text-left">
@@ -145,11 +181,14 @@ export default function ObrigadoContent() {
             Solicitação recebida
           </span>
           <h1 className="font-heading text-3xl md:text-[44px] text-white leading-tight mb-4">
-            {name ? `Último passo, ${name}!` : "Último passo!"}
+            {name ? `Recebemos o seu contato, ${name.split(" ")[0]}!` : "Recebemos o seu contato!"}
           </h1>
-          <p className="text-white/80 text-lg leading-relaxed mb-8 max-w-md mx-auto md:mx-0">
-            Seu pedido já está com a nossa equipe. O atendimento acontece na conversa do
-            WhatsApp, e é por lá que você recebe a proposta.
+          <p className="text-white/80 text-lg leading-relaxed mb-3 max-w-md mx-auto md:mx-0">
+            {THANK_YOU[kind ?? "geral"].text}
+          </p>
+          <p className="text-white/60 text-base leading-relaxed mb-8 max-w-md mx-auto md:mx-0">
+            Falta só um passo: abrir a conversa. Os seus dados já vão preenchidos na mensagem,
+            é só tocar em enviar.
           </p>
 
           {!autoRedirectCancelled && (

@@ -31,14 +31,36 @@ export type QuoteFormData = {
   phone: string;
   city: string;
   service: string;
+  cnpj?: string;
+  razaoSocial?: string;
 };
 
+// Mensagem pré-formatada do WhatsApp: *negrito* e quebras de linha são a sintaxe do próprio app.
+// Só entram os dados que o cliente informou (a razão social vem da consulta do CNPJ e pode faltar).
 export function buildQuoteMessage(data: QuoteFormData, protocol?: string | null): string {
-  const base = `Olá, me chamo ${data.name} e preciso de uma cotação de ${serviceLabelFor(
-    data.service
-  )} em ${data.city.trim()}. Obrigado(a)!`;
+  const linhas = [
+    "*Olá, equipe PS Proteção!* 👋",
+    "",
+    "Preenchi o formulário no site e gostaria de receber uma cotação.",
+    "",
+    `*Nome:* ${data.name.trim()}`,
+  ];
+  if (data.razaoSocial?.trim()) linhas.push(`*Razão social:* ${data.razaoSocial.trim()}`);
+  if (data.cnpj?.trim()) linhas.push(`*CNPJ:* ${data.cnpj.trim()}`);
+  linhas.push(`*Cidade:* ${data.city.trim()}`, `*Serviço:* ${serviceLabelFor(data.service)}`);
   // O protocolo liga a conversa do WhatsApp ao lead que já está no CRM.
-  return protocol ? `${base} (Protocolo ${protocol})` : base;
+  if (protocol) linhas.push(`*Protocolo:* ${protocol}`);
+  linhas.push("", "Aguardo o retorno. Obrigado(a)!");
+  return linhas.join("\n");
+}
+
+// A página de obrigado escolhe a foto e o texto pelo serviço pedido.
+export type ThankYouKind = "portaria" | "limpeza" | "geral";
+
+export function thankYouKindFor(service?: string | null): ThankYouKind {
+  if (service === "portaria") return "portaria";
+  if (service === "limpeza") return "limpeza";
+  return "geral";
 }
 
 export function buildWhatsAppUrl(message?: string): string {
@@ -67,6 +89,7 @@ const STORAGE_KEY = "ps-quote-payload";
 export type QuotePayload = {
   message: string;
   name: string;
+  service?: string;
 };
 
 export function saveQuotePayload(payload: QuotePayload) {

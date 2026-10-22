@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { X, Loader2, AlertCircle, Check } from "lucide-react";
+import { X, Loader2, AlertCircle, Check, ArrowRight, ArrowLeft } from "lucide-react";
 import {
   SERVICE_OPTIONS,
   QUOTE_CITY_NAMES,
@@ -11,6 +11,7 @@ import {
   maskPhone,
   isValidPhone,
 } from "@/lib/quote";
+import { playStepSound, playSuccessSound } from "@/lib/form-sounds";
 import { getStoredAttribution, getStoredGclid } from "@/lib/gclid";
 import { submitLead } from "@/lib/leads";
 import { cleanCnpj, isValidCnpj, lookupCnpj, maskCnpj, type CnpjLookup } from "@/lib/cnpj";
@@ -55,6 +56,10 @@ const EMPTY_TOUCHED: TouchedState = {
   service: false,
   cnpj: false,
 };
+
+// Etapa 1: quem é o contato. Etapa 2: o que a empresa precisa (serviço + CNPJ validado).
+type Step = 1 | 2;
+const STEP_ONE_FIELDS = ["name", "phone", "city"] as const;
 
 // Escondido de forma visual (não display:none) para que o honeypot continue
 // "preenchível" por bots simples que ignoram display:none, mas invisível e
@@ -257,11 +262,13 @@ export default function QuoteModal({
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [step, setStep] = useState<Step>(1);
   // Resultado da consulta amarrado ao CNPJ consultado: se o campo mudar, o
   // resultado antigo deixa de valer sem precisar de reset dentro de effect.
   const [cnpjLookup, setCnpjLookup] = useState<{ cnpj: string; result: CnpjLookup } | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const serviceSelectRef = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
     if (!isValidCnpj(form.cnpj)) return;
@@ -279,6 +286,7 @@ export default function QuoteModal({
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setTouched(EMPTY_TOUCHED);
     setSubmitError(null);
+    setStep(1);
     setForm({ ...EMPTY_FORM, city: prefillCity });
   }, [isOpen, prefillCity]);
 
@@ -309,6 +317,13 @@ export default function QuoteModal({
     const timeout = setTimeout(() => nameInputRef.current?.focus(), 50);
     return () => clearTimeout(timeout);
   }, [open]);
+
+  // Ao trocar de etapa o foco acompanha o formulário (teclado e leitor de tela não ficam perdidos).
+  useEffect(() => {
+    if (!open || step !== 2) return;
+    const timeout = setTimeout(() => serviceSelectRef.current?.focus(), 60);
+    return () => clearTimeout(timeout);
+  }, [open, step]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -357,13 +372,39 @@ export default function QuoteModal({
     onClose();
   }
 
+  // Valida só a etapa 1 e avança; o "plim" confirma que o passo foi aceito.
+  function goToStepTwo() {
+    setTouched((t) => ({ ...t, name: true, phone: true, city: true }));
+    const stepErrors = errorsFor(form);
+    if (STEP_ONE_FIELDS.some((field) => stepErrors[field])) return;
+    playStepSound();
+    setSubmitError(null);
+    setStep(2);
+  }
+
+  function goToStepOne() {
+    setSubmitError(null);
+    setStep(1);
+    setTimeout(() => nameInputRef.current?.focus(), 60);
+  }
+
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     if (submitting) return;
 
+    // Enter na etapa 1 avança em vez de enviar.
+    if (step === 1) {
+      goToStepTwo();
+      return;
+    }
+
     setTouched({ name: true, phone: true, city: true, service: true, cnpj: true });
     const validationErrors = errorsFor(form);
-    if (Object.keys(validationErrors).length > 0) return;
+    if (Object.keys(validationErrors).length > 0) {
+      // Se algo da etapa 1 ficou inválido (ex.: campo apagado ao voltar), leva a pessoa até lá.
+      if (STEP_ONE_FIELDS.some((field) => validationErrors[field])) goToStepOne();
+      return;
+    }
 
     setSubmitting(true);
     setSubmitError(null);
@@ -415,7 +456,13 @@ export default function QuoteModal({
 
     // Sem protocolo (o CRM não respondeu a tempo), o cliente segue para o WhatsApp do
     // mesmo jeito: o lead já está salvo e o servidor continua tentando entregá-lo.
-    saveQuotePayload({ message: buildQuoteMessage(form, result.protocolo), name: form.name.trim() });
+    const razaoSocial = lookupDone?.status === "found" ? lookupDone.razaoSocial : undefined;
+    saveQuotePayload({
+      message: buildQuoteMessage({ ...form, razaoSocial }, result.protocolo),
+      name: form.name.trim(),
+      service: form.service,
+    });
+    playSuccessSound();
 
     // Dá tempo do GTM processar o evento antes da navegação SPA destruir a página.
     await new Promise((resolve) => setTimeout(resolve, 300));
@@ -449,10 +496,36 @@ export default function QuoteModal({
           <X size={22} />
         </button>
 
-        <h2 id="quote-modal-title" className="font-heading text-2xl text-navy mb-1">
+        <h2 id="quote-modal-title" className="font-heading text-2xl text-navy mb-3 pr-8">
           Formulário de Contato
         </h2>
-        <p className="text-graphite/60 text-sm mb-6">Retornamos em até 2h úteis. Sem compromisso.</p>
+
+        <div className="flex items-center gap-3 rounded-2xl border border-[#25D366]/30 bg-gradient-to-r from-[#25D366]/15 via-[#25D366]/8 to-transparent px-4 py-3 mb-5">
+          <span className="relative flex h-3 w-3 shrink-0" aria-hidden="true">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-70 animate-ping motion-reduce:animate-none" />
+            <span className="relative inline-flex h-3 w-3 rounded-full bg-[#25D366]" />
+          </span>
+          <p className="text-sm leading-snug text-[#0B5C3B]">
+            <strong className="font-heading font-semibold">Estamos online agora</strong>
+            <span className="block text-[#0B5C3B]/80">
+              Tempo aproximado de retorno: <strong className="font-semibold">5 minutos</strong>
+            </span>
+          </p>
+        </div>
+
+        <div className="mb-5" aria-live="polite">
+          <p className="font-mono text-xs uppercase tracking-wide text-graphite/60 mb-2">
+            Etapa {step} de 2 · {step === 1 ? "Seus dados" : "Sua empresa"}
+          </p>
+          <div className="flex gap-2" aria-hidden="true">
+            <span className="h-1.5 flex-1 rounded-full bg-yellow" />
+            <span
+              className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
+                step === 2 ? "bg-yellow" : "bg-navy/10"
+              }`}
+            />
+          </div>
+        </div>
 
         {submitError && (
           <div
@@ -474,7 +547,8 @@ export default function QuoteModal({
         )}
 
         <form onSubmit={handleSubmit} noValidate>
-          <div className="space-y-4">
+          {step === 1 && (
+          <div key="step-1" className="step-fade space-y-4">
             <Field label="Nome" htmlFor="quote-name" error={touched.name ? errors.name : undefined}>
               <input
                 ref={nameInputRef}
@@ -516,9 +590,14 @@ export default function QuoteModal({
                 invalid={touched.city && !!errors.city}
               />
             </Field>
+          </div>
+          )}
 
+          {step === 2 && (
+          <div key="step-2" className="step-fade space-y-4">
             <Field label="Serviço" htmlFor="quote-service" error={touched.service ? errors.service : undefined}>
               <select
+                ref={serviceSelectRef}
                 id="quote-service"
                 name="service"
                 value={form.service}
@@ -594,6 +673,7 @@ export default function QuoteModal({
               </div>
             </Field>
           </div>
+          )}
 
           <div aria-hidden="true" style={honeypotWrapperStyle}>
             <label htmlFor="quote-website">Não preencha este campo</label>
@@ -609,24 +689,43 @@ export default function QuoteModal({
           </div>
           <input type="hidden" name="gclid" value={getStoredGclid() ?? ""} readOnly />
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="press-feedback mt-6 w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-yellow to-yellow-dark text-navy font-heading font-semibold px-7 py-3.5 hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed min-h-11"
-          >
-            {submitting ? (
-              <>
-                <Loader2 size={18} className="animate-spin" />
-                Enviando...
-              </>
-            ) : (
-              "Solicitar cotação"
+          <div className="mt-6 flex items-center gap-3">
+            {step === 2 && (
+              <button
+                type="button"
+                onClick={goToStepOne}
+                disabled={submitting}
+                aria-label="Voltar para a etapa 1"
+                className="press-feedback inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full border border-navy/15 px-4 py-3.5 text-sm font-semibold text-navy hover:bg-navy/5 disabled:opacity-60"
+              >
+                <ArrowLeft size={16} />
+                Voltar
+              </button>
             )}
-          </button>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="press-feedback flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-yellow to-yellow-dark text-navy font-heading font-semibold px-7 py-3.5 hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed min-h-11"
+            >
+              {submitting ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  Enviando...
+                </>
+              ) : step === 1 ? (
+                <>
+                  Continuar
+                  <ArrowRight size={18} />
+                </>
+              ) : (
+                "Solicitar cotação"
+              )}
+            </button>
+          </div>
           <p className="text-red-600 text-xs font-semibold text-center mt-3">
-            Envio apenas para solicitação de orçamentos
+            Formulário apenas para Orçamentos
           </p>
-          <p className="text-graphite/50 text-xs text-center mt-2">{CONSENT_TEXT}</p>
+          {step === 2 && <p className="text-graphite/50 text-xs text-center mt-2">{CONSENT_TEXT}</p>}
         </form>
       </div>
     </div>
