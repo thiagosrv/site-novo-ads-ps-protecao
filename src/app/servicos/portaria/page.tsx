@@ -10,7 +10,6 @@ import {
   MessageCircle,
   ArrowRight,
   CheckCircle2,
-  Lock,
   Building2,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
@@ -21,19 +20,22 @@ import MarqueeBand from "@/components/MarqueeBand";
 import WhereWeOperate from "@/components/WhereWeOperate";
 import Breadcrumbs, { buildBreadcrumbSchema } from "@/components/Breadcrumbs";
 import FaqAccordion, { type FaqItem } from "@/components/FaqAccordion";
+import { CategoryHeroBackground, CategoryHeroMobileCard } from "@/components/CategoryHeroMedia";
 import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Portaria Terceirizada | PS Proteção",
+  title: "Empresa de Portaria | Terceirização de Portaria | PS Proteção",
   description:
-    "Portaria terceirizada com equipe certificada SESP, supervisão ativa 24h e implantação em até 15 dias úteis. Solicite uma proposta sem compromisso.",
+    "Empresa de portaria com porteiro treinado e equipe certificada SESP. Terceirização de portaria e controle de acesso, com implantação em até 15 dias úteis.",
   alternates: {
     canonical: "/servicos/portaria",
   },
 };
 
+const HERO_ALT = "Porteiro treinado da PS Proteção em posto de portaria e controle de acesso";
+
 const HERO_CHECKS = [
-  "Seleção, escala e uniforme sob nossa gestão",
+  "Porteiro treinado, com seleção, escala e uniforme sob nossa gestão",
   "Equipe certificada conforme exigência SESP/SSP",
   "Cobertura garantida contratualmente em faltas",
   "Sem letras miúdas: escopo e SLA por escrito",
@@ -44,13 +46,13 @@ const PILLARS = [
     n: "1",
     icon: ClipboardCheck,
     title: "Diagnóstico e Implantação Rápida",
-    text: "Diagnóstico do posto, seleção da equipe e treinamento com Procedimento Operacional Padrão (POP) específico, com início de operação em 5 a 15 dias úteis.",
+    text: "Diagnóstico do posto, seleção da equipe e treinamento com Procedimento Operacional Padrão (POP) específico, para uma portaria profissional com início de operação em 5 a 15 dias úteis.",
   },
   {
     n: "2",
     icon: GraduationCap,
     title: "Equipe Certificada SESP/SSP",
-    text: "Porteiros selecionados e formados conforme exigência do curso SESP/SSP, treinados para triagem de visitantes, controle de acesso e registro de ocorrências.",
+    text: "Cada porteiro treinado é selecionado e formado conforme exigência do curso SESP/SSP, preparado para triagem de visitantes, controle de acesso e registro de ocorrências.",
   },
   {
     n: "3",
@@ -67,13 +69,18 @@ const PILLARS = [
   },
 ];
 
-const MARQUEE_ITEMS = ["Portaria Terceirizada", "Equipe Certificada SESP", "Supervisão Ativa 24h"];
+const MARQUEE_ITEMS = ["Empresa de Portaria", "Porteiro Treinado", "Equipe Certificada SESP", "Supervisão Ativa 24h"];
 
 const FAQ_ITEMS: FaqItem[] = [
   {
-    question: "Qual o prazo para contratar e implantar a portaria terceirizada?",
+    question: "Qual o prazo para contratar e implantar a terceirização de portaria?",
     answer:
       "O prazo médio é de 5 a 15 dias úteis, contando diagnóstico do posto, seleção e treinamento da equipe com POP específico para o seu endereço, e início da operação com supervisão intensiva nas primeiras semanas.",
+  },
+  {
+    question: "O que uma empresa de portaria entrega além do porteiro?",
+    answer:
+      "Além do porteiro treinado, a PS Proteção entrega a gestão do posto: escala, uniforme, cobertura em faltas, triagem de visitantes, controle de acesso e registro de ocorrências, com supervisão ativa e relatórios periódicos de passagem de plantão.",
   },
   {
     question: "Qual a área de atuação da PS Proteção?",
@@ -91,7 +98,7 @@ const FAQ_ITEMS: FaqItem[] = [
       "Após entender o porte da operação — condomínio, empresa ou indústria — enviamos uma proposta personalizada sem compromisso, com escopo, escala e valores claros antes de qualquer assinatura.",
   },
   {
-    question: "A equipe de portaria tem certificação?",
+    question: "O porteiro treinado da equipe de portaria tem certificação?",
     answer:
       "Sim. Nossos profissionais são selecionados e formados conforme o curso SESP/SSP, com treinamento interno periódico e supervisão de campo que acompanha o cumprimento do padrão combinado.",
   },
@@ -108,10 +115,10 @@ export default function ServicoPortariaPage() {
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    serviceType: "Portaria Terceirizada",
-    name: "Portaria Terceirizada | PS Proteção",
+    serviceType: "Terceirização de Portaria",
+    name: "Empresa de Portaria | Terceirização de Portaria | PS Proteção",
     description:
-      "Terceirização de portaria com seleção, escala, uniforme e supervisão de equipe certificada, para condomínios, empresas e indústrias.",
+      "Empresa de portaria: terceirização de portaria e controle de acesso com porteiro treinado, seleção, escala, uniforme e supervisão de equipe certificada, para condomínios, empresas e indústrias.",
     provider: {
       "@type": "LocalBusiness",
       name: "PS Proteção",
@@ -148,8 +155,9 @@ export default function ServicoPortariaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      {/* Hero */}
-      <section className="relative bg-gradient-to-b from-navy to-navy-deep pt-32 pb-24 md:pt-40 md:pb-28 overflow-hidden">
+      {/* Hero — mesmo desenho da home: foto à direita com borda esfumada e textura halftone */}
+      <section className="relative flex items-center overflow-hidden pt-[110px] pb-16 md:pt-[130px] md:pb-28 md:min-h-screen bg-gradient-to-br from-navy via-navy to-navy-deep">
+        <CategoryHeroBackground kind="portaria" alt={HERO_ALT} />
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none opacity-20 z-0"
           viewBox="0 0 1440 600"
@@ -161,31 +169,37 @@ export default function ServicoPortariaPage() {
           <circle className="fill-yellow" cx="1360" cy="180" r="4" />
         </svg>
 
-        <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
+        <div className="relative z-10 w-full max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
           <Reveal>
             <div className="mb-8">
               <Breadcrumbs items={breadcrumbItems} dark />
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-y-14 md:gap-x-12 items-center">
-            <div className="md:col-span-7 text-center md:text-left">
-              <Reveal>
-                <SectionLabel align="center" className="md:justify-start">
-                  Serviços · Portaria Terceirizada
-                </SectionLabel>
-              </Reveal>
-              <Reveal delayMs={100}>
-                <h1 className="text-white font-heading text-4xl md:text-[3.4rem] font-bold leading-[1.1] mb-6">
-                  Portaria Terceirizada para Empresas e Condomínios
-                </h1>
-              </Reveal>
-              <Reveal delayMs={200}>
-                <p className="text-white/80 text-lg max-w-2xl mx-auto md:mx-0 leading-relaxed mb-8">
-                  Transferimos para a PS Proteção a seleção, escala, uniforme e supervisão da sua
-                  portaria — com equipe certificada SESP/SSP e cobertura garantida em faltas.
-                  Solicite uma proposta personalizada, sem compromisso.
-                </p>
+          <div className="max-w-2xl mx-auto text-center md:mx-0 md:text-left">
+            <Reveal delayMs={80}>
+              <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 text-white px-5 py-2 rounded-full mb-8 backdrop-blur-md">
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow animate-pulse" />
+                <span className="font-mono text-xs uppercase tracking-widest text-white/90">
+                  Serviços · Portaria e Controle de Acesso
+                </span>
+              </div>
+            </Reveal>
+            <Reveal delayMs={160}>
+              <h1 className="text-white font-heading text-4xl md:text-5xl font-bold leading-[1.1] mb-6">
+                Empresa de Portaria: Terceirização de Portaria Profissional
+              </h1>
+            </Reveal>
+            <Reveal delayMs={240}>
+              <p className="text-white/80 text-[16px] md:text-lg leading-relaxed mb-8">
+                Somos uma empresa de portaria com porteiro treinado, equipe certificada SESP/SSP e
+                supervisão ativa. Na terceirização de portaria para empresas e condomínios, a PS
+                Proteção assume seleção, escala, uniforme e cobertura em faltas. Solicite uma
+                proposta personalizada, sem compromisso.
+              </p>
+            </Reveal>
+            <Reveal delayMs={320}>
+              <div className="flex justify-center md:justify-start mb-8">
                 <WhatsAppCta
                   href="https://wa.me/5519982892037"
                   label={
@@ -196,29 +210,18 @@ export default function ServicoPortariaPage() {
                   }
                   className="px-7 py-3.5 text-[15px]"
                 />
-              </Reveal>
-            </div>
-
-            <Reveal delayMs={150} className="md:col-span-5">
-              <div className="relative bg-white/5 border border-white/10 rounded-[24px] p-6 md:p-7 backdrop-blur-md">
-                <div className="flex items-center gap-2 mb-6">
-                  <Lock size={16} className="text-yellow" />
-                  <span className="font-mono text-[11px] uppercase tracking-widest text-white/70">
-                    O que você recebe
-                  </span>
-                </div>
-                <ul className="flex flex-col">
-                  {HERO_CHECKS.map((item, i) => (
-                    <li key={item} className="relative flex items-start gap-3 pb-5 last:pb-0">
-                      {i !== HERO_CHECKS.length - 1 && (
-                        <span className="absolute left-[9px] top-6 w-px h-[calc(100%-8px)] bg-white/15" />
-                      )}
-                      <CheckCircle2 size={19} className="text-emerald-400 shrink-0" />
-                      <span className="text-white/85 text-sm leading-snug pt-0.5">{item}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
+              <ul className="flex flex-col gap-2.5 max-w-md mx-auto md:mx-0 text-left">
+                {HERO_CHECKS.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <span className="text-white/85 text-sm leading-snug">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+            <Reveal delayMs={380}>
+              <CategoryHeroMobileCard kind="portaria" alt={HERO_ALT} />
             </Reveal>
           </div>
         </div>
@@ -235,13 +238,14 @@ export default function ServicoPortariaPage() {
                 01 · Quem Somos
               </SectionLabel>
               <h2 className="font-heading text-3xl md:text-[42px] text-navy leading-[1.15]">
-                Uma empresa com sede própria, não só um número de telefone
+                Uma empresa de portaria com sede própria, não só um número de telefone
               </h2>
               <div className="text-graphite/70 leading-relaxed flex flex-col gap-4 max-w-[62ch] mx-auto md:mx-0">
                 <p>
                   A PS Proteção nasceu em 1998 com um princípio simples: trabalho sério e
                   proximidade real com o cliente. Mais de 28 anos depois, mantemos estrutura
-                  própria por trás de cada posto de portaria que colocamos em operação.
+                  própria por trás de cada posto de portaria e controle de acesso que colocamos
+                  em operação.
                 </p>
                 <p>
                   São mais de{" "}
@@ -251,8 +255,9 @@ export default function ServicoPortariaPage() {
                 </p>
                 <p>
                   Da administradora de condomínio à indústria de grande porte, aplicamos o mesmo
-                  padrão operacional e a mesma disciplina de supervisão em cada posto — não existe
-                  cliente pequeno demais para receber atenção da nossa equipe de campo.
+                  padrão operacional e a mesma disciplina de supervisão em cada posto de portaria
+                  profissional — não existe cliente pequeno demais para receber atenção da nossa
+                  equipe de campo.
                 </p>
               </div>
             </div>
@@ -303,7 +308,7 @@ export default function ServicoPortariaPage() {
               </h2>
               <div className="text-white/70 leading-relaxed flex flex-col gap-4 max-w-[62ch] mx-auto md:mx-0">
                 <p>
-                  Terceirizar a portaria transfere para a PS Proteção a gestão de escala, encargos
+                  Na terceirização de portaria, a PS Proteção assume a gestão de escala, encargos
                   trabalhistas e substituição de profissionais, mantendo o padrão de atendimento
                   definido em contrato com você.
                 </p>
@@ -316,6 +321,7 @@ export default function ServicoPortariaPage() {
               <ul className="flex flex-col gap-3 max-w-[62ch] mx-auto md:mx-0">
                 {[
                   "Uniforme, equipamentos e escala sob nossa gestão",
+                  "Porteiro treinado, com POP específico do seu posto",
                   "Substituição imediata em faltas e afastamentos",
                   "Relatórios periódicos de passagem de plantão",
                 ].map((item) => (
@@ -344,7 +350,7 @@ export default function ServicoPortariaPage() {
               <div className="relative aspect-[16/9]">
                 <Image
                   src="/assets/uniforme-psprotecao.webp"
-                  alt="Profissional de portaria PS Proteção rigorosamente fardado em posto de controle de acesso"
+                  alt="Porteiro treinado da PS Proteção, rigorosamente fardado em posto de portaria e controle de acesso"
                   fill
                   quality={90}
                   className="object-cover"
@@ -373,7 +379,7 @@ export default function ServicoPortariaPage() {
                 Da proposta à operação no seu posto
               </h2>
               <p className="text-lg text-graphite/70 leading-relaxed">
-                Quatro pilares sustentam a portaria terceirizada da PS Proteção, do primeiro
+                Quatro pilares sustentam a terceirização de portaria da PS Proteção, do primeiro
                 diagnóstico à supervisão contínua no dia a dia.
               </p>
             </div>
@@ -407,7 +413,7 @@ export default function ServicoPortariaPage() {
                 05 · Perguntas Frequentes
               </SectionLabel>
               <h2 className="font-heading text-3xl md:text-[42px] text-navy leading-tight">
-                Dúvidas comuns sobre portaria terceirizada
+                Dúvidas comuns sobre terceirização de portaria
               </h2>
             </div>
           </Reveal>
@@ -436,11 +442,12 @@ export default function ServicoPortariaPage() {
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] relative z-10 grid grid-cols-1 md:grid-cols-12 gap-y-10 md:gap-x-12 items-center">
           <Reveal className="md:col-span-7 text-center md:text-left">
             <h2 className="font-heading text-3xl md:text-4xl text-white mb-4">
-              Pronto para terceirizar sua portaria?
+              Pronto para contratar uma empresa de portaria profissional?
             </h2>
             <p className="text-white/70 text-lg max-w-xl mx-auto md:mx-0">
-              Fale com nossa equipe agora e receba uma proposta personalizada, sem compromisso,
-              para o seu condomínio, empresa ou indústria.
+              Fale com nossa equipe agora e receba uma proposta personalizada de terceirização de
+              portaria e controle de acesso, sem compromisso, para o seu condomínio, empresa ou
+              indústria.
             </p>
           </Reveal>
           <Reveal delayMs={100} className="md:col-span-5">

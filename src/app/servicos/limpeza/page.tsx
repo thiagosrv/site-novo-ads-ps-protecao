@@ -10,7 +10,6 @@ import {
   MessageCircle,
   ArrowRight,
   CheckCircle2,
-  Lock,
   Building2,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
@@ -21,22 +20,26 @@ import MarqueeBand from "@/components/MarqueeBand";
 import WhereWeOperate from "@/components/WhereWeOperate";
 import Breadcrumbs, { buildBreadcrumbSchema } from "@/components/Breadcrumbs";
 import FaqAccordion, { type FaqItem } from "@/components/FaqAccordion";
+import { CategoryHeroBackground, CategoryHeroMobileCard } from "@/components/CategoryHeroMedia";
 import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Limpeza Terceirizada | PS Proteção",
+  title: "Empresa de Limpeza | Limpeza Terceirizada | PS Proteção",
   description:
-    "Limpeza terceirizada com equipe própria em CLT, contratação mínima de 44h semanais e auditoria periódica de qualidade. Solicite uma proposta sem compromisso.",
+    "Empresa de limpeza terceirizada para empresas e indústrias: limpeza profissional com cronograma, equipe própria em CLT e auditoria de qualidade. Peça proposta.",
   alternates: {
     canonical: "/servicos/limpeza",
   },
 };
 
+const HERO_ALT =
+  "Profissional de limpeza da PS Proteção uniformizada em limpeza profissional de ambiente corporativo";
+
 const HERO_CHECKS = [
   "Equipe própria em CLT, sem subcontratação",
   "Contratação mínima de 44h semanais por posto",
   "Escala dimensionada pela área e circulação do local",
-  "Sem letras miúdas: escopo e SLA por escrito",
+  "Limpeza com cronograma: escopo, frequência e SLA por escrito",
 ];
 
 const PILLARS = [
@@ -62,18 +65,39 @@ const PILLARS = [
     n: "4",
     icon: BadgeCheck,
     title: "Auditoria de Qualidade Periódica",
-    text: "Rotinas de higienização definidas em POP e auditadas sem aviso prévio, para garantir o padrão combinado mês a mês.",
+    text: "Rotinas de higienização e cronograma de limpeza definidos em POP e auditados sem aviso prévio, para garantir o padrão combinado mês a mês.",
     accent: true,
   },
 ];
 
-const MARQUEE_ITEMS = ["Limpeza Terceirizada", "Equipe Própria em CLT", "Auditoria de Qualidade"];
+const MARQUEE_ITEMS = [
+  "Empresa de Limpeza",
+  "Limpeza Terceirizada",
+  "Limpeza para Indústrias",
+  "Equipe Própria em CLT",
+  "Auditoria de Qualidade",
+];
 
 const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Qual o prazo para contratar e implantar a limpeza terceirizada?",
     answer:
       "O prazo médio é de 5 a 15 dias úteis, contando levantamento da área, dimensionamento da equipe conforme a circulação do local e início da operação com supervisão intensiva nas primeiras semanas.",
+  },
+  {
+    question: "O que significa terceirizar a limpeza da minha empresa?",
+    answer:
+      "Terceirizar limpeza é contratar uma empresa de limpeza para assumir equipe, EPIs, produtos e escala. Na terceirização de limpeza da PS Proteção, você não administra seleção, folha de pagamento nem reposição em faltas: recebe o resultado combinado em contrato.",
+  },
+  {
+    question: "A PS Proteção faz limpeza para indústrias e limpeza para empresas?",
+    answer:
+      "Sim. Atuamos com limpeza para indústrias e limpeza para empresas de diferentes portes, além de condomínios, com a mesma equipe própria em CLT e o mesmo padrão de supervisão. A escala é dimensionada pela área e pela circulação de cada local.",
+  },
+  {
+    question: "Como funciona a limpeza com cronograma?",
+    answer:
+      "As rotinas e a frequência de cada área são definidas em POP e combinadas em contrato, formando um cronograma de limpeza acompanhado pela supervisão e conferido nas auditorias periódicas, feitas sem aviso prévio.",
   },
   {
     question: "Qual a área de atuação da PS Proteção?",
@@ -93,7 +117,7 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Como a PS Proteção garante o padrão de limpeza combinado?",
     answer:
-      "Rotinas de higienização são definidas em POP e auditadas periodicamente, sem aviso prévio, para garantir que a frequência e a qualidade combinadas em contrato sejam mantidas mês a mês.",
+      "A limpeza profissional da PS Proteção segue rotinas de higienização definidas em POP e auditadas periodicamente, sem aviso prévio, para garantir que a frequência e a qualidade combinadas em contrato sejam mantidas mês a mês.",
   },
 ];
 
@@ -109,9 +133,9 @@ export default function ServicoLimpezaPage() {
     "@context": "https://schema.org",
     "@type": "Service",
     serviceType: "Limpeza Terceirizada",
-    name: "Limpeza Terceirizada | PS Proteção",
+    name: "Empresa de Limpeza | Limpeza Terceirizada | PS Proteção",
     description:
-      "Terceirização de limpeza predial e comercial com equipe própria e contratação mínima de 44h semanais, para condomínios, empresas e indústrias.",
+      "Empresa de limpeza com terceirização de limpeza profissional, com cronograma, equipe própria e contratação mínima de 44h semanais, para limpeza para empresas, indústrias e condomínios.",
     provider: {
       "@type": "LocalBusiness",
       name: "PS Proteção",
@@ -148,8 +172,9 @@ export default function ServicoLimpezaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      {/* Hero */}
-      <section className="relative bg-gradient-to-b from-navy to-navy-deep pt-32 pb-24 md:pt-40 md:pb-28 overflow-hidden">
+      {/* Hero — mesmo desenho da home: foto à direita com borda esfumada e textura halftone */}
+      <section className="relative flex items-center overflow-hidden pt-[110px] pb-16 md:pt-[130px] md:pb-28 md:min-h-screen bg-gradient-to-br from-navy via-navy to-navy-deep">
+        <CategoryHeroBackground kind="limpeza" alt={HERO_ALT} />
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none opacity-20 z-0"
           viewBox="0 0 1440 600"
@@ -161,31 +186,37 @@ export default function ServicoLimpezaPage() {
           <circle className="fill-yellow" cx="1360" cy="180" r="4" />
         </svg>
 
-        <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
+        <div className="relative z-10 w-full max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
           <Reveal>
             <div className="mb-8">
               <Breadcrumbs items={breadcrumbItems} dark />
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-y-14 md:gap-x-12 items-center">
-            <div className="md:col-span-7 text-center md:text-left">
-              <Reveal>
-                <SectionLabel align="center" className="md:justify-start">
+          <div className="max-w-2xl mx-auto text-center md:mx-0 md:text-left">
+            <Reveal delayMs={80}>
+              <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 text-white px-5 py-2 rounded-full mb-8 backdrop-blur-md">
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow animate-pulse" />
+                <span className="font-mono text-xs uppercase tracking-widest text-white/90">
                   Serviços · Limpeza Terceirizada
-                </SectionLabel>
-              </Reveal>
-              <Reveal delayMs={100}>
-                <h1 className="text-white font-heading text-4xl md:text-[3.4rem] font-bold leading-[1.1] mb-6">
-                  Limpeza Terceirizada para Empresas e Condomínios
-                </h1>
-              </Reveal>
-              <Reveal delayMs={200}>
-                <p className="text-white/80 text-lg max-w-2xl mx-auto md:mx-0 leading-relaxed mb-8">
-                  Assumimos a limpeza do seu ambiente com equipe própria em CLT, contratação
-                  mínima de 44h semanais e auditoria periódica de qualidade. Solicite uma proposta
-                  personalizada, sem compromisso.
-                </p>
+                </span>
+              </div>
+            </Reveal>
+            <Reveal delayMs={160}>
+              <h1 className="text-white font-heading text-4xl md:text-5xl font-bold leading-[1.1] mb-6">
+                Empresa de Limpeza Terceirizada para Empresas e Indústrias
+              </h1>
+            </Reveal>
+            <Reveal delayMs={240}>
+              <p className="text-white/80 text-[16px] md:text-lg leading-relaxed mb-8">
+                Somos uma empresa de limpeza com equipe própria em CLT e limpeza profissional com
+                cronograma definido e auditoria periódica de qualidade. Na terceirização de
+                limpeza, a PS Proteção cuida de equipe, EPIs e produtos, com contratação mínima de
+                44h semanais. Solicite uma proposta personalizada, sem compromisso.
+              </p>
+            </Reveal>
+            <Reveal delayMs={320}>
+              <div className="flex justify-center md:justify-start mb-8">
                 <WhatsAppCta
                   href="https://wa.me/5519982892037"
                   label={
@@ -196,29 +227,18 @@ export default function ServicoLimpezaPage() {
                   }
                   className="px-7 py-3.5 text-[15px]"
                 />
-              </Reveal>
-            </div>
-
-            <Reveal delayMs={150} className="md:col-span-5">
-              <div className="relative bg-white/5 border border-white/10 rounded-[24px] p-6 md:p-7 backdrop-blur-md">
-                <div className="flex items-center gap-2 mb-6">
-                  <Lock size={16} className="text-yellow" />
-                  <span className="font-mono text-[11px] uppercase tracking-widest text-white/70">
-                    O que você recebe
-                  </span>
-                </div>
-                <ul className="flex flex-col">
-                  {HERO_CHECKS.map((item, i) => (
-                    <li key={item} className="relative flex items-start gap-3 pb-5 last:pb-0">
-                      {i !== HERO_CHECKS.length - 1 && (
-                        <span className="absolute left-[9px] top-6 w-px h-[calc(100%-8px)] bg-white/15" />
-                      )}
-                      <CheckCircle2 size={19} className="text-emerald-400 shrink-0" />
-                      <span className="text-white/85 text-sm leading-snug pt-0.5">{item}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
+              <ul className="flex flex-col gap-2.5 max-w-md mx-auto md:mx-0 text-left">
+                {HERO_CHECKS.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <span className="text-white/85 text-sm leading-snug">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+            <Reveal delayMs={380}>
+              <CategoryHeroMobileCard kind="limpeza" alt={HERO_ALT} />
             </Reveal>
           </div>
         </div>
@@ -235,13 +255,14 @@ export default function ServicoLimpezaPage() {
                 01 · Quem Somos
               </SectionLabel>
               <h2 className="font-heading text-3xl md:text-[42px] text-navy leading-[1.15]">
-                Uma empresa com sede própria, não só um número de telefone
+                Uma empresa de limpeza com sede própria, não só um número de telefone
               </h2>
               <div className="text-graphite/70 leading-relaxed flex flex-col gap-4 max-w-[62ch] mx-auto md:mx-0">
                 <p>
                   A PS Proteção nasceu em 1998 com um princípio simples: trabalho sério e
                   proximidade real com o cliente. Mais de 28 anos depois, mantemos estrutura
-                  própria por trás de cada contrato de limpeza que colocamos em operação.
+                  própria por trás de cada contrato de limpeza terceirizada que colocamos em
+                  operação.
                 </p>
                 <p>
                   São mais de{" "}
@@ -250,9 +271,10 @@ export default function ServicoLimpezaPage() {
                   supervisão de perto que existia no primeiro contrato da empresa.
                 </p>
                 <p>
-                  Da administradora de condomínio à indústria de grande porte, aplicamos o mesmo
-                  padrão operacional e a mesma disciplina de supervisão em cada contrato — não
-                  existe cliente pequeno demais para receber atenção da nossa equipe de campo.
+                  Da administradora de condomínio à limpeza para indústrias de grande porte e à
+                  limpeza para empresas de todos os portes, aplicamos o mesmo padrão operacional e
+                  a mesma disciplina de supervisão em cada contrato — não existe cliente pequeno
+                  demais para receber atenção da nossa equipe de campo.
                 </p>
               </div>
             </div>
@@ -302,19 +324,20 @@ export default function ServicoLimpezaPage() {
               </h2>
               <div className="text-white/70 leading-relaxed flex flex-col gap-4 max-w-[62ch] mx-auto md:mx-0">
                 <p>
-                  Terceirizar a limpeza remove da sua empresa a gestão de EPIs, produtos químicos
-                  e escala de equipe, deixando isso sob nossa responsabilidade contratual.
+                  Terceirizar limpeza remove da sua empresa a gestão de EPIs, produtos químicos e
+                  escala de equipe, deixando isso sob nossa responsabilidade contratual.
                 </p>
                 <p>
-                  Você recebe relatórios periódicos, sem precisar administrar folha de pagamento
-                  ou processo seletivo — apenas o{" "}
-                  <strong className="text-white">resultado combinado</strong>, todos os dias.
+                  Na terceirização de limpeza, você recebe uma limpeza com cronograma e relatórios
+                  periódicos, sem precisar administrar folha de pagamento ou processo seletivo —
+                  apenas o <strong className="text-white">resultado combinado</strong>, todos os
+                  dias.
                 </p>
               </div>
               <ul className="flex flex-col gap-3 max-w-[62ch] mx-auto md:mx-0">
                 {[
-                  "EPIs e produtos de limpeza certificados",
-                  "Escala dimensionada por m² e fluxo de circulação",
+                  "Limpeza profissional com EPIs e produtos certificados",
+                  "Cronograma e escala dimensionados por m² e fluxo de circulação",
                   "Relatórios periódicos de execução e auditoria",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-white/70 text-sm md:text-base">
@@ -342,7 +365,7 @@ export default function ServicoLimpezaPage() {
               <div className="relative aspect-[16/9]">
                 <Image
                   src="/assets/limpeza.webp"
-                  alt="Profissional de limpeza PS Proteção uniformizada higienizando estação de trabalho em escritório"
+                  alt="Limpeza profissional: colaboradora da PS Proteção uniformizada higienizando estação de trabalho em escritório"
                   fill
                   quality={90}
                   className="object-cover"
@@ -368,11 +391,11 @@ export default function ServicoLimpezaPage() {
                 03 · Como Funciona
               </SectionLabel>
               <h2 className="font-heading text-3xl md:text-[48px] text-navy mb-4 leading-tight">
-                Da proposta à operação no seu local
+                Da proposta à limpeza profissional no seu local
               </h2>
               <p className="text-lg text-graphite/70 leading-relaxed">
-                Quatro pilares sustentam a limpeza terceirizada da PS Proteção, do primeiro
-                diagnóstico à auditoria de qualidade contínua.
+                Quatro pilares sustentam a terceirização de limpeza da PS Proteção, do primeiro
+                diagnóstico ao cronograma e à auditoria de qualidade contínua.
               </p>
             </div>
           </Reveal>
@@ -437,8 +460,8 @@ export default function ServicoLimpezaPage() {
               Pronto para terceirizar sua limpeza?
             </h2>
             <p className="text-white/70 text-lg max-w-xl mx-auto md:mx-0">
-              Fale com nossa equipe agora e receba uma proposta personalizada, sem compromisso,
-              para o seu condomínio, empresa ou indústria.
+              Fale com nossa equipe agora e receba uma proposta personalizada de limpeza para
+              empresas, limpeza para indústrias ou condomínios, sem compromisso.
             </p>
           </Reveal>
           <Reveal delayMs={100} className="md:col-span-5">
