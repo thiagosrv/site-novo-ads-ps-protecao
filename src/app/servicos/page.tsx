@@ -53,6 +53,7 @@ const SERVICES = [
   {
     id: "zeladoria",
     title: "Zeladoria",
+    href: "/servicos/facilities",
     image: "/assets/zelador.webp",
     alt: "Zeladoria PS Proteção",
     description:
@@ -83,6 +84,7 @@ const SERVICES = [
   {
     id: "recepcao",
     title: "Recepção",
+    href: "/servicos/facilities",
     image: "/assets/recepcao.webp",
     alt: "Recepção PS Proteção",
     description:
@@ -245,7 +247,14 @@ export default function ServicosPage() {
               </h2>
               <p className="text-white/70 text-lg max-w-xl">
                 A PS Proteção oferece soluções integradas de Facilities. Fale conosco e receba uma
-                proposta personalizada.
+                proposta personalizada, ou conheça a{" "}
+                <Link
+                  href="/servicos/facilities"
+                  className="font-semibold text-white underline decoration-yellow decoration-2 underline-offset-4 hover:text-yellow transition-colors"
+                >
+                  terceirização de facilities
+                </Link>
+                .
               </p>
             </div>
           </Reveal>

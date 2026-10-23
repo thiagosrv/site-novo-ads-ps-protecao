@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { ServiceCategory } from "@/lib/services";
 
-export type HeroPhotoKind = "portaria" | "limpeza";
+export type HeroPhotoKind = "portaria" | "limpeza" | "facilities";
 
 const HERO_PHOTO: Record<
   HeroPhotoKind,
@@ -18,6 +18,14 @@ const HERO_PHOTO: Record<
     desktopPosition: "object-[80%_10%]",
     mobileSrc: "/assets/Sitewide-limpeza.webp",
     mobilePosition: "object-[66%_20%]",
+  },
+  // Só a página estática /servicos/facilities usa este tipo; getHeroPhotoKind não o devolve,
+  // então as páginas programáticas de facilities seguem com o hero padrão.
+  facilities: {
+    desktopSrc: "/brand/hero-novo.webp",
+    desktopPosition: "object-[30%_0%]",
+    mobileSrc: "/brand/hero-novo.webp",
+    mobilePosition: "object-[30%_15%]",
   },
 };
 

@@ -94,7 +94,14 @@ function OperatingPlaceText({
   );
 }
 
-export default function WhereWeOperate({ category }: { category: ServiceCategory }) {
+export default function WhereWeOperate({
+  category,
+  number = "04",
+}: {
+  category: ServiceCategory;
+  /** Numeração do rótulo da seção, para páginas com mais seções antes desta. */
+  number?: string;
+}) {
   const categoryLabel = CATEGORY_LABEL[category];
 
   return (
@@ -122,7 +129,7 @@ export default function WhereWeOperate({ category }: { category: ServiceCategory
       <div className="relative z-10 max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)]">
         <Reveal>
           <div className="mb-16 max-w-2xl mx-auto text-center">
-            <SectionLabel align="center">04 · Onde Operamos</SectionLabel>
+            <SectionLabel align="center">{number} · Onde Operamos</SectionLabel>
             <h2 className="font-heading text-3xl md:text-[48px] text-white mb-4 leading-tight">
               Cobertura ativa em <span className="text-yellow">{CITIES.length}+ cidades</span>, para
               todo tipo de operação
