@@ -187,7 +187,8 @@ export default function ServicoPortariaPage() {
             </Reveal>
             <Reveal delayMs={160}>
               <h1 className="text-white font-heading text-4xl md:text-5xl font-bold leading-[1.1] mb-6">
-                Empresa de Portaria: Terceirização de Portaria Profissional
+                Empresa de Portaria: Terceirização de{" "}
+                <span className="text-yellow">Portaria Profissional</span>
               </h1>
             </Reveal>
             <Reveal delayMs={240}>
@@ -204,11 +205,12 @@ export default function ServicoPortariaPage() {
                   href="https://wa.me/5519982892037"
                   label={
                     <>
-                      <MessageCircle size={18} />
+                      <MessageCircle size={22} />
                       Solicitar proposta sem compromisso
                     </>
                   }
-                  className="px-7 py-3.5 text-[15px]"
+                  iconSize={22}
+                  className="px-[34px] py-[17px] text-[18px]"
                 />
               </div>
               <ul className="flex flex-col gap-2.5 max-w-md mx-auto md:mx-0 text-left">
@@ -303,7 +305,7 @@ export default function ServicoPortariaPage() {
             <div className="flex flex-col gap-6 text-center md:text-left">
               <SectionLabel>02 · Gestão Completa do Posto</SectionLabel>
               <h2 className="font-heading text-3xl md:text-[42px] text-white leading-[1.15]">
-                A gestão da portaria sai da sua{" "}
+                Terceirização de portaria: a gestão do posto sai da sua{" "}
                 <span className="text-yellow">rotina interna</span>
               </h2>
               <div className="text-white/70 leading-relaxed flex flex-col gap-4 max-w-[62ch] mx-auto md:mx-0">
@@ -376,7 +378,7 @@ export default function ServicoPortariaPage() {
                 03 · Como Funciona
               </SectionLabel>
               <h2 className="font-heading text-3xl md:text-[48px] text-navy mb-4 leading-tight">
-                Da proposta à operação no seu posto
+                Da proposta ao porteiro treinado no seu posto
               </h2>
               <p className="text-lg text-graphite/70 leading-relaxed">
                 Quatro pilares sustentam a terceirização de portaria da PS Proteção, do primeiro
@@ -413,7 +415,7 @@ export default function ServicoPortariaPage() {
                 05 · Perguntas Frequentes
               </SectionLabel>
               <h2 className="font-heading text-3xl md:text-[42px] text-navy leading-tight">
-                Dúvidas comuns sobre terceirização de portaria
+                Dúvidas sobre terceirização de portaria e controle de acesso
               </h2>
             </div>
           </Reveal>

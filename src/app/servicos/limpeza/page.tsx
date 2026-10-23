@@ -204,7 +204,8 @@ export default function ServicoLimpezaPage() {
             </Reveal>
             <Reveal delayMs={160}>
               <h1 className="text-white font-heading text-4xl md:text-5xl font-bold leading-[1.1] mb-6">
-                Empresa de Limpeza Terceirizada para Empresas e Indústrias
+                Empresa de <span className="text-yellow">Limpeza Terceirizada</span> para Empresas e
+                Indústrias
               </h1>
             </Reveal>
             <Reveal delayMs={240}>
@@ -221,11 +222,12 @@ export default function ServicoLimpezaPage() {
                   href="https://wa.me/5519982892037"
                   label={
                     <>
-                      <MessageCircle size={18} />
+                      <MessageCircle size={22} />
                       Solicitar proposta sem compromisso
                     </>
                   }
-                  className="px-7 py-3.5 text-[15px]"
+                  iconSize={22}
+                  className="px-[34px] py-[17px] text-[18px]"
                 />
               </div>
               <ul className="flex flex-col gap-2.5 max-w-md mx-auto md:mx-0 text-left">
@@ -320,7 +322,8 @@ export default function ServicoLimpezaPage() {
             <div className="flex flex-col gap-6 text-center md:text-left">
               <SectionLabel>02 · Gestão Completa da Limpeza</SectionLabel>
               <h2 className="font-heading text-3xl md:text-[42px] text-white leading-[1.15]">
-                A limpeza sai da sua <span className="text-yellow">rotina interna</span>
+                Terceirizar limpeza tira a operação da sua{" "}
+                <span className="text-yellow">rotina interna</span>
               </h2>
               <div className="text-white/70 leading-relaxed flex flex-col gap-4 max-w-[62ch] mx-auto md:mx-0">
                 <p>
@@ -391,7 +394,7 @@ export default function ServicoLimpezaPage() {
                 03 · Como Funciona
               </SectionLabel>
               <h2 className="font-heading text-3xl md:text-[48px] text-navy mb-4 leading-tight">
-                Da proposta à limpeza profissional no seu local
+                Da proposta à limpeza com cronograma no seu local
               </h2>
               <p className="text-lg text-graphite/70 leading-relaxed">
                 Quatro pilares sustentam a terceirização de limpeza da PS Proteção, do primeiro
@@ -428,7 +431,7 @@ export default function ServicoLimpezaPage() {
                 05 · Perguntas Frequentes
               </SectionLabel>
               <h2 className="font-heading text-3xl md:text-[42px] text-navy leading-tight">
-                Dúvidas comuns sobre limpeza terceirizada
+                Dúvidas sobre limpeza terceirizada para empresas e indústrias
               </h2>
             </div>
           </Reveal>
@@ -457,7 +460,7 @@ export default function ServicoLimpezaPage() {
         <div className="max-w-[var(--container-max)] mx-auto px-6 md:px-[var(--spacing-grid-margin)] relative z-10 grid grid-cols-1 md:grid-cols-12 gap-y-10 md:gap-x-12 items-center">
           <Reveal className="md:col-span-7 text-center md:text-left">
             <h2 className="font-heading text-3xl md:text-4xl text-white mb-4">
-              Pronto para terceirizar sua limpeza?
+              Pronto para contratar uma empresa de limpeza profissional?
             </h2>
             <p className="text-white/70 text-lg max-w-xl mx-auto md:mx-0">
               Fale com nossa equipe agora e receba uma proposta personalizada de limpeza para

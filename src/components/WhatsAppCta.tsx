@@ -9,6 +9,7 @@ export default function WhatsAppCta({
   className,
   city,
   onClick,
+  iconSize = 18,
 }: {
   // Kept so existing call sites don't need to change; navigation now happens
   // through the quote modal instead of a direct link.
@@ -17,6 +18,8 @@ export default function WhatsAppCta({
   className?: string;
   city?: string;
   onClick?: () => void;
+  /** Tamanho do ícone exibido no estado hover ("Estamos Online"). */
+  iconSize?: number;
 }) {
   const { openQuoteModal } = useQuoteModal();
 
@@ -36,7 +39,7 @@ export default function WhatsAppCta({
         {label}
       </span>
       <span className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <MessageCircle size={18} />
+        <MessageCircle size={iconSize} />
         Estamos Online
       </span>
     </button>
