@@ -162,7 +162,7 @@ export default function WhatsAppFloatingButton() {
         type="button"
         aria-label={open ? "Fechar opções de contato" : "Fale conosco pelo WhatsApp"}
         onClick={() => setOpen((v) => !v)}
-        className="press-feedback flex h-14 w-14 xl:h-16 xl:w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/25 hover:scale-110 hover:shadow-xl"
+        className="press-feedback cursor-pointer flex h-14 w-14 xl:h-16 xl:w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/25 hover:scale-110 hover:shadow-xl"
       >
         {open ? (
           <X size={24} className="xl:size-7" />

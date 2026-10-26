@@ -24,19 +24,38 @@ function renderWithBold(text: string) {
   );
 }
 
-export default function FaqAccordion({ items }: { items: FaqItem[] }) {
-  const [open, setOpen] = useState<number | null>(0);
+export default function FaqAccordion({
+  items,
+  initialOpen = [0],
+  multiple = false,
+}: {
+  items: FaqItem[];
+  /** Índices abertos na primeira renderização (padrão: só o primeiro). */
+  initialOpen?: number[];
+  /** Permite vários itens abertos ao mesmo tempo (padrão: um por vez). */
+  multiple?: boolean;
+}) {
+  const [open, setOpen] = useState<Set<number>>(() => new Set(initialOpen));
+
+  function toggle(i: number) {
+    setOpen((prev) => {
+      const next = new Set(multiple ? prev : []);
+      if (!prev.has(i)) next.add(i);
+      else if (multiple) next.delete(i);
+      return next;
+    });
+  }
 
   return (
     <div className="flex flex-col gap-3">
       {items.map((item, i) => {
-        const isOpen = open === i;
+        const isOpen = open.has(i);
         return (
           <Reveal key={item.question} delayMs={Math.min(i, 6) * 60}>
             <div className="bg-white rounded-2xl border border-navy/10 overflow-hidden">
               <button
                 type="button"
-                onClick={() => setOpen(isOpen ? null : i)}
+                onClick={() => toggle(i)}
                 aria-expanded={isOpen}
                 className="press-feedback w-full flex items-center justify-between gap-4 text-left px-6 py-5"
               >
