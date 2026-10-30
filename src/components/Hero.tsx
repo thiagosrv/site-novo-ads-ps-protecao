@@ -1,10 +1,29 @@
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
+import { preload } from "react-dom";
 import { ArrowRight } from "lucide-react";
 import Reveal from "./Reveal";
 import WhatsAppCta from "./WhatsAppCta";
 
+const HERO_DESKTOP = {
+  src: "/brand/hero-novo.webp",
+  alt: "Profissional de segurança da PS Proteção em frente a uma portaria monitorada",
+  sizes: "62vw",
+};
+
 export default function Hero() {
+  // A foto do hero só aparece a partir de md. Com `priority` o preload valia
+  // para todos os aparelhos e o celular baixava uma imagem escondida; aqui o
+  // preload é restrito à mesma media query em que a foto é exibida.
+  const { props: heroDesktop } = getImageProps({ ...HERO_DESKTOP, fill: true });
+  preload(heroDesktop.src, {
+    as: "image",
+    imageSrcSet: heroDesktop.srcSet,
+    imageSizes: heroDesktop.sizes,
+    media: "(min-width: 768px)",
+    fetchPriority: "high",
+  });
+
   return (
     <section
       id="inicio"
@@ -16,14 +35,7 @@ export default function Hero() {
           className="absolute inset-y-0 right-0 top-20 hidden w-[62%] md:block"
           style={{ maskImage: "linear-gradient(to right, transparent 0%, black 28%)" }}
         >
-          <Image
-            src="/brand/hero-novo.webp"
-            alt="Profissional de segurança da PS Proteção em frente a uma portaria monitorada"
-            fill
-            priority
-            sizes="62vw"
-            className="object-cover object-[30%_0%]"
-          />
+          <Image {...HERO_DESKTOP} alt={HERO_DESKTOP.alt} fill className="object-cover object-[30%_0%]" />
         </div>
         <div className="absolute inset-0 hero-gradient hidden md:block" />
         <div
